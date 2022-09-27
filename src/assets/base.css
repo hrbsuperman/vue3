@@ -1,0 +1,142 @@
+/*css reset*/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+th {
+    text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+/*css reset - end*/
+
+/* 动画 */
+@keyframes opacityOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: .2;
+    }
+}
+
+@keyframes opacityIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+/* 动画 - end */
+/* common */
+.w100 {
+    width: 100%
+}
+
+.w50 {
+    width: 50%
+}
+
+.flex {
+    display: flex
+}
+
+.rota90 {
+    transform: rotate(90deg);
+}
+
+.rota180 {
+    transform: rotate(180deg);
+}
+
+
+
+.opacityOut {
+    opacity: 0;
+    animation: all .45s;
+}
+
+.opacityIn {
+    animation: opacityIn var(--animationSpeed);
+}
+/* common - end */
+
+
+/* theme */
+
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+    --white-1: 255, 255, 255;
+    --gray-1: 247, 248, 250;
+    --gray-2: 242, 243, 245;
+    --gray-3: 229, 230, 235;
+    --gray-4: 201, 205, 212;
+    --gray-5: 169, 174, 184;
+    --gray-6: 134, 144, 156;
+    --gray-7: 107, 119, 133;
+    --gray-8: 78, 89, 105;
+    --gray-9: 39, 46, 59;
+    --gray-10: 29, 33, 41;
+    --fontsize: 14px;
+
+    /*主题*/
+    --theme: 38, 123, 201;
+    --theme-hover: rgb(var(--gray-3));
+    --theme-bgcolor: rgb(var(--white-1));
+    --theme-color: rgb(var(--theme));
+    --theme-border: rgba(var(--theme, .8));
+    --theme-text: var(--gray-8); /*文本颜色*/
+    --theme-menu: 0, 21, 41; /*菜单背景色*/
+    --theme-menu-child: #0C2135; /*菜单背景色*/
+    --header-height: 48px;
+
+    /*动画速度*/
+    --animationSpeed: .32s;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--theme-text);
+    background: var(--theme-bgcolor);
+    line-height: 1.6;
+    transition: color 0.5s, background-color var(--animationSpeed);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*@media (prefers-color-scheme: dark) {  -- 跟随主题 */
+.dark {
+
+
+}
+/* theme - end */
+
+
