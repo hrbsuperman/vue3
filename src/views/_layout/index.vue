@@ -6,7 +6,7 @@
         Admin
       </div>
       <!--左侧菜单-->
-      <x-menu :dataList="x_menu_data"/>
+      <x-menu :dataList="xMenuData" @change="menu_Change"/>
     </div>
   </div>
   <div class="main">
@@ -30,68 +30,69 @@
             </div>
             <span>Admin</span>
           </div>
-          <i title="设置" class="icon-set"></i>
+          <i @click="pageTest" title="设置" class="icon-set"></i>
         </div>
       </div>
       <!--页面 tab -->
       <div class="pageTab">
-
+        <div v-for="page in pages" :class="{item:true,active:page.active}" @mouseup="pageTab_menu($event)"
+             oncontextmenu="return false">
+          {{ page.label }}
+          <i class="icon-close"></i>
+        </div>
       </div>
     </div>
     <div class="page">
-      <router-view />
-      <router-view name="test" />
+      <div v-for="(page,key) in pages" :style="{display:page.active}">
+        <component :is="page.component"></component>
+      </div>
+    </div>
+    <div class="pageTabMenu">
+      <ul>
+        <li>
+          重新加载
+        </li>
+        <li>
+          关闭标签页
+        </li>
+        <li>
+          关闭其他标签页
+        </li>
+        <li>
+          关闭所有标签页
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted, h, Transition, reactive} from "vue";
-import {useRouter} from 'vue-router';
-import type {x_menu_item} from "@/entity/system/x_menu_item";
+import {ref, onMounted, h, Transition, reactive, defineAsyncComponent, shallowRef} from "vue";
+import type {XMenuItem, XPageTab} from "@/entity/system/XSupport";
 import XMenu from "@/components/XMenu.vue";
+import router from '../../router/index';//页面字典
+import userMenu from '../../entity/data/menu';
+//菜单测试数据
 
-h(Transition, {})
-const router = useRouter();
-const menuSwitchOpen = ref(true);
-const fullScreenStatus = ref(false);
 
-// 菜单Data
-const x_menu_data = reactive<x_menu_item[]>(
-    [
-      {
-        label: '工作台',
-        value: '1',
-        icon: 'icon-all'
-      }, {
-        label: '客户管理',
-        value: '3',
-        icon:'icon-Customermanagement',
-        children:[]
-      },
-      {
-        label: '系统设置',
-        value: '2',
-        icon: 'icon-set',
-        children: [
-          {
-            label: '菜单管理',
-            value: '1-1',
-          },
-          {
-            label: '多级菜单',
-            value: '1-2',
-            children: [{label: '多多级菜单', value: '1-2-1'}]
-          },
-          {label: '多级菜单1'},
-          {label: '多级菜单1'},
-          {label: '多级菜单1'},
-          {label: '多级菜单1'},
-          {label: '多级菜单1'}
-        ]
-      },{label:'test'}
+h(Transition, {});
+const menuSwitchOpen = ref(true);//菜单展开/收起
+const fullScreenStatus = ref(false);//是否全屏
 
-    ]);
+const pages: XPageTab[] = reactive([]);//当前打开页面们
+const xMenuData: XMenuItem[] = reactive(userMenu);//测试数据
+
+//Menu > Open page
+function menu_Change(item: XMenuItem) {
+  window.location.hash = item.name;
+  pages.push({label: item.label, component: router[item.name], active: false});
+}
+
+//Page tab mouse
+function pageTab_menu(e) {
+  if (e.button == "2") {
+  }
+}
 
 //全屏
 function fullScreen() {
@@ -104,14 +105,19 @@ function fullScreen() {
   }
 }
 
+function pageTest() {
+
+}
+
+
 onMounted(() => {
+  pages.push({label: userMenu[0].label, component: router["home"], active: true});
+
+
   //判断当前路由，刷新进入页面，给当前route 对应 Menu Active
-
-
   window.onresize = () => {
     //没通过按钮进入全屏状态，更正 fullScreenStatus
     let isFullScreen = !(window.screen.height - window.document.body.offsetHeight > 5)
-    console.log('isFullScreen', isFullScreen)
     fullScreenStatus.value != isFullScreen && (fullScreenStatus.value = isFullScreen)
   }
 })

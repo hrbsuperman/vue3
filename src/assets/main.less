@@ -11,6 +11,7 @@
     width: 240px;
     transition: width var(--animationSpeed);
   }
+
   //菜单收起
   .menuStow {
     width: 48px;
@@ -20,6 +21,10 @@
       .text, .arrow {
         display: none !important;
       }
+    }
+
+    .menu-child-box {
+      display: none !important;
     }
   }
 
@@ -33,6 +38,7 @@
       height: var(--header-height);
       overflow: hidden;
     }
+
     //一级菜单
     .menu-main {
       box-sizing: border-box;
@@ -45,6 +51,7 @@
       cursor: pointer;
       user-select: none;
       height: 45px;
+
       .icon, .text, .arrow {
         color: rgb(var(--gray-5))
       }
@@ -74,16 +81,20 @@
         .icon, .text {
           color: rgb(var(--gray-3))
         }
+
         .arrow i {
           color: rgb(var(--gray-3))
         }
       }
     }
+
     //子级菜单
-    .menu-child-box{
+    .menu-child-box {
       overflow: hidden;
+      background-color: var(--theme-menu-child);
       transition: all .5s;
     }
+
     //arrow 展开状态，
     .active .arrow {
       transform: rotate(90deg);
@@ -99,21 +110,25 @@
 
     .header {
       height: 80px;
-      i {
-        font-size: 1.4em;
-        height: 100%;
-        display: inline-block;
-        line-height: 100%;
-        padding: 0 0.5em;
-        cursor: pointer;
-        transition: all .5s;
 
-        &:hover {
-          background-color: rgb(var(--gray-2));
-        }
+      .control {
 
-        &::before {
-          line-height: var(--header-height);
+        i {
+          font-size: 1.4em;
+          height: 100%;
+          display: inline-block;
+          line-height: 100%;
+          padding: 0 0.5em;
+          cursor: pointer;
+          transition: all .5s;
+
+          &:hover {
+            background-color: rgb(var(--gray-2));
+          }
+
+          &::before {
+            line-height: var(--header-height);
+          }
         }
       }
 
@@ -147,12 +162,13 @@
             }
           }
         }
+
         //面包屑
-        .breadLink{
-            width:100%;
+        .breadLink {
+          width: 100%;
           line-height: var(--header-height);
           font-size: 0.85em;
-          color:rgb(var(--gray-8));
+          color: rgb(var(--gray-8));
           font-weight: 500;
         }
       }
@@ -161,11 +177,57 @@
         height: 32px;
         overflow: hidden;
         box-sizing: border-box;
+        display: flex;
+
+        .item {
+          &:first-child{
+            i{display: none}
+          }
+          &:hover {
+            color: #0063c1;
+            i{
+              color:#0063c1;
+            }
+          }
+
+          display: inline-block;
+          border-right: 1px solid rgb(var(--gray-3));
+          color: rgb(var(--gray-8));
+          padding: 0 1em;
+          font-size: 0.9em;
+          line-height: 30px;
+          cursor: pointer;
+
+          i {
+            font-size: 11px;
+            color:#fff;
+            &:hover {
+                color: #f40;
+                font-weight: 700;
+            }
+          }
+
+          &.active {
+            background-color: #0063c1;
+            color: #fff;
+
+            i {
+              color: #fff;
+            }
+          }
+        }
       }
+    }
+
+    //页面tab，右键菜单
+    .pageTabMenu {
+      display: none;
+      position: absolute;
     }
 
     .page {
       height: calc(100vh - var(--header-height) - 32px);
+      overflow: auto;
       background-color: rgb(var(--gray-2));
     }
   }

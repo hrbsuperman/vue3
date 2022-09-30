@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import {RouterView} from 'vue-router'
+import {defineAsyncComponent} from "vue";
+
+function pageView(): any {
+  switch (window.location.hash.toLocaleLowerCase()) {
+    case "#login":
+      return defineAsyncComponent(() => import('@/views/system/login.vue'));
+    default:
+      return defineAsyncComponent(() => import('@/views/_layout/index.vue'));
+  }
+}
+
 </script>
 
 <template>
-  <RouterView/>
+  <component ref="detail" :is="pageView()"></component>
 </template>
