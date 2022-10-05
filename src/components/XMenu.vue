@@ -1,7 +1,7 @@
 <template>
   <template v-for="item in dataList">
-    <div :class="`menu-main ${item.displayAnimation ?'active':''}`" @click="toggleItem(item)">
-      <i :class="'icon '+item.icon"></i>
+    <div :class="{ 'menu-main':true,activeName:true }" @click.stop ="toggleItem(item)">
+      <i :class="'icon '+ (item.icon)"></i>
       <div class="text">
         {{ item.label }}
       </div>
@@ -13,7 +13,7 @@
          :style="{ maxHeight:item.displayAnimation ?(item.maxHeight || maxHeightCalc(item))+'px' :'0px !important' }">
       <div :class="item.displayAnimation?'opacityIn':'opacityOut'"
            :style="{ marginLeft:'0.75em'}">
-        <x-menu :dataList="item?.children"></x-menu>
+        <x-menu @change="toggleItem" :dataList="item?.children"></x-menu>
       </div>
     </div>
   </template>
@@ -21,12 +21,12 @@
 
 
 <script setup lang="ts">
-import type {XMenuItem} from '@/entity/system/XSupport';
-
+import type {XMenuItem} from '@/entity/component/XSupport';
+import {reactive} from "vue";
 const emit = defineEmits(['change']);
 
-// import { useRouter } from 'vue-router'
-// const router = useRouter();
+const current = reactive({open:{}});
+
 
 
 const props = defineProps({
@@ -34,23 +34,31 @@ const props = defineProps({
   dataList: {
     required: true,
     type: Array<XMenuItem>
-  }
+  },
+  activeItem: String
 })
+
 // 展开收起方法
 const toggleItem = (item: XMenuItem) => {
+  console.log('toggleItem 展开的时候触发两次？',item)
   if (item.children && item.children.length) {
     item.displayAnimation = !item.displayAnimation;
     //淡出延迟隐藏
     if (!item.displayAnimation) {
+      current.open = {};
       window.setTimeout(() => {
         item.display = false;
-      }, 350)
+      }, 500)
     } else {
+      if(current.open){
+          toggleItem(current.open as XMenuItem);
+      }
+      current.open = item;
       item.display = true;
     }
   } else {
     //router
-    emit('change', item);
+    item.name && emit('change', item);
   }
 }
 

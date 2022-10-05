@@ -1,7 +1,7 @@
-import type {XMenuItem} from "@/entity/system/XSupport";
+import type {XMenuItem} from "@/entity/component/XSupport";
 
 
-const xMenuData: XMenuItem[] =
+const xMenuData: Array<XMenuItem> =
     [
         {
             label: '工作台',
@@ -20,14 +20,17 @@ const xMenuData: XMenuItem[] =
             children: [
                 {
                     name: 'home',
-                    label: '菜单管理',
+                    label: '菜单管理'
                 },
                 {
 
                     name: 'home',
                     label: '多级菜单',
                     children: [{
-                        name: 'home', label: '多多级菜单'
+                        name: 'home', label: '多多级菜单',
+                        children:[{
+                            name: 'home', label: '多级菜单111'
+                        }]
                     }]
                 },
                 {
@@ -47,8 +50,36 @@ const xMenuData: XMenuItem[] =
                 }
             ]
         }, {
-        name: 'home', label: 'test'
-    }
+        name: 'Example', label: 'Example',
+        icon: 'icon-yemian',
+        children: [
+            {
+                name: 'Form',
+                label: '表单'
+            },
+            {
+                name: 'Table',
+                label: '表格'
+            }
+            ,
+            {
+                name: '',
+                label: '异常页面',
+                children: [{
+                    name: '403',
+                    label: '403'
+                },{
+                    name: '404',
+                    label: '404'
+                },{
+                    name: '500',
+                    label: '500'
+                }]
+            }
 
-    ]
+        ]
+    }, {
+        name: 'Test',
+        label: 'Test'
+    }]
 export default xMenuData

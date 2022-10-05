@@ -35,10 +35,13 @@ h1, h2, h3, h4, h5, h6 {
 /* 动画 */
 @keyframes opacityOut {
     0% {
-        opacity: 1;
+        opacity: 90%;
+    }
+    50% {
+        opacity: 50%;
     }
     100% {
-        opacity: .2;
+        opacity: 10%;
     }
 }
 
@@ -78,8 +81,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .opacityOut {
-    opacity: 0;
-    animation: all .45s;
+    /*opacity: 40%;*/
+    animation: opacityOut .45s;
 }
 
 .opacityIn {
@@ -117,7 +120,23 @@ h1, h2, h3, h4, h5, h6 {
     --header-height: 48px;
 
     /*动画速度*/
-    --animationSpeed: .32s;
+    --animationSpeed: .3s;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    overflow: auto;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #e6e6e6;
+    min-height: 25px;
+    min-width: 25px;
+    border: 1px solid #fafafa;
+    border-radius: 99px;
+}
+::-webkit-scrollbar-track {
+    background-color: #f7f7f7;
+    border: 1px solid #efefef;
 }
 
 body {

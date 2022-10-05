@@ -13,10 +13,11 @@ export class XMenuItem {
 
     maxHeight?: number = 0;
     parent?: XMenuItem;
-    children?: XMenuItem[]
+    children?: Array<XMenuItem>
 }
 
 export class XPageTab {
+    name: string = '';
     label: string = '';
     icon?: string = '';
     active: boolean = false;
