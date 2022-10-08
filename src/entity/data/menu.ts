@@ -60,6 +60,10 @@ const xMenuData: Array<XMenuItem> =
             {
                 name: 'Table',
                 label: '表格'
+            },
+            {
+                name: 'Dialog',
+                label: 'Dialog'
             }
             ,
             {

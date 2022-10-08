@@ -1,11 +1,11 @@
 <template>
-  <div class="x-dialog-box">
-    <div class="lock"></div>
+  <div class="x-dialog-box lock" v-if="show">
+    <div v-if="lock" class="lock"></div>
     <div class="x-dialog" style="transform-origin:-100px 200px">
       <div class="head" @mousedown.self="dragClick($event)" @mouseup.self="dragClear">
         <span class="title">{{ title }}</span>
         <div class="buttons">
-          <i class="icon-close"></i>
+          <i @click="show=false" class="icon-close"></i>
         </div>
       </div>
       <div class="content">
@@ -18,6 +18,8 @@
 <script setup lang="ts">
 const props = defineProps({
   title: {type: String, default: ""},
+  lock: {type: Boolean, default: false},
+  show: {type: Boolean, default: false}
 
 })
 let dragElement: any = null;

@@ -67,14 +67,12 @@
       </ul>
     </div>
   </div>
-  <x-dialog v-if="1==2"></x-dialog>
 </template>
 
 <script lang="ts" setup>
 import {ref, onMounted, h, Transition, reactive, defineAsyncComponent, shallowRef} from "vue";
 import type {XMenuItem, XPageTab} from "@/entity/component/XSupport";
 import XMenu from "@/components/XMenu.vue";
-import XDialog from "@/components/XDialog.vue";
 import router from '../../router/index';//页面字典
 import userMenu from '../../entity/data/menu';//菜单测试数据
 
@@ -173,11 +171,12 @@ function menu_Change(item: XMenuItem) {
 
 function pageOpen(name: string, label: string) {
 
-  console.log(`${name}`, label);
-
+  //跳转不启用layout的路由，需要处理下。
+  //...
   if (router[name]) {
-    if (page.current) page.current.active = false;//上一个打开的page，active > false
-    page.current = {name: name, label: label, component: router[name], active: true};
+    //上一个打开的page，active > false
+    if (page.current) page.current.active = false;
+    page.current = {name, label, component: router[name], active: true};
     pages.push(page.current);
   } else {
     //404
