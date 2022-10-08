@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import XIndex from "@/components/XIndex.vue";
 import XButton from "@/components/XButton.vue";
+import XSelect from "@/components/XSelect.vue";
+import XDatePicker from "@/components/XDatePicker.vue";
+
 import {reactive} from "vue";
 
 const exampleForm = reactive({});
@@ -10,20 +13,27 @@ const exampleForm = reactive({});
   <div class="exampleForm">
     <div class="panel">
       <div>
-        <input v-model="exampleForm.value"/>
+        input:<input v-model="exampleForm.value"/>
+        {{exampleForm.value}}
       </div>
       <div>
-        <x-index placeholder="请输入一些文本" v-model="exampleForm.value1"/>
-        <p>{{ exampleForm }}</p>
+        x:input
+        <x-index placeholder="请输入一些文本" v-model="exampleForm.xvalue"/>
+        {{exampleForm.xvalue}}
+      </div>
+      <div>
+        x:select
+        <x-select placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
+        {{exampleForm.xselect}}
+      </div>
+      <div>
+        x:datePicker
+        <x-date-picker placeholder="请输入一些文本" v-model="exampleForm.xdatePicker"/>
+        {{exampleForm.xdatePicker}}
+      </div>
 
-      </div>
-      <div>
-        <select>
-          <option>选项一</option>
-          <option>选项一</option>
-          <option>选项一</option>
-        </select>
-      </div>
+
+      <p>{{ exampleForm }}</p>
       <div>
       </div>
       <div>
