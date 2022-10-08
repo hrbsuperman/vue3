@@ -1,6 +1,6 @@
 <template>
   <template v-for="item in dataList">
-    <div :class="{ 'menu-main':true,activeName:true }" @click.stop ="toggleItem(item)">
+    <div :class="{ 'menu-main':true,active:item.displayAnimation }" @click.stop ="toggleItem(item)">
       <i :class="'icon '+ (item.icon)"></i>
       <div class="text">
         {{ item.label }}

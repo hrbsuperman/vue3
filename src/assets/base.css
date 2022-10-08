@@ -110,10 +110,10 @@ h1, h2, h3, h4, h5, h6 {
 
     /*主题*/
     --theme: 38, 123, 201;
-    --theme-hover: rgb(var(--gray-3));
+    --theme-hover: rgba(var(--theme, .8));
     --theme-bgcolor: rgb(var(--white-1));
     --theme-color: rgb(var(--theme));
-    --theme-border: rgba(var(--theme, .8));
+    --theme-border: rgb(var(--gray-3));
     --theme-text: var(--gray-8); /*文本颜色*/
     --theme-menu: 0, 21, 41; /*菜单背景色*/
     --theme-menu-child: #0C2135; /*菜单背景色*/

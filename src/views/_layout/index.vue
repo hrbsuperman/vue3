@@ -67,12 +67,14 @@
       </ul>
     </div>
   </div>
+  <x-dialog v-if="1==2"></x-dialog>
 </template>
 
 <script lang="ts" setup>
 import {ref, onMounted, h, Transition, reactive, defineAsyncComponent, shallowRef} from "vue";
 import type {XMenuItem, XPageTab} from "@/entity/component/XSupport";
 import XMenu from "@/components/XMenu.vue";
+import XDialog from "@/components/XDialog.vue";
 import router from '../../router/index';//页面字典
 import userMenu from '../../entity/data/menu';//菜单测试数据
 
