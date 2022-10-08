@@ -119,6 +119,8 @@ h1, h2, h3, h4, h5, h6 {
     --theme-menu-child: #0C2135; /*菜单背景色*/
     --header-height: 48px;
 
+    --FormElementHeight:34px;
+
     /*动画速度*/
     --animationSpeed: .3s;
 }

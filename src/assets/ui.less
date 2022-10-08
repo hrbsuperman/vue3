@@ -1,5 +1,8 @@
 
-button, textarea, select {
+input, button, textarea, select {
+  height: var(--FormElementHeight);
+  line-height: var(--FormElementHeight);
+  box-sizing: border-box;
   outline: none;
   border-radius: 2px;
   padding: 0.3em 0.6em;
@@ -14,26 +17,12 @@ input:hover, button:hover, textarea:hover, select:hover {
 }
 
 /*input*/
-.x-input {
-  border-radius: 2px;
-  padding: 0.4em 0.6em;
-  border: 1px solid var(--theme-border);
-  font-size: var(--fontsize);
-
-  input {
-    border: none;
-    outline: none;
-    height: 24px;
-    line-height: 24px;
-  }
-
+input {
   background: transparent;
   line-height: 1.6em;
-
   &:hover {
     outline: none;
   }
-
   &:focus {
     border-color: var(--theme-hover);
     box-shadow: 0 0 3px 0 var(--theme-hover);
@@ -59,7 +48,6 @@ button {
 /*select*/
 select {
   padding: 0.5em 0.6em;
-
   &:hover {
 
   }
