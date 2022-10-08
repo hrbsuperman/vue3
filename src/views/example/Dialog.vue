@@ -1,9 +1,12 @@
 <template>
-    <x-dialog :show="dialogOption.show" :lock="dialogOption.lock">
+    <x-dialog title="标题" :show="dialogOption.show" :lock="dialogOption.lock">
       测试
+      <template v-slot:footer>
+        <button>确认</button>
+      </template>
     </x-dialog>
 
-  <button @click="Show = !Show">
+  <button @click="dialogOption.show = !dialogOption.show">
     dialog show
   </button>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="x-dialog-box lock" v-if="show">
     <div v-if="lock" class="lock"></div>
-    <div class="x-dialog" style="transform-origin:-100px 200px">
+    <div class="x-dialog">
       <div class="head" @mousedown.self="dragClick($event)" @mouseup.self="dragClear">
         <span class="title">{{ title }}</span>
         <div class="buttons">
@@ -10,6 +10,9 @@
       </div>
       <div class="content">
         <slot/>
+      </div>
+      <div class="footer">
+        <slot name="footer"/>
       </div>
     </div>
   </div>
@@ -49,6 +52,8 @@ document.onmousemove = (e) => {
 .x-dialog-box {
   width: 100%;
   height: 100vh;
+  left: 0;
+  top:0;
   position: fixed;
 
   .lock {
@@ -59,29 +64,33 @@ document.onmousemove = (e) => {
     left: 0;
     z-index: 1000;
     height: 100%;
-    background-color: #00000073;
+    background-color: #00000060;
   }
 }
 
 .x-dialog {
   z-index: 1001;
   position: absolute;
-  border: 1px solid rgb(234, 234, 234);
-  box-shadow: rgba(0 0 0 / 40%) 0 0 5px 0;
-  min-width: 200px;
-  left: calc(50% - 50px);
-  top: calc(50vh - 100px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030;
+  background-color: #fff;
+  min-width: 300px;
+  border-radius: 4px;
 
   .head {
+    border-bottom: 1px solid rgb(var(--gray-3));
     cursor: move;
-    height: 30px;
     display: flex;
     justify-content: space-between;
-    padding: 0 1em;
-    background-color: rgb(var(--gray-4));
+    padding: 0.5em 1em;
+    font-size: 18px;
 
     i {
       cursor: pointer;
+      font-size: 20px;
 
       &:hover {
         color: #f40;
@@ -91,7 +100,13 @@ document.onmousemove = (e) => {
 
   .content {
     min-height: 100px;
-    background-color: #fff;
+  }
+
+  .footer {
+    text-align: right;
+    padding: 0.5em 1em;
+
+    border-top: 1px solid rgb(var(--gray-3));
   }
 }
 </style>
