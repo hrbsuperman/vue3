@@ -1,21 +1,20 @@
 <template>
     <input
-        :value="value"
+        :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
-        @input="emits('input',this.value)"
-        @change="emits('change',this.value)"/>
+        @input="emits('update:modelValue', $event.target.value)"
+        @change="emits('update:modelValue', $event.target.value)"/>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-  value: {type: String, default: ""},
+  modelValue: {type: String, default: ""},
   placeholder: {type: String, default: "" },
   disabled:{ type:Boolean,default:false}
 })
 
-const emits = defineEmits(['input','change'])
-
+const emits = defineEmits(['update:modelValue'])
 
 </script>
 
