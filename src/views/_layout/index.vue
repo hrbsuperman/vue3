@@ -35,13 +35,11 @@
       </div>
       <!--页面们的 tab -->
       <div class="pageTab">
-        <div v-for="(page,i) in pages" :class="{item:true,active:page.active}"
-             @click="pageTab_Click($event,i)"
+        <div tabindex="-1" v-for="(page,i) in pages" :class="{item:true,active:page.active}"
              @mouseup="pageTab_Menu($event,i)"
              @blur="pageTab_Menu_Blur"
-
-             @contextmenu="clear_Menu($event)"
-             >
+             oncontextmenu="return false"
+        >
           {{ page.label }}
           <i @click="pageClose(i)" class="icon-close"></i>
         </div>
@@ -59,13 +57,13 @@
         <li style="border-bottom:1px solid rgb(var(--gray-2))">
           <i class="icon-reload"></i><span>重新加载</span>
         </li>
-        <li>
+        <li @click="pageClose(pageTabMenuControlIndex)" :class="{disabled:pageTabMenuControlIndex === 0}">
           <i class="icon-close"></i>关闭标签页
         </li>
-        <li>
+        <li @click="pageCloseOther(pageTabMenuControlIndex)">
           <i style="font-weight: 700" class="icon-guanbi"></i>关闭其他标签页
         </li>
-        <li>
+        <li @click="pageCloseAll">
           <i class="icon-jianhao"></i>关闭所有标签页
         </li>
       </ul>
@@ -95,7 +93,8 @@ const fullScreenStatus = ref(false);
 //页面Tab右键菜单
 const pageTabMenuOption = reactive({display: 'none', left: '0px', top: '0px'});
 const pageTabMenu = ref<HTMLElement | null>(null);
-
+//右键页面tab索引
+const pageTabMenuControlIndex = ref(-1);
 
 //------ 👆 菜单、页面Tab、全屏等非业务功能支持 --------
 
@@ -115,45 +114,52 @@ onMounted(() => {
   }
 })
 
-function clear_Menu(e:any){
-  console.log('clear_Menu')
-  e.preventDefault()
-}
-//Page tab click
-function pageTab_Click(e: any, index: number) {
+//页面标签，鼠标按下
+function pageTab_Menu(e: any, index: number) {
+  //左键，切换激活页面
+  if (e.button == 0) {
     if (e?.target?.nodeName != "I") {
       if (page.current) page.current.active = false;
       page.current = pages[index];
       page.current.active = true;
     }
-}
-
-//页面标签，鼠标右键
-function pageTab_Menu(e: MouseEvent, index: number) {
-
-  if (e.button == 1) {
-
-  } else if (e.button == 2) {
-    window.setTimeout(()=>{
-      pageTabMenuOption.display = pageTabMenuOption.display == 'block' ? 'none' : 'block';
-    },100)
-
-    pageTabMenuOption.top = e.pageY + 'px';
-    pageTabMenuOption.left = e.pageX + 'px';
+  }
+  //右键，tab 菜单
+  else if (e.button == 2) {
+    pageTabMenuControlIndex.value = index;
+    window.setTimeout(() => {
+      pageTabMenuOption.display = 'block';
+      pageTabMenuOption.top = e.pageY + 'px';
+      pageTabMenuOption.left = e.pageX + 'px';
+    }, 100)
   }
   return false;
 }
-
 //页面标签，Blur
 function pageTab_Menu_Blur() {
   setTimeout(() => {
     pageTabMenuOption.display = 'none';
-  }, 200)
-
+  }, 180)
 }
-
+//关闭其他
+function pageCloseOther(current: number) {
+  page.current = pages[current];
+  page.current.active = true;
+  if (current > 1)
+    pages.splice(1, current - 1);
+  //逻辑是，第一个Page始终不能关闭
+  if (pages.length > 2)
+    pages.splice(2, pages.length - 2);
+}
+//关闭全部
+function pageCloseAll() {
+  page.current = pages[0];
+  page.current.active = true;
+  pages.splice(1, pages.length - 1);
+}
 //Page Close
 function pageClose(index: number) {
+  if (index === 0) return;
   //如果关闭当前激活页面，把上一索引页面激活，不好使。
   if (page.current == pages[index]) {
     if (page.current) page.current.active = false;
@@ -162,7 +168,6 @@ function pageClose(index: number) {
   }
   pages.splice(index, 1);
 }
-
 //全屏
 function fullScreen() {
   if (document.documentElement.requestFullscreen) {
@@ -173,8 +178,6 @@ function fullScreen() {
       document.exitFullscreen();
   }
 }
-
-
 //Menu > Open page
 function menu_Change(item: XMenuItem) {
   console.log('menu_Change');
@@ -201,7 +204,6 @@ function menu_Change(item: XMenuItem) {
 }
 
 function pageOpen(name: string, label: string) {
-
   //跳转不启用layout的路由，需要处理下。
   //...
   if (router[name]) {
@@ -213,14 +215,11 @@ function pageOpen(name: string, label: string) {
     //404
     console.log(404);
   }
-
 }
 
 function pageTest() {
 
 }
-
-
 </script>
 
 <style scoped lang="less">
