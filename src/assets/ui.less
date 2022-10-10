@@ -1,15 +1,18 @@
 
-input, button, textarea, select {
+.x-input, .x-button, .x-textarea, .x-select,.x-test {
   height: var(--FormElementHeight);
   line-height: var(--FormElementHeight);
   box-sizing: border-box;
   outline: none;
   border-radius: 2px;
-  padding: 0.3em 0.6em;
   border: 1px solid var(--theme-border);
   font-size: var(--fontsize);
-  transition: all .3s;
+  transition: all .2s;
   color: rgba(0, 0, 0, 0.75);
+  &:hover{
+    border: 1px solid rgb(var(--gray-3));
+    box-shadow: 0 0 3px 0 rgb(var(--gray-5));
+  }
 }
 
 input:hover, button:hover, textarea:hover, select:hover {
@@ -17,9 +20,11 @@ input:hover, button:hover, textarea:hover, select:hover {
 }
 
 /*input*/
-input {
+.x-input {
+  padding: 0.3em 0.6em;
   background: transparent;
   line-height: 1.6em;
+  width:200px;
   &:hover {
     outline: none;
   }
@@ -30,7 +35,7 @@ input {
 }
 
 /*button*/
-button {
+.x-button {
   line-height: 1.6em;
   background-color: rgb(var(--gray-2));
   cursor: pointer;
@@ -46,10 +51,23 @@ button {
 }
 
 /*select*/
-select {
-  padding: 0.5em 0.6em;
+.x-select {
+  width: 200px;
+  display: flex;
+  cursor: pointer;
+
+  outline: none;
+  border-radius: 2px;
+  padding: 0.3em 0.6em;
+  border: 1px solid var(--theme-border);
+  font-size: var(--fontsize);
+  transition: all .3s;
+  color: rgba(0, 0, 0, 0.75);
   &:hover {
 
+  }
+  .options{
+    display: none;
   }
 }
 

@@ -2,7 +2,10 @@ export class XRouter {
     name?: string;
     component: any;
 }
-
+export class XSelectItem{
+    text:string = '';
+    value:string = '';
+}
 export class XMenuItem {
     label: string = '';
     name: string = '';

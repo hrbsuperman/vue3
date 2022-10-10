@@ -1,6 +1,6 @@
 <template>
   <template v-for="item in dataList">
-    <div :class="{ 'menu-main':true,active:item.displayAnimation }" @click.stop ="toggleItem(item)">
+    <div :class="{ 'x-menu-main':true,active:item.displayAnimation }" @click.stop ="toggleItem(item)">
       <i :class="'icon '+ (item.icon)"></i>
       <div class="text">
         {{ item.label }}
@@ -9,7 +9,7 @@
         <i v-if="item?.children?.length" class="icon-arrow-down"></i>
       </div>
     </div>
-    <div class="menu-child-box" v-if="item.children?.length"
+    <div class="x-menu-child-box" v-if="item.children?.length"
          :style="{ maxHeight:item.displayAnimation ?(item.maxHeight || maxHeightCalc(item))+'px' :'0px !important' }">
       <div :class="item.displayAnimation?'opacityIn':'opacityOut'"
            :style="{ marginLeft:'0.75em'}">

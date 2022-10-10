@@ -1,10 +1,10 @@
 <template>
-    <input
+    <input class="x-input"
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
         @input="emits('update:modelValue', $event.target.value)"
-        @change="emits('update:modelValue', $event.target.value)"/>
+   />
 </template>
 
 <script setup lang="ts">

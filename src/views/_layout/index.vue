@@ -35,9 +35,13 @@
       </div>
       <!--页面们的 tab -->
       <div class="pageTab">
-        <div v-for="(page,i) in pages" :class="{item:true,active:page.active}" @click="pageTab_Click($event,i)"
-             @mouseup="pageTab_Menu($event)"
-             oncontextmenu="return false">
+        <div v-for="(page,i) in pages" :class="{item:true,active:page.active}"
+             @click="pageTab_Click($event,i)"
+             @mouseup="pageTab_Menu($event,i)"
+             @blur="pageTab_Menu_Blur"
+
+             @contextmenu="clear_Menu($event)"
+             >
           {{ page.label }}
           <i @click="pageClose(i)" class="icon-close"></i>
         </div>
@@ -50,19 +54,19 @@
       </div>
     </div>
     <!--页面标签鼠标右键-->
-    <div class="pageTabMenu">
+    <div class="pageTabMenu" :style="pageTabMenuOption" ref="pageTabMenu">
       <ul>
-        <li>
-          重新加载
+        <li style="border-bottom:1px solid rgb(var(--gray-2))">
+          <i class="icon-reload"></i><span>重新加载</span>
         </li>
         <li>
-          关闭标签页
+          <i class="icon-close"></i>关闭标签页
         </li>
         <li>
-          关闭其他标签页
+          <i style="font-weight: 700" class="icon-guanbi"></i>关闭其他标签页
         </li>
         <li>
-          关闭所有标签页
+          <i class="icon-jianhao"></i>关闭所有标签页
         </li>
       </ul>
     </div>
@@ -78,6 +82,25 @@ import userMenu from '../../entity/data/menu';//菜单测试数据
 
 h(Transition, {});
 
+//测试哪种数据类型适合
+const pagesMap: Map<string, XPageTab> = reactive(new Map<string, XPageTab>);
+//当前打开页面们
+const pages: XPageTab[] = reactive([]);
+//当前打开页
+const page: any = reactive({current: null});
+//菜单展开/收起
+const menuSwitchOpen = ref(true);
+//是否全屏
+const fullScreenStatus = ref(false);
+//页面Tab右键菜单
+const pageTabMenuOption = reactive({display: 'none', left: '0px', top: '0px'});
+const pageTabMenu = ref<HTMLElement | null>(null);
+
+
+//------ 👆 菜单、页面Tab、全屏等非业务功能支持 --------
+
+//测试数据
+const xMenuData: XMenuItem[] = reactive(userMenu);
 onMounted(() => {
   //默认打开的首页，首页Tab没有关闭通过 main.less > .item { &:first-child{ display:none 控制
   page.current = {name: 'home', label: userMenu[0].label, component: router.home, active: true};
@@ -92,32 +115,40 @@ onMounted(() => {
   }
 })
 
-const pagesMap: Map<string, XPageTab> = reactive(new Map<string, XPageTab>);
-//当前打开页面们
-const pages: XPageTab[] = reactive([]);
-//当前打开页
-const page: any = reactive({current: null});
-//测试数据
-const xMenuData: XMenuItem[] = reactive(userMenu);
-//当前激活
-
-
-//菜单展开/收起
-const menuSwitchOpen = ref(true);
-//是否全屏
-const fullScreenStatus = ref(false);
-
+function clear_Menu(e:any){
+  console.log('clear_Menu')
+  e.preventDefault()
+}
 //Page tab click
 function pageTab_Click(e: any, index: number) {
-  if (e?.target?.nodeName != "I") {
-    if (page.current) page.current.active = false;
-    page.current = pages[index];
-    page.current.active = true;
-  }
+    if (e?.target?.nodeName != "I") {
+      if (page.current) page.current.active = false;
+      page.current = pages[index];
+      page.current.active = true;
+    }
 }
 
-//Page tab mouse
-function pageTab_Menu(e: MouseEvent) {
+//页面标签，鼠标右键
+function pageTab_Menu(e: MouseEvent, index: number) {
+
+  if (e.button == 1) {
+
+  } else if (e.button == 2) {
+    window.setTimeout(()=>{
+      pageTabMenuOption.display = pageTabMenuOption.display == 'block' ? 'none' : 'block';
+    },100)
+
+    pageTabMenuOption.top = e.pageY + 'px';
+    pageTabMenuOption.left = e.pageX + 'px';
+  }
+  return false;
+}
+
+//页面标签，Blur
+function pageTab_Menu_Blur() {
+  setTimeout(() => {
+    pageTabMenuOption.display = 'none';
+  }, 200)
 
 }
 
@@ -192,5 +223,44 @@ function pageTest() {
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.pageTabMenu {
+  position: absolute;
+  width: 140px;
+  left: 0;
+  height: 0;
+
+  ul {
+    box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030;
+    background-color: #fff;
+    padding: 3px 0;
+    border-radius: 2px;
+
+    li {
+      padding: 0.3em 0.5em;
+      font-size: 0.95em;
+      color: rgb(var(--gray-10));
+      cursor: pointer;
+
+      &.disabled {
+        background-color: #fff !important;
+        cursor: not-allowed;
+        color: rgb(var(--gray-5));
+
+        i {
+          color: rgb(var(--gray-5));
+        }
+      }
+
+      i {
+        display: inline-block;
+        width: 20px;
+      }
+
+      &:hover {
+        background-color: rgb(var(--gray-2));
+      }
+    }
+  }
+}
 </style>
