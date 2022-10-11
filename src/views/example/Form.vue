@@ -14,48 +14,90 @@ const exampleForm = reactive({});
 <template>
   <div class="exampleForm">
     <div class="panel">
-      <div>
-        input
-        <input class="x-input" v-model="exampleForm.value"/>
-        {{exampleForm.value}}
-      </div>
-      <div>
-        x-input
-        <x-index placeholder="请输入一些文本" v-model="exampleForm.xvalue"/>
-        {{exampleForm.xvalue}}
-      </div>
-      <div>
-        x-select
-        <x-select :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]" value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
-        {{exampleForm.xselect}}
-      </div>
-      <div>
-        x-test
-        <x-test style="display: inline-block;width:200px;"  />
-      </div>
-      <div>
-        <span>x-datePicker</span>
-        <x-date-picker placeholder="请输入一些文本" v-model="exampleForm.xdatePicker"/>
-        {{exampleForm.xdatePicker}}
-      </div>
+      <table>
+        <colgroup>
+          <col style="width: 300px;"/>
+          <col style="width:200px;"/>
+          <col/>
 
-      <div>
-        <span>x-switch</span>
-        <x-switch />
-        {{exampleForm.xswitch}}
-      </div>
+        </colgroup>
+        <tr>
+          <th>input</th>
+          <td>
+            <input class="x-input" v-model="exampleForm.value"/></td>
+          <td> {{ exampleForm.value }}</td>
+        </tr>
+        <tr>
+          <th>x-input</th>
+          <td>
+            <x-index placeholder="请输入一些文本" v-model="exampleForm.xvalue"/>
+          </td>
+          <td> {{ exampleForm.xvalue }}
+          </td>
+        </tr>
+        <tr>
+          <th>x-select</th>
+          <td>
+            <x-select
+                :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
+                value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
+          </td>
+          <td> {{ exampleForm.xselect }}
+          </td>
+        </tr>
+        <tr>
+          <th>x-datePicker</th>
+          <td>
+            <x-date-picker placeholder="请输入一些文本" v-model="exampleForm.xdatePicker"/>
+          </td>
+          <td> {{ exampleForm.xdatePicker }}
+          </td>
+        </tr>
+        <tr>
+          <th>x-switch</th>
+          <td>
+            <x-switch v-model="exampleForm.xswitch"/>
+            <x-switch v-model="exampleForm.xswitch"/>
 
-      <p>{{ exampleForm }}</p>
-      <div>
-      </div>
-      <div>
-        <x-button @click="exampleForm.input='asdasd'" text="提交"/>
-      </div>
+          </td>
+          <td> {{ exampleForm.xswitch }}
+          </td>
+        </tr>
+        <tr>
+          <th>x-test</th>
+          <td>
+            <x-test style="display: inline-block;width:200px;"/>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <th></th>
+          <td colspan="2">{{ exampleForm }}</td>
+        </tr>
+        <tr>
+          <th></th>
+          <td colspan="2">
+            <x-button @click="exampleForm.input='asdasd'" text="提交"/>
+          </td>
+        </tr>
+      </table>
+
     </div>
   </div>
 
 </template>
 <style scoped lang="less">
+table{
+  th{
+    text-align: right;
+  }
+  td{
+    text-align: left;
+  }
+  th,td{
+    padding:5px;
+  }
+}
 .exampleForm {
   text-align: center;
   padding: 20px;
@@ -64,7 +106,7 @@ const exampleForm = reactive({});
     background-color: #fff;
     padding: 20px;
 
-    &>div {
+    & > div {
       padding: 5px;
     }
   }

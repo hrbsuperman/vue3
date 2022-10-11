@@ -136,7 +136,9 @@ function pageTab_Menu(e: any, index: number) {
   return false;
 }
 //页面标签，Blur
+//元素设置 tabindex="-1" 属性，可以拥有表单元素的 focus、blur
 function pageTab_Menu_Blur() {
+  //延迟关闭，让菜单的click顺利触发后再隐藏。
   setTimeout(() => {
     pageTabMenuOption.display = 'none';
   }, 180)
