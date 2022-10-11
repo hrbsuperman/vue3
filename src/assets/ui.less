@@ -1,5 +1,14 @@
+//清除input 样式
+.x-input-clean {
+  border: none;
+  width: 100%;
+  height: 32px;
+  &:focus {
+    outline: none;
+  }
+}
 
-.x-input, .x-button, .x-textarea, .x-select, .x-test {
+.x-input, .x-button, .x-textarea, .x-select, .x-date-picker {
   height: var(--FormElementHeight);
   line-height: var(--FormElementHeight);
   box-sizing: border-box;
@@ -10,6 +19,7 @@
   transition: all .2s;
   color: rgba(0, 0, 0, 0.75);
 
+  width: 200px;
   &:hover {
     border: 1px solid rgb(var(--gray-3));
     box-shadow: 0 0 3px 0 rgb(var(--gray-5));
@@ -30,6 +40,7 @@ input:hover, button:hover, textarea:hover, select:hover {
   &:hover {
     outline: none;
   }
+
   &:focus {
     border-color: var(--theme-hover);
     box-shadow: 0 0 3px 0 var(--theme-hover);

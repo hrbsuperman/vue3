@@ -48,7 +48,7 @@ const exampleForm = reactive({});
         <tr>
           <th>x-datePicker</th>
           <td>
-            <x-date-picker placeholder="请输入一些文本" v-model="exampleForm.xdatePicker"/>
+            <x-date-picker placeholder="请选择日期" v-model="exampleForm.xdatePicker"/>
           </td>
           <td> {{ exampleForm.xdatePicker }}
           </td>
