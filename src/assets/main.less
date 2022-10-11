@@ -17,13 +17,17 @@
     width: 48px;
     transition: width var(--animationSpeed);
     //收起，隐藏文字、arrow
-    .menu .menu-main {
+    .menu {
       .text, .arrow {
         display: none !important;
       }
     }
 
-    .menu-child-box {
+    .icon {
+      width: 2em !important;
+    }
+
+    .x-menu-child-box {
       display: none !important;
     }
   }
@@ -62,6 +66,7 @@
         width: 1.5em;
         font-size: 1.2em;
         flex-shrink: 0;
+        transition: width var(--animationSpeed);
       }
 
       .text {
@@ -180,14 +185,19 @@
         display: flex;
 
         border-bottom: 1px solid rgb(var(--gray-2));
+
         .item {
-          &:first-child{
-            i{display: none}
+          &:first-child {
+            i {
+              display: none
+            }
           }
+
           &:hover {
             color: #0063c1;
-            i{
-              color:#0063c1;
+
+            i {
+              color: #0063c1;
             }
           }
 
@@ -201,10 +211,11 @@
 
           i {
             font-size: 11px;
-            color:rgb(var(--gray-4));
+            color: rgb(var(--gray-4));
+
             &:hover {
-                color: #f40;
-                font-weight: 700;
+              color: #f40;
+              font-weight: 700;
             }
           }
 
@@ -230,12 +241,14 @@
       height: calc(100vh - var(--header-height) - 28px);
       overflow: auto;
       background-color: rgb(var(--gray-2));
-      .box{
+
+      .box {
         display: none;
         height: 100%;
         max-height: 100%;
         overflow: auto;
-        &.active{
+
+        &.active {
           display: block !important;
         }
       }

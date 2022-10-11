@@ -2,6 +2,7 @@
 import XIndex from "@/components/XIndex.vue";
 import XButton from "@/components/XButton.vue";
 import XSelect from "@/components/XSelect.vue";
+import XSwitch from "@/components/XSwitch.vue";
 import XTest from "@/components/XTest.vue";
 import XDatePicker from "@/components/XDatePicker.vue";
 
@@ -25,7 +26,7 @@ const exampleForm = reactive({});
       </div>
       <div>
         x-select
-        <x-select :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'}]" value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
+        <x-select :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]" value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
         {{exampleForm.xselect}}
       </div>
       <div>
@@ -38,6 +39,11 @@ const exampleForm = reactive({});
         {{exampleForm.xdatePicker}}
       </div>
 
+      <div>
+        <span>x-switch</span>
+        <x-switch />
+        {{exampleForm.xswitch}}
+      </div>
 
       <p>{{ exampleForm }}</p>
       <div>

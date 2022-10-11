@@ -1,6 +1,6 @@
 <template>
-  <div class="x-select" :class="{expand:expand}">
-    <div class="view" tabindex="-1" ref="smSelectRef" @click="smSelect" @blur="smSelectBlur">
+  <div class="x-select-box" :class="{expand:expand}">
+    <div class="x-select" tabindex="-1" ref="smSelectRef" @click="smSelect" @blur="smSelectBlur">
       <span>{{ (selected?.text||placeholder) || '&nbsp' }}</span>
       <i class="icon-arrow-down"></i>
     </div>
@@ -62,63 +62,3 @@ function li_click(item: XSelectItem) {
 }
 
 </script>
-
-<style scoped lang="less">
-.x-select {
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  &.expand{
-    .options{
-      display: block !important;
-    }
-  }
-  .view {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-
-    span {
-      width: 100%;
-      text-align: left;
-      outline: none;
-    }
-
-    i {
-      flex-shrink: 1;
-      width: 20px;
-    }
-  }
-
-  .options {
-    display: none;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 32px;
-    line-height: 34px;
-    max-height: 6rem;
-    border: 1px solid #eee;
-    background-color: #fff;
-    z-index: 2002;
-    overflow-y: auto;
-
-    .option-item {
-      text-align: left;
-      padding:0 0.7em;
-      font-size: 0.9em;
-      &:hover {
-        background-color: #F5F5F5;
-      }
-    }
-
-    .selected {
-      background-color: #E3F4FC !important;
-      font-weight: 700;
-    }
-  }
-}
-
-</style>
