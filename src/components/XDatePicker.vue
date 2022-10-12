@@ -1,13 +1,13 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
     <input class="x-input-clean" @focus="active=true" @blur="xDatePicker_Blur"
-           :value="value"
+           :value="`${XDPYear}/${XDPMonth}/${XDPDay}`"
            :placeholder="placeholder"
            :disabled="disabled"/>
     <i class="icon-rili">
 
     </i>
-    <div class="x-date-dialog" onmousewheel="">
+    <div class="x-date-dialog" >
       <div class="control">
         <i class="icon-caret-left"></i>
         <span style="font-size: 1.2em">{{ XDPMonth + 1 }}</span>
@@ -29,7 +29,7 @@
           </thead>
           <tbody>
           <tr v-for="w in days">
-            <td v-for="d in w">
+            <td v-for="d in w" @click="day_Click(d)">
               <span>{{ d }}</span>
             </td>
           </tr>
@@ -45,14 +45,18 @@ import {reactive, ref, onMounted} from 'vue'
 
 const props = defineProps({
   value: {type: String, default: ""},
+  modelValue: {type: String, default: ""},
   format: {type: String, default: "yyyy/MM/dd"},
   placeholder: {type: String, default: ""},
   disabled: {type: Boolean, default: false}
 });
+//focus
 const active = ref<boolean>(false);
 const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
+const XDPDay =  ref<number>(0);
 
+const emits = defineEmits(['update:modelValue'])
 
 let $now = new Date();
 XDPYear.value = $now.getFullYear();
@@ -66,7 +70,10 @@ const days = reactive<any>([]);
 onMounted(() => {
   Init();
 });
-
+function day_Click(day:number){
+  XDPDay.value = day;
+  emits('update:modelValue', `${XDPYear.value}/${XDPMonth.value}/${day}`)
+}
 function Init() {
   days.length = 0;
   let monthDays = calendar.last.getDate();
@@ -126,7 +133,6 @@ function xDatePicker_Blur() {
       i {
         flex-shrink: 1;
       }
-
     }
 
     .control {
