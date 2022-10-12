@@ -7,9 +7,11 @@
     <i class="icon-rili">
 
     </i>
-    <div class="x-date-dialog">
+    <div class="x-date-dialog" onmousewheel="">
       <div class="control">
         <i class="icon-caret-left"></i>
+        <span style="font-size: 1.2em">{{ XDPMonth + 1 }}</span>
+        <span style="font-size: 1.2em">{{ XDPYear }}</span>
         <i class="icon-caret-right"></i>
       </div>
       <div class="content">
@@ -25,6 +27,13 @@
             <th>周日</th>
           </tr>
           </thead>
+          <tbody>
+          <tr v-for="w in days">
+            <td v-for="d in w">
+              <span>{{ d }}</span>
+            </td>
+          </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -32,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {reactive, ref, onMounted} from 'vue'
 
 const props = defineProps({
   value: {type: String, default: ""},
@@ -41,9 +50,45 @@ const props = defineProps({
   disabled: {type: Boolean, default: false}
 });
 const active = ref<boolean>(false);
-const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
-const dayOfWeek = ["日", "一", "二", "三", "四", "五", "六"];
+const XDPYear = ref<number>(0);
+const XDPMonth = ref<number>(0);
 
+
+let $now = new Date();
+XDPYear.value = $now.getFullYear();
+XDPMonth.value= $now.getMonth();
+const calendar = reactive<any>({first: null, days: null});
+calendar.first = new Date(XDPYear.value, XDPMonth.value, 1)
+calendar.last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
+
+const days = reactive<any>([]);
+
+onMounted(() => {
+  Init();
+});
+
+function Init() {
+  days.length = 0;
+  let monthDays = calendar.last.getDate();
+  let weekIndex = 0;//当前日期的周索引
+  let dayIndex = $now.getUTCDay();//日期在本周的索引
+  let day = 1;//日期
+
+  days.push(['', '', '', '', '', '', '']);
+  while (day <= monthDays) {
+    days[weekIndex][dayIndex] = day;
+
+    day += 1;
+    dayIndex += 1;
+    if (dayIndex % 7 == 0) {
+      days.push(['', '', '', '', '', '', '']);
+      dayIndex = 0;
+      weekIndex += 1;
+    }
+  }
+}
+
+//BLUR
 function xDatePicker_Blur() {
   window.setTimeout(() => {
     active.value = false;
@@ -77,31 +122,53 @@ function xDatePicker_Blur() {
     .control {
       height: 30px;
       display: flex;
-      i{
+
+      i {
         flex-shrink: 1;
       }
 
     }
-    .control{
+
+    .control {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding:0 10px;
+      padding: 0 10px;
     }
+
     .content {
-      padding:10px;
+      padding: 0 10px 10px 10px;
+
       table {
-        font-size:11px;
+        font-size: 11px;
         width: 100%;
         border-collapse: collapse;
         box-sizing: border-box;
         padding: 0;
         margin: 0;
 
-        th,td{
+        th {
+          background-color: #F1F1F1;
+          color: #A5A5A5;
+          height: 24px;
+          line-height: 24px;
+        }
+
+        td {
+          background-color: #FAFAFA;
+          color: #A5A5A5;
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--theme-hover);
+            color: #fff;
+          }
+        }
+
+        th, td {
           text-align: center;
 
-              border: 1px solid #DDDDDD;
+          border: 1px solid #DCDCDC;
         }
       }
     }
@@ -110,7 +177,7 @@ function xDatePicker_Blur() {
     z-index: 1001;
     display: none;
     top: 38px;
-    left: 0;
+    left: -1px;
     width: 300px;
     height: 240px;
     position: absolute;
