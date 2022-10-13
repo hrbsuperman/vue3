@@ -1,6 +1,6 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
-    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
+    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @click="XDateDialog_Click" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
            :value="modelValue"
            :placeholder="placeholder"
            :disabled="disabled"/>
@@ -33,7 +33,7 @@
                 :class="{ today: d?.today,selected:d?.selected, OtherMonth:  d?.month !== XDPMonth }">
               <span>{{ d?.day }}</span>
             </td>
-            <!--            (wi===0 && d > 7)||(wi >3 && d<7 )-->
+            <!--(wi===0 && d > 7)||(wi >3 && d<7 )-->
           </tr>
           </tbody>
         </table>
