@@ -15,7 +15,6 @@
   </div>
 
 </template>
-
 <script setup lang="ts">
 import {ref} from 'Vue';
 import type {XSelectItem} from "@/entity/component/XSupport";
@@ -29,8 +28,6 @@ const props = defineProps({
 })
 const selected = ref<XSelectItem | null>(null);
 const expand = ref<boolean>(false);
-
-
 // 点击事件 控制显示隐藏
 function XSelect_Click() {
   expand.value = !expand.value;
@@ -40,20 +37,15 @@ function XSelect_Click() {
    * 通过@blur 事件 让下拉显示框隐藏
    * */
 }
-
 // div失去焦点事件
 function XSelect_Blur(e:any) {
-
-
   setTimeout(() => {
     expand.value = false
   }, 180)
 }
-
 // 下拉列表点击事件
 function XSelect_Item_Click(item: XSelectItem) {
   selected.value = item;
   emits('update:modelValue', item.value)
 }
-
 </script>
