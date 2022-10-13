@@ -1,18 +1,18 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
-    <input class="x-input-clean" @focus="active=true" @blur="xDatePicker_Blur"
-           :value="`${XDPYear}/${XDPMonth}/${XDPDay}`"
+    <input class="x-input-clean" ref="XDatePickerInput" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
+           :value="modelValue"
            :placeholder="placeholder"
            :disabled="disabled"/>
     <i class="icon-rili">
 
     </i>
-    <div class="x-date-dialog" >
+    <div class="x-date-dialog" @click="XDateDialog_Click">
       <div class="control">
-        <i class="icon-caret-left"></i>
+        <i @click="Month_Change(-1)" class="icon-caret-left"></i>
         <span style="font-size: 1.2em">{{ XDPMonth + 1 }}</span>
         <span style="font-size: 1.2em">{{ XDPYear }}</span>
-        <i class="icon-caret-right"></i>
+        <i @click="Month_Change(1)" class="icon-caret-right"></i>
       </div>
       <div class="content">
         <table>
@@ -29,7 +29,7 @@
           </thead>
           <tbody>
           <tr v-for="w in days">
-            <td v-for="d in w" @click="day_Click(d)">
+            <td v-for="d in w" @click="XDatePickerDay_Click(d)">
               <span>{{ d }}</span>
             </td>
           </tr>
@@ -44,47 +44,67 @@
 import {reactive, ref, onMounted} from 'vue'
 
 const props = defineProps({
-  value: {type: String, default: ""},
   modelValue: {type: String, default: ""},
   format: {type: String, default: "yyyy/MM/dd"},
   placeholder: {type: String, default: ""},
   disabled: {type: Boolean, default: false}
 });
+let XDatePickerInput = ref(null);
 //focus
 const active = ref<boolean>(false);
 const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
-const XDPDay =  ref<number>(0);
+const XDPDay = ref<number>(0);
 
 const emits = defineEmits(['update:modelValue'])
-
-let $now = new Date();
-XDPYear.value = $now.getFullYear();
-XDPMonth.value= $now.getMonth();
-const calendar = reactive<any>({first: null, days: null});
-calendar.first = new Date(XDPYear.value, XDPMonth.value, 1)
-calendar.last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
-
 const days = reactive<any>([]);
 
+let activeControl = false;
+
+
 onMounted(() => {
+  let $now = new Date();
+  XDPYear.value = $now.getFullYear();
+  XDPMonth.value = $now.getMonth();
+  XDPDay.value = $now.getDate();
+
   Init();
 });
-function day_Click(day:number){
-  XDPDay.value = day;
-  emits('update:modelValue', `${XDPYear.value}/${XDPMonth.value}/${day}`)
+
+function XDateDialog_Click() {
+  activeControl = true;
 }
+
+//事件冒泡，最后冒到 document
+// dialog区域click给activeControl true
+// 冒到 document  activeControl?不缩:缩
+function DocumentOnceClick() {
+  console.log('DocumentOnceClick')
+  if (!activeControl) {
+    window.setTimeout(() => {
+      active.value = false;
+
+      document.removeEventListener('click', DocumentOnceClick)
+    }, 10)
+  }
+  activeControl = false;
+}
+
+
 function Init() {
+
+  let first = new Date(XDPYear.value, XDPMonth.value, 1)
+  let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
+
   days.length = 0;
-  let monthDays = calendar.last.getDate();
+  let monthDays = last.getDate();
   let weekIndex = 0;//当前日期的周索引
-  let dayIndex = $now.getUTCDay();//日期在本周的索引
+  let dayIndex = first.getUTCDay();//日期在本周的索引
   let day = 1;//日期
 
   days.push(['', '', '', '', '', '', '']);
   while (day <= monthDays) {
     days[weekIndex][dayIndex] = day;
-
     day += 1;
     dayIndex += 1;
     if (dayIndex % 7 == 0) {
@@ -95,104 +115,40 @@ function Init() {
   }
 }
 
+//FOCUS
+function XDatePicker_Focus() {
+  active.value = true;
+  activeControl = true;
+  document.addEventListener('click', DocumentOnceClick);
+}
+
 //BLUR
-function xDatePicker_Blur() {
-  window.setTimeout(() => {
-    active.value = false;
-  }, 160)
+function XDatePicker_Blur() {
+
+}
+
+//月份 +-
+function Month_Change(i: number) {
+  let targetMonth = XDPMonth.value + i;
+  if (targetMonth > 11) {
+    XDPMonth.value = 0;
+    XDPYear.value = XDPYear.value + 1;
+  } else if (targetMonth < 1) {
+    XDPMonth.value = 11;
+    XDPYear.value = XDPYear.value - 1;
+  } else {
+    XDPMonth.value = targetMonth;
+  }
+  Init();
+}
+
+//选定日期
+function XDatePickerDay_Click(day: number) {
+  XDPDay.value = day;
+  emits('update:modelValue', `${XDPYear.value}/${XDPMonth.value+1}/${day}`)
 }
 </script>
 
 <style scoped lang="less">
-.x-date-picker {
-  padding: 0 0.6em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
 
-  &.active {
-    border-color: var(--theme-hover);
-    box-shadow: 0 0 3px 0 var(--theme-hover);
-
-    .x-date-dialog {
-      display: block;
-    }
-  }
-
-  i {
-    flex-shrink: 1;
-    width: 20px;
-  }
-
-  .x-date-dialog {
-    .control {
-      height: 30px;
-      display: flex;
-
-      i {
-        flex-shrink: 1;
-      }
-    }
-
-    .control {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-    }
-
-    .content {
-      padding: 0 10px 10px 10px;
-
-      table {
-        font-size: 11px;
-        width: 100%;
-        border-collapse: collapse;
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-
-        th {
-          background-color: #F1F1F1;
-          color: #A5A5A5;
-          height: 24px;
-          line-height: 24px;
-        }
-
-        td {
-          background-color: #FAFAFA;
-          color: #A5A5A5;
-          cursor: pointer;
-
-          &:hover {
-            background-color: var(--theme-hover);
-            color: #fff;
-          }
-        }
-
-        th, td {
-          text-align: center;
-
-          border: 1px solid #DCDCDC;
-        }
-      }
-    }
-
-
-    z-index: 1001;
-    display: none;
-    top: 38px;
-    left: -1px;
-    width: 300px;
-    height: 240px;
-    position: absolute;
-    background-color: #fff;
-    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
-    border-bottom: 1px solid #BBBBBB;
-    border-left: 1px solid #CCCCCC;
-    border-right: 1px solid #CCCCCC;
-    border-top: 1px solid #CCCCCC;
-  }
-}
 </style>

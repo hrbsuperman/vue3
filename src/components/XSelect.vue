@@ -1,6 +1,6 @@
 <template>
   <div class="x-select-box" :class="{expand:expand}">
-    <div class="x-select" tabindex="-1" ref="SelectRef" @click="XSelect" @blur="XSelectBlur">
+    <div class="x-select" tabindex="-1" ref="SelectRef" @click="XSelect_Click" @blur="XSelect_Blur($event)">
       <span>{{ (selected?.text || placeholder) || '&nbsp' }}</span>
       <i class="icon-arrow-down"></i>
     </div>
@@ -9,7 +9,7 @@
           :key="index"
           :value="item.value"
           :class="{'selected': item.value === selected?.value}"
-          @click.stop="li_click(item)">{{ item.text }}
+          @click.stop="XSelect_Item_Click(item)">{{ item.text }}
       </li>
     </ul>
   </div>
@@ -17,12 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import {ref,} from 'Vue';
+import {ref} from 'Vue';
 import type {XSelectItem} from "@/entity/component/XSupport";
 
 const emits = defineEmits(['update:modelValue'])
-
-
 const props = defineProps({
   modelValue: {type: String, default: ""},
   options: {type: Array<XSelectItem>},
@@ -33,9 +31,8 @@ const selected = ref<XSelectItem | null>(null);
 const expand = ref<boolean>(false);
 
 
-
 // 点击事件 控制显示隐藏
-function XSelect() {
+function XSelect_Click() {
   expand.value = !expand.value;
   /**
    * 给div增加focus
@@ -45,16 +42,17 @@ function XSelect() {
 }
 
 // div失去焦点事件
-function XSelectBlur() {
+function XSelect_Blur(e:any) {
+
+
   setTimeout(() => {
     expand.value = false
   }, 180)
 }
 
 // 下拉列表点击事件
-function li_click(item: XSelectItem) {
+function XSelect_Item_Click(item: XSelectItem) {
   selected.value = item;
-  expand.value = false
   emits('update:modelValue', item.value)
 }
 
