@@ -2,6 +2,14 @@ export class XRouter {
     name?: string;
     component: any;
 }
+
+export class XDatePickerDay {
+    date: number = 0;
+    month: number = 0;
+    year: number = 0;
+    today: boolean = false;
+    selected: boolean = false;
+}
 export class XSelectItem{
     text:string = '';
     value:string = '';
