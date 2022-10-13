@@ -1,6 +1,6 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
-    <input class="x-input-clean" ref="XDatePickerInput" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
+    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
            :value="modelValue"
            :placeholder="placeholder"
            :disabled="disabled"/>
