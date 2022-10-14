@@ -69,7 +69,9 @@ h1, h2, h3, h4, h5, h6 {
 .flex {
     display: flex
 }
-
+.flex-shrink{
+    flex-shrink: 1;
+}
 .rota90 {
     transform: rotate(90deg);
 }
@@ -131,6 +133,7 @@ h1, h2, h3, h4, h5, h6 {
     --theme-bgcolor: rgb(var(--white-1));
     --theme-color: rgb(var(--theme));
     --theme-border: rgb(var(--gray-3));
+    --theme-selected:#E3F4FC;/* 组件选中颜色 */
     --theme-text: var(--gray-8); /*文本颜色*/
     --theme-menu: 0, 21, 41; /*菜单背景色*/
     --theme-menu-child: #0C2135; /*菜单背景色*/

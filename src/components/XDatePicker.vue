@@ -1,36 +1,37 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
-    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @click="XDateDialog_Click" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
+    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @keydown="()=>{return false}"
+           @click="XDateDialog_Click" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
            :value="modelValue"
            :placeholder="placeholder"
            :disabled="disabled"/>
-    <i class="icon-rili">
-
-    </i>
+    <i class="icon-rili"></i>
     <div class="x-date-dialog" @click="XDateDialog_Click">
       <div class="control">
-        <i @click="Month_Change(-1)" class="icon-caret-left"></i>
-        <span style="font-size: 1.2em">{{ XDPMonth + 1 }}</span>
-        <span style="font-size: 1.2em">{{ XDPYear }}</span>
-        <i @click="Month_Change(1)" class="icon-caret-right"></i>
+        <span class="y" >{{ XDPYear }}</span>
+        <span class="m" >{{ XDPMonth + 1 }}</span>
+        <span class="w100"></span>
+        <span class="btn"><i @click="Month_Change(-1)" class="icon-caret-left"></i></span>
+        <span class="btn"><i @click="Month_Change(1)" class="icon-caret-right"></i></span>
+
       </div>
       <div class="content">
         <table>
           <thead>
           <tr>
-            <th>周一</th>
-            <th>周二</th>
-            <th>周三</th>
-            <th>周四</th>
-            <th>周五</th>
-            <th>周六</th>
-            <th>周日</th>
+            <th>一</th>
+            <th>二</th>
+            <th>三</th>
+            <th>四</th>
+            <th>五</th>
+            <th>六</th>
+            <th>日</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="w in days">
             <td v-for="d in w" @click="XDatePickerDay_Click(d)"
-                :class="{ today: d?.today,selected:d?.selected, OtherMonth:  d?.month !== XDPMonth }">
+                :class="{ today: d?.today,selected:d?.selected, 'other-month':  d?.month !== XDPMonth }">
               <span>{{ d?.day }}</span>
             </td>
             <!--(wi===0 && d > 7)||(wi >3 && d<7 )-->
@@ -70,11 +71,8 @@ const dateSelected = ref<any | null>(null);
 
 
 onMounted(() => {
-  let $now = new Date();
-  XDPYear.value = $now.getFullYear();
-  XDPMonth.value = $now.getMonth();
-  XDPDay.value = $now.getDate();
 
+  XDateReset();
   Init();
 });
 
@@ -90,6 +88,7 @@ function DocumentOnceClick() {
   if (!activeControl) {
     //先maxHeight > 0 opacity > 0 动画 再延时隐藏，
     window.setTimeout(() => {
+      XDateReset();
       active.value = false;
       document.removeEventListener('click', DocumentOnceClick)
     }, 10)
@@ -99,6 +98,7 @@ function DocumentOnceClick() {
 
 
 function Init() {
+  console.log(XDPYear.value, XDPMonth.value);
   let first = new Date(XDPYear.value, XDPMonth.value, 1)
   let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
   days.splice(0, days.length);
@@ -157,8 +157,17 @@ function Init() {
 
 }
 
+function XDateReset() {
+  let now = new Date();
+  XDPYear.value = now.getFullYear();
+  XDPMonth.value = now.getMonth();
+  XDPDay.value = now.getDate();
+}
+
 //FOCUS
 function XDatePicker_Focus() {
+  Init();
+
   active.value = true;
   activeControl = true;
   document.addEventListener('click', DocumentOnceClick);
@@ -192,6 +201,8 @@ function XDatePickerDay_Click(date: any) {
   XDPDay.value = date.day;
   date.selected = true;
   dateSelected.value = date;
+
+
   emits('update:modelValue', `${date.year}/${date.month < 9 ? '0' : ''}${date.month + 1}/${date.day < 10 ? '0' : ''}${date.day}`)
 }
 </script>
@@ -221,20 +232,35 @@ function XDatePickerDay_Click(date: any) {
   }
 
   .x-date-dialog {
-    .control {
-      height: 30px;
-      display: flex;
-
-      i {
-        flex-shrink: 1;
-      }
-    }
 
     .control {
       display: flex;
+      height: 50px;
       justify-content: space-between;
       align-items: center;
       padding: 0 10px;
+      font-size: 1.1em;
+
+      .btn {
+        width: 30px;
+        text-align: center;
+        flex-shrink: 0;
+        i:hover{
+          color:var(--theme-hover)
+        }
+      }
+      .y,.m{
+        flex-shrink: 0;
+        font-size: 1.2em;
+        margin: 0 0.4em;
+        padding:0 0.2em;
+        cursor: pointer;
+        border-bottom: 2px solid rgb(var(--gray-8));
+        &:hover{
+          color:var(--theme-hover);
+          border-color: var(--theme-hover);
+        }
+      }
     }
 
     .content {
@@ -249,42 +275,51 @@ function XDatePickerDay_Click(date: any) {
         margin: 0;
 
         th {
-          background-color: #F1F1F1;
-          color: #A5A5A5;
+
+          color: rgb(var(--gray-9));
           height: 24px;
           line-height: 24px;
         }
 
-        .OtherMonth {
-          color: rgb(var(--gray-6));
-          background-color: #cecece;
+        .other-month {
+          color: rgb(var(--gray-4));
         }
 
         td {
-          background-color: #FAFAFA;
-          color: #A5A5A5;
+          color: rgb(var(--gray-8));
           cursor: pointer;
+          overflow: hidden;
 
-          &:hover {
-            border: 1px solid var(--theme-hover);
-            border-radius: 5px;
+          span {
+            display: inline-block;
+            width:28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 14px;
+            &:hover {
+              background-color: #F5F5F5;
+              color:rgb(var(--gray-8));
+            }
           }
         }
 
         th, td {
+          border: 1px solid #fff;
           text-align: center;
-          border: 1px solid #DCDCDC;
           user-select: none;
         }
 
         .today {
           color: var(--theme-hover);
-
+font-weight: 700;
         }
 
         .selected {
-          background-color: var(--theme-hover);
-          color: #fff;
+          span{
+            background-color: #E3F4FC;
+            color:rgb(var(--gray-8));
+            font-weight: 700;
+          }
         }
       }
     }
@@ -296,6 +331,7 @@ function XDatePickerDay_Click(date: any) {
     width: 300px;
     position: absolute;
     background-color: #fff;
+    padding-top:5px;
     box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
     border-bottom: 1px solid #BBBBBB;
     border-left: 1px solid #CCCCCC;
