@@ -1,6 +1,6 @@
 <template>
   <div class="x-date-picker" :class="{ active:active }">
-    <input class="x-input-clean" maxlength="0" ref="XDatePickerInput" @keydown="()=>{return false}"
+    <input class="x-input-clean" maxlength="0" @keydown="()=>{return false}"
            @click="XDateDialog_Click" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
            :value="modelValue"
            :placeholder="placeholder"
@@ -8,8 +8,27 @@
     <i class="icon-rili"></i>
     <div class="x-date-dialog" @click="XDateDialog_Click">
       <div class="control">
-        <span class="y" >{{ XDPYear }}</span>
-        <span class="m" >{{ XDPMonth + 1 }}</span>
+        <div class="ym" :class="{expand:yearOptionsExpand}">
+          <div tabindex="-1" @focus="yearSelect_Focus" @blur="yearOptions_Click(0)">{{ XDPYear }}
+            年
+          </div>
+          <ul class="options" ref="yearOptions">
+            <li @click="yearOptions_Click(i+1899)" class="option-item" :class="{selected:i === XDPYear-1899}"
+                v-for="i in 200">{{ 1899 + i }}
+            </li>
+          </ul>
+        </div>
+        <div class="ym" :class="{expand:monthOptionsExpand}">
+          <div tabindex="-1" @focus="monthSelect_Focus" @blur="monthOptions_Click(0)">
+            {{ XDPMonth + 1 }} 月
+          </div>
+          <ul class="options" ref="monthOptions">
+            <li @click="monthOptions_Click(i)" class="option-item" :class="{selected:i === XDPMonth+1}" v-for="i in 12">
+              {{ i }}
+            </li>
+          </ul>
+        </div>
+
         <span class="w100"></span>
         <span class="btn"><i @click="Month_Change(-1)" class="icon-caret-left"></i></span>
         <span class="btn"><i @click="Month_Change(1)" class="icon-caret-right"></i></span>
@@ -53,8 +72,9 @@ const props = defineProps({
   disabled: {type: Boolean, default: false}
 });
 const emits = defineEmits(['update:modelValue'])
-//ref input
-let XDatePickerInput = ref(null);
+//ref element
+let yearOptions = ref(null);
+let monthOptions = ref<Element | null>(null);
 //dialog显示状态
 const active = ref<boolean>(false);
 //dialog显示状态，辅助控制（配合document click）
@@ -64,6 +84,11 @@ const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
 const XDPDay = ref<number>(0);
 
+//年份 select 展开状态
+const yearOptionsExpand = ref<boolean>(false);
+//月份 select 展开状态
+const monthOptionsExpand = ref<boolean>(false);
+
 //content 所有日期集合
 const days = reactive<any>([]);
 //选中的日期
@@ -71,10 +96,53 @@ const dateSelected = ref<any | null>(null);
 
 
 onMounted(() => {
-
   XDateReset();
   Init();
 });
+
+//年，展开
+function yearSelect_Focus() {
+  //展开操作，将XDPYear年份滚动到合适的位置
+
+  yearOptionsExpand.value = !yearOptionsExpand.value;
+  //这里需要知道一个，值change后视图更新完的 callback的事件
+  setTimeout(() => {
+    yearOptions.value.scrollTop = (XDPYear.value - 1900) * 22;
+
+  }, 100)
+}
+
+function monthSelect_Focus() {
+  //展开操作，将XDPYear年份滚动到合适的位置
+
+  monthOptionsExpand.value = !monthOptionsExpand.value;
+  setTimeout(() => {
+    monthOptions.value.scrollTop = (XDPMonth.value) * 22;
+
+  }, 100)
+}
+
+//年，选定
+function yearOptions_Click(y: number) {
+  if (y) {
+    XDPYear.value = y;
+    Init();
+  }
+  window.setTimeout(() => {
+    yearOptionsExpand.value = false;
+  }, 100);
+}
+
+//月，选定
+function monthOptions_Click(m: number) {
+  if (m) {
+    XDPMonth.value = m - 1;
+    Init();
+  }
+  window.setTimeout(() => {
+    monthOptionsExpand.value = false;
+  }, 100);
+}
 
 //dialog显示状态，在document click冒泡前告诉他点击了控价区域
 function XDateDialog_Click() {
@@ -98,7 +166,6 @@ function DocumentOnceClick() {
 
 
 function Init() {
-  console.log(XDPYear.value, XDPMonth.value);
   let first = new Date(XDPYear.value, XDPMonth.value, 1)
   let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
   days.splice(0, days.length);
@@ -245,20 +312,63 @@ function XDatePickerDay_Click(date: any) {
         width: 30px;
         text-align: center;
         flex-shrink: 0;
-        i:hover{
-          color:var(--theme-hover)
+
+        i:hover {
+          color: var(--theme-hover)
         }
       }
-      .y,.m{
+
+      .ym {
         flex-shrink: 0;
         font-size: 1.2em;
         margin: 0 0.4em;
-        padding:0 0.2em;
+        padding: 0 0.2em;
         cursor: pointer;
         border-bottom: 2px solid rgb(var(--gray-8));
-        &:hover{
-          color:var(--theme-hover);
+        position: relative;
+
+        &:hover {
+          color: var(--theme-hover);
           border-color: var(--theme-hover);
+        }
+
+        &.expand {
+          .options {
+            display: block;
+          }
+        }
+
+        .options {
+          transition: s;
+          position: absolute;
+          display: none;
+          max-height: 175px;
+          overflow: auto;
+          top: 34px;
+          left: 0;
+          width: 100%;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-bottom-color: #bbb;
+          box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
+
+          li {
+            text-align: center;
+            font-size: 14px;
+            line-height: 22px;
+            height: 22px;
+            color: rgb(var(--gray-8));
+
+            &:hover {
+              color: var(--theme-hover);
+              background-color: #F5F5F5;
+            }
+
+            &.selected {
+              background-color: #E3F4FC !important;
+              font-weight: 700;
+            }
+          }
         }
       }
     }
@@ -285,6 +395,10 @@ function XDatePickerDay_Click(date: any) {
           color: rgb(var(--gray-4));
         }
 
+        td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5) {
+          font-weight: 700;
+        }
+
         td {
           color: rgb(var(--gray-8));
           cursor: pointer;
@@ -292,13 +406,15 @@ function XDatePickerDay_Click(date: any) {
 
           span {
             display: inline-block;
-            width:28px;
-            height: 28px;
-            line-height: 28px;
-            border-radius: 14px;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 16px;
+
             &:hover {
               background-color: #F5F5F5;
-              color:rgb(var(--gray-8));
+              color: rgb(var(--gray-8));
+              transition: background-color .2s;
             }
           }
         }
@@ -311,14 +427,15 @@ function XDatePickerDay_Click(date: any) {
 
         .today {
           color: var(--theme-hover);
-font-weight: 700;
+          font-weight: 700;
         }
 
         .selected {
-          span{
+          span {
             background-color: #E3F4FC;
-            color:rgb(var(--gray-8));
+            color: rgb(var(--gray-8));
             font-weight: 700;
+            transition: background-color .2s;
           }
         }
       }
@@ -331,12 +448,10 @@ font-weight: 700;
     width: 300px;
     position: absolute;
     background-color: #fff;
-    padding-top:5px;
+    padding-top: 5px;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
     box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
-    border-bottom: 1px solid #BBBBBB;
-    border-left: 1px solid #CCCCCC;
-    border-right: 1px solid #CCCCCC;
-    border-top: 1px solid #CCCCCC;
   }
 }
 
