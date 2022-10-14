@@ -197,3 +197,185 @@ input:hover, button:hover, textarea:hover, select:hover {
   }
 }
 /*switch end*/
+
+/*date-picker*/
+.x-date-picker {
+  padding: 0 0.6em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+
+  &.active {
+    border-color: var(--theme-hover);
+    box-shadow: 0 0 3px 0 var(--theme-hover);
+
+    .x-date-dialog {
+      display: block;
+    }
+  }
+
+  i {
+    flex-shrink: 1;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .x-date-dialog {
+
+    .control {
+      display: flex;
+      height: 50px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 1.1em;
+
+      .btn {
+        width: 30px;
+        text-align: center;
+        flex-shrink: 0;
+
+        i:hover {
+          color: var(--theme-hover)
+        }
+      }
+
+      .ym {
+        flex-shrink: 0;
+        font-size: 1.2em;
+        margin: 0 0.4em;
+        padding: 0 0.2em;
+        cursor: pointer;
+        border-bottom: 2px solid rgb(var(--gray-8));
+        position: relative;
+
+        &:hover {
+          color: var(--theme-hover);
+          border-color: var(--theme-hover);
+        }
+
+        &.expand {
+          .options {
+            display: block;
+          }
+        }
+
+        .options {
+          transition: s;
+          position: absolute;
+          display: none;
+          max-height: 175px;
+          overflow: auto;
+          top: 34px;
+          left: 0;
+          width: 100%;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-bottom-color: #bbb;
+          box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
+
+          li {
+            text-align: center;
+            font-size: 14px;
+            line-height: 22px;
+            height: 22px;
+            color: rgb(var(--gray-8));
+
+            &:hover {
+              color: var(--theme-hover);
+              background-color: #F5F5F5;
+            }
+
+            &.selected {
+              background-color: #E3F4FC !important;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+
+    .content {
+      padding: 0 10px 10px 10px;
+
+      table {
+        font-size: 11px;
+        width: 100%;
+        border-collapse: collapse;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+
+        th {
+
+          color: rgb(var(--gray-9));
+          height: 24px;
+          line-height: 24px;
+        }
+
+        .other-month {
+          color: rgb(var(--gray-4));
+        }
+
+        td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5) {
+          font-weight: 700;
+        }
+
+        td {
+          color: rgb(var(--gray-8));
+          cursor: pointer;
+          overflow: hidden;
+
+          span {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 16px;
+
+            &:hover {
+              background-color: #F5F5F5;
+              color: rgb(var(--gray-8));
+              transition: background-color .2s;
+            }
+          }
+        }
+
+        th, td {
+          border: 1px solid #fff;
+          text-align: center;
+          user-select: none;
+        }
+
+        .today {
+          color: var(--theme-hover);
+          font-weight: 700;
+        }
+
+        .selected {
+          span {
+            background-color: #E3F4FC;
+            color: rgb(var(--gray-8));
+            font-weight: 700;
+            transition: background-color .2s;
+          }
+        }
+      }
+    }
+
+    z-index: 1001;
+    display: none;
+    top: 38px;
+    left: -1px;
+    width: 300px;
+    position: absolute;
+    background-color: #fff;
+    padding-top: 5px;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
+    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
+  }
+}
+
+/*date-picker end*/

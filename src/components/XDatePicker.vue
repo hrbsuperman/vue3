@@ -9,7 +9,7 @@
     <div class="x-date-dialog" @click="XDateDialog_Click">
       <div class="control">
         <div class="ym" :class="{expand:yearOptionsExpand}">
-          <div tabindex="-1" @focus="yearSelect_Focus" @blur="yearOptions_Click(0)">{{ XDPYear }}
+          <div tabindex="-1" @focus="yearSelect_Focus" @blur="delayedClose(0)">{{ XDPYear }}
             年
           </div>
           <ul class="options" ref="yearOptions">
@@ -19,7 +19,7 @@
           </ul>
         </div>
         <div class="ym" :class="{expand:monthOptionsExpand}">
-          <div tabindex="-1" @focus="monthSelect_Focus" @blur="monthOptions_Click(0)">
+          <div tabindex="-1" @focus="monthSelect_Focus" @blur="delayedClose(1)">
             {{ XDPMonth + 1 }} 月
           </div>
           <ul class="options" ref="monthOptions">
@@ -28,11 +28,9 @@
             </li>
           </ul>
         </div>
-
         <span class="w100"></span>
         <span class="btn"><i @click="Month_Change(-1)" class="icon-caret-left"></i></span>
         <span class="btn"><i @click="Month_Change(1)" class="icon-caret-right"></i></span>
-
       </div>
       <div class="content">
         <table>
@@ -105,10 +103,11 @@ function yearSelect_Focus() {
   //展开操作，将XDPYear年份滚动到合适的位置
 
   yearOptionsExpand.value = !yearOptionsExpand.value;
-  //这里需要知道一个，值change后视图更新完的 callback的事件
+  //1、这里需要知道一个，值change后视图更新完的 callback的事件
+  //2、设定scrollTop 后
   setTimeout(() => {
-    yearOptions.value.scrollTop = (XDPYear.value - 1900) * 22;
-
+    //yearOptions.value.scrollTop = (XDPYear.value - 1900) * 22;
+    yearOptions.value.scrollTo({top: (XDPYear.value - 1900) * 22})
   }, 100)
 }
 
@@ -124,24 +123,27 @@ function monthSelect_Focus() {
 
 //年，选定
 function yearOptions_Click(y: number) {
-  if (y) {
-    XDPYear.value = y;
-    Init();
-  }
-  window.setTimeout(() => {
-    yearOptionsExpand.value = false;
-  }, 100);
+  XDPYear.value = y;
+  Init();
 }
 
 //月，选定
 function monthOptions_Click(m: number) {
-  if (m) {
-    XDPMonth.value = m - 1;
-    Init();
-  }
+  XDPMonth.value = m - 1;
+  Init();
+}
+//延时关闭，展开select
+function delayedClose(type: number) {
   window.setTimeout(() => {
-    monthOptionsExpand.value = false;
-  }, 100);
+    switch (type) {
+      case 0:
+        yearOptionsExpand.value = false;
+        break;
+      case 1:
+        monthOptionsExpand.value = false;
+        break;
+    }
+  }, 160);
 }
 
 //dialog显示状态，在document click冒泡前告诉他点击了控价区域
@@ -164,7 +166,7 @@ function DocumentOnceClick() {
   activeControl = false;
 }
 
-
+//日历根据XDPYear、Month初始化
 function Init() {
   let first = new Date(XDPYear.value, XDPMonth.value, 1)
   let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
@@ -268,193 +270,9 @@ function XDatePickerDay_Click(date: any) {
   XDPDay.value = date.day;
   date.selected = true;
   dateSelected.value = date;
-
-
   emits('update:modelValue', `${date.year}/${date.month < 9 ? '0' : ''}${date.month + 1}/${date.day < 10 ? '0' : ''}${date.day}`)
 }
 </script>
 <style lang="less" scoped>
-
-/*date-picker*/
-.x-date-picker {
-  padding: 0 0.6em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-
-  &.active {
-    border-color: var(--theme-hover);
-    box-shadow: 0 0 3px 0 var(--theme-hover);
-
-    .x-date-dialog {
-      display: block;
-    }
-  }
-
-  i {
-    flex-shrink: 1;
-    width: 20px;
-    cursor: pointer;
-  }
-
-  .x-date-dialog {
-
-    .control {
-      display: flex;
-      height: 50px;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      font-size: 1.1em;
-
-      .btn {
-        width: 30px;
-        text-align: center;
-        flex-shrink: 0;
-
-        i:hover {
-          color: var(--theme-hover)
-        }
-      }
-
-      .ym {
-        flex-shrink: 0;
-        font-size: 1.2em;
-        margin: 0 0.4em;
-        padding: 0 0.2em;
-        cursor: pointer;
-        border-bottom: 2px solid rgb(var(--gray-8));
-        position: relative;
-
-        &:hover {
-          color: var(--theme-hover);
-          border-color: var(--theme-hover);
-        }
-
-        &.expand {
-          .options {
-            display: block;
-          }
-        }
-
-        .options {
-          transition: s;
-          position: absolute;
-          display: none;
-          max-height: 175px;
-          overflow: auto;
-          top: 34px;
-          left: 0;
-          width: 100%;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-bottom-color: #bbb;
-          box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
-
-          li {
-            text-align: center;
-            font-size: 14px;
-            line-height: 22px;
-            height: 22px;
-            color: rgb(var(--gray-8));
-
-            &:hover {
-              color: var(--theme-hover);
-              background-color: #F5F5F5;
-            }
-
-            &.selected {
-              background-color: #E3F4FC !important;
-              font-weight: 700;
-            }
-          }
-        }
-      }
-    }
-
-    .content {
-      padding: 0 10px 10px 10px;
-
-      table {
-        font-size: 11px;
-        width: 100%;
-        border-collapse: collapse;
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-
-        th {
-
-          color: rgb(var(--gray-9));
-          height: 24px;
-          line-height: 24px;
-        }
-
-        .other-month {
-          color: rgb(var(--gray-4));
-        }
-
-        td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5) {
-          font-weight: 700;
-        }
-
-        td {
-          color: rgb(var(--gray-8));
-          cursor: pointer;
-          overflow: hidden;
-
-          span {
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-            line-height: 32px;
-            border-radius: 16px;
-
-            &:hover {
-              background-color: #F5F5F5;
-              color: rgb(var(--gray-8));
-              transition: background-color .2s;
-            }
-          }
-        }
-
-        th, td {
-          border: 1px solid #fff;
-          text-align: center;
-          user-select: none;
-        }
-
-        .today {
-          color: var(--theme-hover);
-          font-weight: 700;
-        }
-
-        .selected {
-          span {
-            background-color: #E3F4FC;
-            color: rgb(var(--gray-8));
-            font-weight: 700;
-            transition: background-color .2s;
-          }
-        }
-      }
-    }
-
-    z-index: 1001;
-    display: none;
-    top: 38px;
-    left: -1px;
-    width: 300px;
-    position: absolute;
-    background-color: #fff;
-    padding-top: 5px;
-    border: 1px solid #ccc;
-    border-bottom-color: #bbb;
-    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
-  }
-}
-
-/*date-picker end*/
 
 </style>
