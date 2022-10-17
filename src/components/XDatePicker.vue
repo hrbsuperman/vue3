@@ -101,24 +101,14 @@ onMounted(() => {
 //年，展开
 function yearSelect_Focus() {
   //展开操作，将XDPYear年份滚动到合适的位置
-
   yearOptionsExpand.value = !yearOptionsExpand.value;
-  //1、这里需要知道一个，值change后视图更新完的 callback的事件
-  //2、设定scrollTop 后
-  setTimeout(() => {
-    //yearOptions.value.scrollTop = (XDPYear.value - 1900) * 22;
-    yearOptions.value.scrollTo({top: (XDPYear.value - 1900) * 22})
-  }, 100)
+  yearOptions.value.scrollTo({top: (XDPYear.value - 1900) * 22})
 }
 
 function monthSelect_Focus() {
   //展开操作，将XDPYear年份滚动到合适的位置
-
   monthOptionsExpand.value = !monthOptionsExpand.value;
-  setTimeout(() => {
-    monthOptions.value.scrollTop = (XDPMonth.value) * 22;
-
-  }, 100)
+  monthOptions.value.scrollTop = (XDPMonth.value) * 22;
 }
 
 //年，选定

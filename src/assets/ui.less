@@ -122,7 +122,7 @@ input:hover, button:hover, textarea:hover, select:hover {
     line-height: 34px;
     max-height: calc(34px * 5);
 
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
     border-bottom-color: #bbb;
     box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
     background-color: #fff;
@@ -160,6 +160,7 @@ input:hover, button:hover, textarea:hover, select:hover {
   &.checked .x-switch:after {
     left: 22px !important;
   }
+
   .x-switch {
     cursor: pointer;
     top: 50%;
@@ -196,6 +197,7 @@ input:hover, button:hover, textarea:hover, select:hover {
     }
   }
 }
+
 /*switch end*/
 
 /*date-picker*/
@@ -257,30 +259,32 @@ input:hover, button:hover, textarea:hover, select:hover {
 
         &.expand {
           .options {
-            display: block;
+            max-height: 175px;
+            border: 1px solid #ccc;
+            border-bottom-color: #bbb;
+            box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
           }
         }
 
         .options {
-          transition: s;
           position: absolute;
-          display: none;
-          max-height: 175px;
-          overflow: auto;
+          max-height: 0;
+          overflow: hidden;
           top: 34px;
           left: 0;
           width: 100%;
           background-color: #fff;
-          border: 1px solid #ccc;
-          border-bottom-color: #bbb;
-          box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
-
+          transition: all .2s;
+          &:hover{
+            overflow-y: auto;
+          }
           li {
-            text-align: center;
             font-size: 14px;
             line-height: 22px;
             height: 22px;
             color: rgb(var(--gray-8));
+            padding-left: 1em;
+            box-sizing: border-box;
 
             &:hover {
               color: var(--theme-hover);
