@@ -75,7 +75,7 @@ let yearOptions = ref<Element | null>(null);
 let monthOptions = ref<Element | null>(null);
 //dialog显示状态
 const active = ref<boolean>(false);
-//dialog显示状态，辅助控制（配合document click）
+//dialog 显示状态，document 冒泡前设置true ? document冒泡不收起 dialog && activeControl = false
 let activeControl = false;
 //content 当前月份、日期
 const XDPYear = ref<number>(0);
@@ -104,18 +104,16 @@ function yearSelect_Focus() {
   yearOptionsExpand.value = !yearOptionsExpand.value;
   yearOptions.value && (yearOptions.value.scrollTop = (XDPYear.value - 1900 - 3) * 22);
 }
-
+//月，展开
 function monthSelect_Focus() {
   monthOptionsExpand.value = !monthOptionsExpand.value;
   monthOptions.value && (monthOptions.value.scrollTop = (XDPMonth.value - 3) * 22);
 }
-
 //年，选定
 function yearOptions_Click(y: number) {
   XDPYear.value = y;
   Init();
 }
-
 //月，选定
 function monthOptions_Click(m: number) {
   XDPMonth.value = m - 1;
@@ -158,10 +156,9 @@ function DocumentOnceClick() {
 
 //日历根据XDPYear、Month初始化
 function Init() {
-
-  let first = new Date(XDPYear.value, XDPMonth.value, 1)
-  let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
-  days.splice(0, days.length);
+  let first = new Date(XDPYear.value, XDPMonth.value, 1)//第一天
+  let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);//最后一天
+  days.splice(0, days.length);//清除数组，有个问题，
   let monthDays = last.getDate();//当月天数
   let weekIndex = 0;//当前日期的周索引
   let dayIndex = first.getUTCDay();//日期在本周的索引
@@ -182,6 +179,7 @@ function Init() {
       //重新渲染，恢复选中状态
       selected: dateSelected.value ? dateSelected.value.year === XDPYear.value && dateSelected.value.month === XDPMonth.value && dateSelected.value.day === day : false
     };
+    //重新设置selected对象引用关系
     days[weekIndex][dayIndex].selected && (dateSelected.value = days[weekIndex][dayIndex])
     day += 1;
     dayIndex += 1;
@@ -218,12 +216,6 @@ function Init() {
   }
 }
 
-function XDateReset() {
-  let now = new Date();
-  XDPYear.value = now.getFullYear();
-  XDPMonth.value = now.getMonth();
-  XDPDay.value = now.getDate();
-}
 
 //FOCUS
 function XDatePicker_Focus() {
@@ -236,16 +228,17 @@ function XDatePicker_Focus() {
         XDPYear.value = parseInt(dayArr[0]);
         XDPMonth.value = parseInt(dayArr[1]) - 1;
         XDPDay.value = parseInt(dayArr[2]);
+
+
+        //XDP，表示当前渲染月份
+        //XDP 与 selected 月份不一致重新渲染
+        Init();
       }
-      //XDP，表示当前渲染月份
-      //XDP 与 selected 月份不一致重新渲染
-      Init();
     }
   }
-
-
   active.value = true;
   activeControl = true;
+  //document click 冒泡
   document.addEventListener('click', DocumentOnceClick);
 }
 
@@ -253,7 +246,13 @@ function XDatePicker_Focus() {
 function XDatePicker_Blur() {
 
 }
-
+//设置当前渲染月份为NOW
+function XDateReset() {
+  let now = new Date();
+  XDPYear.value = now.getFullYear();
+  XDPMonth.value = now.getMonth();
+  XDPDay.value = now.getDate();
+}
 //月份 +-
 function Month_Change(i: number) {
   let targetMonth = XDPMonth.value + i;
@@ -281,6 +280,3 @@ function XDatePickerDay_Click(date: any) {
   emits('update:modelValue', value)
 }
 </script>
-<style lang="less" scoped>
-
-</style>
