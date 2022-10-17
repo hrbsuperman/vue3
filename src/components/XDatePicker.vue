@@ -71,7 +71,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['update:modelValue'])
 //ref element
-let yearOptions = ref(null);
+let yearOptions = ref<Element | null>(null);
 let monthOptions = ref<Element | null>(null);
 //dialog显示状态
 const active = ref<boolean>(false);
@@ -102,13 +102,12 @@ onMounted(() => {
 function yearSelect_Focus() {
   //展开操作，将XDPYear年份滚动到合适的位置
   yearOptionsExpand.value = !yearOptionsExpand.value;
-  yearOptions.value.scrollTo({top: (XDPYear.value - 1900) * 22})
+  yearOptions.value && (yearOptions.value.scrollTop = (XDPYear.value - 1900 - 3) * 22);
 }
 
 function monthSelect_Focus() {
-  //展开操作，将XDPYear年份滚动到合适的位置
   monthOptionsExpand.value = !monthOptionsExpand.value;
-  monthOptions.value.scrollTop = (XDPMonth.value) * 22;
+  monthOptions.value && (monthOptions.value.scrollTop = (XDPMonth.value - 3) * 22);
 }
 
 //年，选定
@@ -122,6 +121,7 @@ function monthOptions_Click(m: number) {
   XDPMonth.value = m - 1;
   Init();
 }
+
 //延时关闭，展开select
 function delayedClose(type: number) {
   window.setTimeout(() => {
@@ -158,6 +158,7 @@ function DocumentOnceClick() {
 
 //日历根据XDPYear、Month初始化
 function Init() {
+
   let first = new Date(XDPYear.value, XDPMonth.value, 1)
   let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);
   days.splice(0, days.length);
@@ -178,8 +179,9 @@ function Init() {
       month: XDPMonth.value,
       day: day,
       today: day === XDPDay.value,
-      selected: false
+      selected: dateSelected.value ? dateSelected.value.year === XDPYear.value && dateSelected.value.month === XDPMonth.value && dateSelected.value.day === day : false
     };
+    days[weekIndex][dayIndex].selected && (dateSelected.value = days[weekIndex][dayIndex])
     day += 1;
     dayIndex += 1;
   }
@@ -225,6 +227,15 @@ function XDateReset() {
 
 //FOCUS
 function XDatePicker_Focus() {
+  if(props.modelValue){
+      let dayArr = props.modelValue.split('/');
+      if(dayArr.length == 3){
+        XDPYear.value =  parseInt(dayArr[0]);
+        XDPMonth.value =  parseInt(dayArr[1])-1;
+        XDPDay.value =  parseInt(dayArr[2]);
+      }
+  }
+
   Init();
 
   active.value = true;
@@ -260,7 +271,8 @@ function XDatePickerDay_Click(date: any) {
   XDPDay.value = date.day;
   date.selected = true;
   dateSelected.value = date;
-  emits('update:modelValue', `${date.year}/${date.month < 9 ? '0' : ''}${date.month + 1}/${date.day < 10 ? '0' : ''}${date.day}`)
+  let value = `${date.year}/${date.month < 9 ? '0' : ''}${date.month + 1}/${date.day < 10 ? '0' : ''}${date.day}`;
+  emits('update:modelValue', value)
 }
 </script>
 <style lang="less" scoped>

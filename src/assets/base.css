@@ -114,7 +114,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-    --white-1: 255, 255, 255;
     --gray-1: 247, 248, 250;
     --gray-2: 242, 243, 245;
     --gray-3: 229, 230, 235;
@@ -133,6 +132,7 @@ h1, h2, h3, h4, h5, h6 {
     --theme-bgcolor: rgb(var(--white-1));
     --theme-color: rgb(var(--theme));
     --theme-border: rgb(var(--gray-3));
+
     --theme-selected:#E3F4FC;/* 组件选中颜色 */
     --theme-text: var(--gray-8); /*文本颜色*/
     --theme-menu: 0, 21, 41; /*菜单背景色*/

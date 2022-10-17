@@ -157,27 +157,34 @@ input:hover, button:hover, textarea:hover, select:hover {
   display: inline-block;
   position: relative;
 
-  &.checked .x-switch:after {
-    left: 22px !important;
+  &.checked {
+    .x-switch {
+      background-color: var(--theme-color);
+
+      &:after {
+        left: 22px !important;
+
+      }
+    }
   }
 
   .x-switch {
     cursor: pointer;
     top: 50%;
     left: 50%;
+    background-color: rgb(var(--gray-4));
     transform: translate(-50%, -50%);
     display: inline-block;
     line-height: var(--FormElementHeight);
     position: relative;
     padding: 1px;
+    transition: background-color var(--animationSpeed);
     //禁用
     &.disabled {
-
       cursor: not-allowed;
       box-sizing: border-box;
     }
 
-    background-color: var(--theme-color);
     width: 40px;
     height: 20px;
     border-radius: 10px;
@@ -275,9 +282,11 @@ input:hover, button:hover, textarea:hover, select:hover {
           width: 100%;
           background-color: #fff;
           transition: all .2s;
-          &:hover{
+
+          &:hover {
             overflow-y: auto;
           }
+
           li {
             font-size: 14px;
             line-height: 22px;
