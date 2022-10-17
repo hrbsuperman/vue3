@@ -179,6 +179,7 @@ function Init() {
       month: XDPMonth.value,
       day: day,
       today: day === XDPDay.value,
+      //重新渲染，恢复选中状态
       selected: dateSelected.value ? dateSelected.value.year === XDPYear.value && dateSelected.value.month === XDPMonth.value && dateSelected.value.day === day : false
     };
     days[weekIndex][dayIndex].selected && (dateSelected.value = days[weekIndex][dayIndex])
@@ -215,7 +216,6 @@ function Init() {
       x += 1;
     }
   }
-
 }
 
 function XDateReset() {
@@ -227,16 +227,22 @@ function XDateReset() {
 
 //FOCUS
 function XDatePicker_Focus() {
-  if(props.modelValue){
-      let dayArr = props.modelValue.split('/');
-      if(dayArr.length == 3){
-        XDPYear.value =  parseInt(dayArr[0]);
-        XDPMonth.value =  parseInt(dayArr[1])-1;
-        XDPDay.value =  parseInt(dayArr[2]);
+  if (props.modelValue) {
+    let dayArr = props.modelValue.split('/');
+
+
+    if (props.modelValue.toString().indexOf(`${XDPYear.value}/${XDPMonth.value}`) < 0) {
+      if (dayArr.length == 3) {
+        XDPYear.value = parseInt(dayArr[0]);
+        XDPMonth.value = parseInt(dayArr[1]) - 1;
+        XDPDay.value = parseInt(dayArr[2]);
       }
+      //XDP，表示当前渲染月份
+      //XDP 与 selected 月份不一致重新渲染
+      Init();
+    }
   }
 
-  Init();
 
   active.value = true;
   activeControl = true;
