@@ -241,7 +241,6 @@ function XDatePicker_Focus() {
   //document click 冒泡
   document.addEventListener('click', DocumentOnceClick);
 }
-
 //BLUR
 function XDatePicker_Blur() {
 

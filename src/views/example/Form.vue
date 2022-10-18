@@ -100,7 +100,7 @@ table{
 }
 .exampleForm {
   text-align: center;
-  padding: 20px;
+  padding: 0.75em;
 
   .panel {
     background-color: #fff;

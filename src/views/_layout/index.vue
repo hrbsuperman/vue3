@@ -230,6 +230,7 @@ function pageTest() {
   width: 140px;
   left: 0;
   height: 0;
+  z-index: 999;
 
   ul {
     box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030;

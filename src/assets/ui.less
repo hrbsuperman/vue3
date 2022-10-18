@@ -221,6 +221,7 @@ input:hover, button:hover, textarea:hover, select:hover {
 
     .x-date-dialog {
       display: block;
+
     }
   }
 
@@ -231,7 +232,18 @@ input:hover, button:hover, textarea:hover, select:hover {
   }
 
   .x-date-dialog {
-
+    overflow: hidden;
+    z-index: 1001;
+    display: none;
+    top: 38px;
+    left: -1px;
+    width: 300px;
+    position: absolute;
+    background-color: #fff;
+    padding-top: 5px;
+    border: 1px solid #ccc;
+    border-bottom-color: #bbb;
+    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
     .control {
       display: flex;
       height: 50px;
@@ -377,17 +389,6 @@ input:hover, button:hover, textarea:hover, select:hover {
       }
     }
 
-    z-index: 1001;
-    display: none;
-    top: 38px;
-    left: -1px;
-    width: 300px;
-    position: absolute;
-    background-color: #fff;
-    padding-top: 5px;
-    border: 1px solid #ccc;
-    border-bottom-color: #bbb;
-    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
   }
 }
 
