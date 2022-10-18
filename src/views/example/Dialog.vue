@@ -1,10 +1,10 @@
 <template>
-    <XDialog title="标题" :show="dialogOption.show" :lock="dialogOption.lock">
+    <x-dialog title="标题" :show="dialogOption.show" :lock="dialogOption.lock">
       测试
       <template v-slot:footer>
         <button>确认</button>
       </template>
-    </XDialog>
+    </x-dialog>
 
   <button @click="dialogOption.show = !dialogOption.show">
     dialog show

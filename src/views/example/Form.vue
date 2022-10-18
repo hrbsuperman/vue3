@@ -30,7 +30,7 @@ const exampleForm = reactive({});
         <tr>
           <th>x-input</th>
           <td>
-            <XIndex placeholder="请输入一些文本" v-model="exampleForm.xvalue"/>
+            <x-index placeholder="请输入一些文本" v-model="exampleForm.xvalue"/>
           </td>
           <td> {{ exampleForm.xvalue }}
           </td>
@@ -38,7 +38,7 @@ const exampleForm = reactive({});
         <tr>
           <th>x-select</th>
           <td>
-            <XSelect
+            <x-select
                 :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
                 value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
           </td>
@@ -48,7 +48,7 @@ const exampleForm = reactive({});
         <tr>
           <th>x-datePicker</th>
           <td>
-            <XDatePicker placeholder="请选择日期" v-model="exampleForm.xdatePicker"/>
+            <x-date-picker placeholder="请选择日期" v-model="exampleForm.xdatePicker"/>
           </td>
           <td> {{ exampleForm.xdatePicker }}
           </td>
@@ -56,8 +56,8 @@ const exampleForm = reactive({});
         <tr>
           <th>x-switch</th>
           <td>
-            <XSwitch v-model="exampleForm.xswitch"/>
-            <XSwitch v-model="exampleForm.xswitch"/>
+            <x-switch v-model="exampleForm.xswitch"/>
+            <x-switch v-model="exampleForm.xswitch"/>
 
           </td>
           <td> {{ exampleForm.xswitch }}
@@ -66,7 +66,7 @@ const exampleForm = reactive({});
         <tr>
           <th>x-test</th>
           <td>
-            <XTest style="display: inline-block;width:200px;"/>
+            <x-test style="display: inline-block;width:200px;"/>
           </td>
           <td></td>
         </tr>
@@ -77,7 +77,7 @@ const exampleForm = reactive({});
         <tr>
           <th></th>
           <td colspan="2">
-            <XButton @click="exampleForm.input='asdasd'" text="提交"/>
+            <x-button @click="exampleForm.input='asdasd'" text="提交"/>
           </td>
         </tr>
       </table>
