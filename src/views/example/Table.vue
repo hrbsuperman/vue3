@@ -4,7 +4,7 @@
       <p>1</p>
       <p>2</p>
     </div>
-      <x-table :columns="[{label:'表头1',key:'col1'},{label: '表头2',key:'col2'}]" data-source="[{col1:'测试',col2:'测试'}]"></x-table>
+      <XTable :columns="[{label:'表头1',key:'col1'},{label: '表头2',key:'col2'}]" data-source="[{col1:'测试',col2:'测试'}]"></XTable>
   </div>
 </template>
 

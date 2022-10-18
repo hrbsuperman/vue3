@@ -6,7 +6,7 @@
         Admin
       </div>
       <!--左侧菜单-->
-      <x-menu :dataList="xMenuData" :active-item="page.current?.name" @change="menu_Change"/>
+      <XMenu :dataList="xMenuData" :active-item="page.current?.name" @change="menu_Change"/>
     </div>
   </div>
   <div class="main">

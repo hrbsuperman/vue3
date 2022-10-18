@@ -13,7 +13,7 @@
          :style="{ maxHeight:item.displayAnimation ?(item.maxHeight || maxHeightCalc(item))+'px' :'0px !important' }">
       <div :class="item.displayAnimation?'opacityIn':'opacityOut'"
            :style="{ marginLeft:'0.75em'}">
-        <x-menu @change="toggleItem" :dataList="item?.children"></x-menu>
+        <XMenu @change="toggleItem" :dataList="item?.children"></XMenu>
       </div>
     </div>
   </template>
