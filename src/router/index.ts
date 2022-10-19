@@ -5,7 +5,7 @@ import Home from '../views/system/home.vue'
 const routers: any = {
     "home": Home,
     "customer": defineAsyncComponent(() => import('@/views/system/login.vue')),
-    "Test":defineAsyncComponent(() => import('@/views/example/Form.vue')),
+    "Test":defineAsyncComponent(() => import('@/views/example/Table.vue')),
 
 
     //Example

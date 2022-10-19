@@ -2,7 +2,7 @@
   <div class="x-dialog-box lock" v-if="show">
     <div v-if="lock" class="lock"></div>
     <div class="x-dialog">
-      <div class="head" @mousedown.self="dragClick($event)" @mouseup.self="dragClear">
+      <div class="head" @mousedown.self="dragClick($event)">
         <span class="title">{{ title }}</span>
         <div class="buttons">
           <i @click="show=false" class="icon-close"></i>
@@ -36,15 +36,22 @@ function dragClick(e: any) {
 }
 
 function dragClear() {
-  dragElement = null;
+
 
 }
 
+document.onmouseup = (e) => {
+  dragElement = null;
+}
 document.onmousemove = (e) => {
   if (dragElement) {
-    dragElement.style.left = (e.clientX - dragEL) + 'px';
-    dragElement.style.top = (e.clientY - dragET) + 'px';
+    dragElement.style.left = numFmt((e.clientX - dragEL)) + 'px';
+    dragElement.style.top = numFmt((e.clientY - dragET)) + 'px';
   }
+}
+
+function numFmt(num: number) {
+  return num < 0 ? 0 : num;
 }
 </script>
 
@@ -53,7 +60,7 @@ document.onmousemove = (e) => {
   width: 100%;
   height: 100vh;
   left: 0;
-  top:0;
+  top: 0;
   position: fixed;
 
   .lock {
@@ -81,6 +88,9 @@ document.onmousemove = (e) => {
   border-radius: 4px;
 
   .head {
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    user-select: none;
     border-bottom: 1px solid rgb(var(--gray-3));
     cursor: move;
     display: flex;

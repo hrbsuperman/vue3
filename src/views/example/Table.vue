@@ -4,18 +4,19 @@
       <p>1</p>
       <p>2</p>
     </div>
-  </div>
-  <div class="content">
+    <div class="content">
+      <x-table
+          :columns="[{label:'表头1',bind:'col1',width:'50%'},{label:'表头2',bind:'col2',width:'50%'},{label:'表头3',bind:'col3',width:'50%'}]"
+          :data="[{col1:'col1',col2:'col2',col3:'col3'},{col1:'col1',col2:'col2',col3:'col3'},{col1:'col1',col2:'col2',col3:'col3'}]"/>
 
+    </div>
   </div>
 
 </template>
 
 <script setup lang="ts">
-
-
-
-
+import XTable from "@/components/XTable.vue";
+import {ref} from "vue";
 
 </script>
 
@@ -34,8 +35,10 @@
   }
 
   .content {
-    background-color: #e6e6e6;;
-    padding-top: 0.5em;
+    background-color: #fff;
+    margin-top: 0.75em;
+    padding: 1em;
+    box-sizing: border-box;
     height: 100%;
     width: 100%;
     max-width: 100%;

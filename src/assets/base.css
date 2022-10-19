@@ -145,12 +145,12 @@ h1, h2, h3, h4, h5, h6 {
     --animationSpeed: .3s;
 }
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     overflow: auto;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: #b7b7b7;
+    background-color: #d3d3d3;
     min-height: 25px;
     min-width: 25px;
     border: 1px solid #fafafa;

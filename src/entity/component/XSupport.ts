@@ -3,6 +3,14 @@ export class XRouter {
     component: any;
 }
 
+export class XTableColumn{
+    label:string = "";
+    bind:string = "";
+    width:any = 0;
+}
+export class XTableOption{
+    columns:Array<XTableColumn> = [];
+}
 export class XDatePickerDay {
     date: number = 0;
     month: number = 0;
