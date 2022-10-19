@@ -1,29 +1,35 @@
 <template>
   <div class="x-table-box" ref="box">
-    <div class="wrapper" :style="'width:'+boxWidth+'px'">
-      <table class="x-table header" :style="'width:'+colFullWidth+'px'">
-        <colgroup>
-          <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
-        </colgroup>
-        <thead>
-        <tr>
-          <th v-for="c in columns"> {{ c.label }}</th>
-        </tr>
-        </thead>
-      </table>
+    <div class="wrapper" :style="`width:${boxWidth}px;height:${boxHeight}`">
+      <div class="header">
+        <table class="x-table" :style="`width:${colFullWidth}px`">
+          <colgroup>
+            <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
+          </colgroup>
+          <thead>
+          <tr>
+            <th v-for="c in columns"> {{ c.label }}</th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="body">
+        <table class="x-table" :style="`width:${colFullWidth}px`">
+          <colgroup>
+            <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
+          </colgroup>
+          <tbody>
+          <tr v-for="row in data">
+            <td v-for="c in columns">
+              {{ row[c.bind] }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer">
 
-      <table class="x-table bocy" :style="'width:'+colFullWidth+'px'">
-        <colgroup>
-          <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
-        </colgroup>
-        <tbody>
-        <tr v-for="row in data">
-          <td v-for="c in columns">
-            {{ row[c.bind] }}
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +41,9 @@ import type {XTableColumn} from "@/entity/component/XSupport";
 /** 组件属性 **/
 const props = defineProps({
   columns: {type: Array<XTableColumn>},
-  data: {type: Array<any>}
+  data: {type: Array<any>},
+  rowNumber: {type: Boolean, default: false},
+
 })
 /** Ref Element **/
 let box = ref<any | null>(null);
@@ -43,13 +51,24 @@ let box = ref<any | null>(null);
 const columnsWidth = ref<Array<number>>([]);
 const colAvgWidth = ref<number>(0);
 const boxWidth = ref<number>(0);
+const boxHeight = ref<number>(0);
 const colFullWidth = ref<number>(0);
+
+
+window.addEventListener('scroll', () => {
+
+  console.log('scroll')
+});
+
 onMounted(() => {
+
+
   //容器宽度
   boxWidth.value = box.value ? box.value.offsetWidth : 0;
+  boxHeight.value = box.value ? box.value.offsetHeight : 0;
   let tableColSetWidth: number = 0;//option>columns 设置宽度列合计
   let tableAvgColCount: number = 0;//未设置宽度的列平均宽度
-  props.columns.map((c) => {
+  props.columns && props.columns.map((c) => {
     if (c.width) {
       let colSetWidth = 0;
       if (typeof (c.width) === "number") {
@@ -58,7 +77,7 @@ onMounted(() => {
         let unit = c.width.toString().replace(/[0-9]+/g, '');
         switch (unit) {
           case 'px':
-            colSetWidth = c.width.replace(/px/g, '');
+            colSetWidth = parseInt(c.width.replace(/px/g, ''));
             break;
           case '%':
             colSetWidth = boxWidth.value * (parseInt(c.width.replace(/%/g, '')) / 100)
@@ -71,14 +90,10 @@ onMounted(() => {
       tableAvgColCount += 1;
       columnsWidth.value.push(0);
     }
-
   })
+  //未设置宽度的列计算平均宽度  (容器宽度 - 已设置宽度) / 未设置列数
   colAvgWidth.value = boxWidth.value > tableColSetWidth ? (boxWidth.value - tableColSetWidth) / tableAvgColCount : 0;
-  console.log('boxWidth', boxWidth.value)
-  console.log('tableColSetWidth', tableColSetWidth)
-  console.log('colAvgWidth', colAvgWidth.value)
-  console.log('tableAvgColCount', tableAvgColCount)
-
+  //表格完整宽度
   colFullWidth.value = tableColSetWidth + (colAvgWidth.value * tableAvgColCount);
 });
 </script>
@@ -88,10 +103,39 @@ onMounted(() => {
 
   font-size: 14px;
   width: 100%;
+  height: 100%;
 
   .wrapper {
     box-sizing: border-box;
-    overflow: auto;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    .header {
+      .x-table {
+        background-color: #f8f8f9;
+      }
+
+      th {
+
+        padding: 12px 5px;
+      }
+    }
+
+    .body {
+      height: 100%;
+      overflow: auto;
+
+      tr:hover {
+        background-color: #F5F7FA;
+      }
+    }
+
+    .footer {
+
+    }
 
     .x-table {
       table-layout: fixed;
@@ -104,22 +148,6 @@ onMounted(() => {
         background-repeat: no-repeat;
         background-size: 1px 100%, 100% 1px;
         background-position: 100% 0, 100% 100%;
-      }
-
-      &.header {
-
-        background-color: #f8f8f9;
-
-        th {
-
-          padding: 12px 5px;
-        }
-      }
-
-      &.body {
-        tr:hover {
-          background-color: #F5F7FA;
-        }
       }
     }
   }
