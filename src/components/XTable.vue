@@ -1,6 +1,6 @@
 <template>
   <div class="x-table-box" ref="box">
-    <div class="x-table-wrapper" :style="`width:${boxWidth}px;height:${boxHeight}`">
+    <div class="x-table-wrapper" :style="`width:${boxWidth}px;`">
       <div class="x-table-header" ref="header">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
@@ -51,18 +51,16 @@ let box = ref<any | null>(null);
 let header = ref<any | null>(null);
 let body = ref<any | null>(null);
 /** const **/
-const columnsWidth = ref<Array<number>>([]);
-const colAvgWidth = ref<number>(0);
-const boxWidth = ref<number>(0);
-const boxHeight = ref<number>(0);
-const colFullWidth = ref<number>(0);
+const columnsWidth = ref<Array<number>>([]);//所有列计算后宽度，未设置宽度为0
+const colAvgWidth = ref<number>(0);//未设置宽度列计算平均宽度， 0||avg
+const boxWidth = ref<number>(0);//容器宽度
+const colFullWidth = ref<number>(0);//设置宽度+avg*avgCount
 
-const fixedColumns = ref<Array<any>>([]);
+const fixedColumns = ref<Array<any>>([]);//固定列配置
 
 onMounted(() => {
   //容器宽度
   boxWidth.value = box.value ? box.value.offsetWidth : 0;
-  boxHeight.value = box.value ? box.value.offsetHeight : 0;
   let tableColSetWidth: number = 0;//option>columns 设置宽度列合计
   let tableAvgColCount: number = 0;//未设置宽度的列平均宽度
 
@@ -82,10 +80,10 @@ onMounted(() => {
             break;
         }
       }
-      tableColSetWidth += colSetWidth;
+      tableColSetWidth += colSetWidth;//设置总宽度
       columnsWidth.value.push(colSetWidth);
     } else {
-      tableAvgColCount += 1;
+      tableAvgColCount += 1;//未设置宽度 Count
       columnsWidth.value.push(0);
     }
     switch (c.fixed) {
@@ -106,6 +104,7 @@ onMounted(() => {
 });
 let x = 1
 
+//横向滚动同步给 t-table-header
 function body_Scroll(e: any) {
   header.value.scrollLeft = body.value.scrollLeft;
 }
@@ -133,6 +132,7 @@ function body_Scroll(e: any) {
       flex-shrink: 0;
 
       .x-table {
+        background-color: #f8f8f9; //x-table-body 滚动条上方背景色
 
         th {
           background-color: #f8f8f9;
@@ -166,7 +166,8 @@ function body_Scroll(e: any) {
         background-size: 1px 100%, 100% 1px;
         background-position: 100% 0, 100% 100%;
       }
-      td{
+
+      td {
         background-color: #fff;
       }
     }
