@@ -1,10 +1,11 @@
 <template>
   <div class="x-table-box" ref="box">
-    <div class="wrapper" :style="`width:${boxWidth}px;height:${boxHeight}`">
-      <div class="header">
+    <div class="x-table-wrapper" :style="`width:${boxWidth}px;height:${boxHeight}`">
+      <div class="x-table-header" ref="header">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
             <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
+            <col style="width: 12px"/>
           </colgroup>
           <thead>
           <tr>
@@ -13,7 +14,7 @@
           </thead>
         </table>
       </div>
-      <div class="body">
+      <div class="x-table-body" ref="body" @scroll="body_Scroll($event)">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
             <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
@@ -27,8 +28,8 @@
           </tbody>
         </table>
       </div>
-      <div class="footer">
-
+      <div class="x-table-footer">
+        footer
       </div>
     </div>
   </div>
@@ -47,6 +48,8 @@ const props = defineProps({
 })
 /** Ref Element **/
 let box = ref<any | null>(null);
+let header = ref<any | null>(null);
+let body = ref<any | null>(null);
 /** const **/
 const columnsWidth = ref<Array<number>>([]);
 const colAvgWidth = ref<number>(0);
@@ -54,15 +57,7 @@ const boxWidth = ref<number>(0);
 const boxHeight = ref<number>(0);
 const colFullWidth = ref<number>(0);
 
-
-window.addEventListener('scroll', () => {
-
-  console.log('scroll')
-});
-
 onMounted(() => {
-
-
   //容器宽度
   boxWidth.value = box.value ? box.value.offsetWidth : 0;
   boxHeight.value = box.value ? box.value.offsetHeight : 0;
@@ -96,16 +91,20 @@ onMounted(() => {
   //表格完整宽度
   colFullWidth.value = tableColSetWidth + (colAvgWidth.value * tableAvgColCount);
 });
+let x = 1
+
+function body_Scroll(e: any) {
+  header.value.scrollLeft = body.value.scrollLeft;
+}
 </script>
 
 <style scoped lang="less">
 .x-table-box {
-
   font-size: 14px;
   width: 100%;
   height: 100%;
 
-  .wrapper {
+  .x-table-wrapper {
     box-sizing: border-box;
     overflow: hidden;
     height: 100%;
@@ -113,18 +112,31 @@ onMounted(() => {
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    .header {
+
+    .x-table-border {
+      position: absolute;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      border-left: 1px solid #00000010;
+      border-top: 1px solid #00000010;
+
+    }
+
+    .x-table-header {
+      overflow-x: hidden;
+      overflow-y: hidden;
+      flex-shrink: 0;
+
       .x-table {
         background-color: #f8f8f9;
-      }
 
-      th {
-
-        padding: 12px 5px;
+        th {
+        }
       }
     }
 
-    .body {
+    .x-table-body {
       height: 100%;
       overflow: auto;
 
@@ -133,13 +145,14 @@ onMounted(() => {
       }
     }
 
-    .footer {
-
+    .x-table-footer {
+      flex-shrink: 0;
     }
 
     .x-table {
       table-layout: fixed;
       box-sizing: border-box;
+      border-collapse: collapse;
 
       th, td {
         padding: 8px 5px;
