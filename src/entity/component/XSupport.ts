@@ -7,6 +7,7 @@ export class XTableColumn{
     label:string = "";
     bind:string = "";
     width:any = 0;
+    fixed:string = "";
 }
 export class XTableOption{
     columns:Array<XTableColumn> = [];

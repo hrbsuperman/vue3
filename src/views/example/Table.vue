@@ -19,13 +19,13 @@ import XTable from "@/components/XTable.vue";
 import {ref} from "vue";
 
 const columns = ref<any>([
-  {label: '表头1', bind: 'col1', width: '30%'},
-  {label: '表头2', bind: 'col2'},
-  {label: '表头3', bind: 'col3'},
-  {label: '操作', bind: 'col4', width: '200px'}]);
+  {label: '表头1', bind: 'col1', width: 200,fixed:'left'},
+  {label: '表头2', bind: 'col2', width: '50%'},
+  {label: '表头3', bind: 'col3', width: '50%'},
+  {label: '操作', bind: 'col4', width: '200px',fixed:'right'}]);
 const data = ref<Array<any>>();
 let dataTemp = [];
-for (let x = 0; x < 10; x++) {
+for (let x = 0; x < 30; x++) {
   dataTemp.push({
     col1: 'col' + x,
     col2: (new Date()).getTime(),

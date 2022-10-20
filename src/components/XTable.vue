@@ -9,7 +9,7 @@
           </colgroup>
           <thead>
           <tr>
-            <th v-for="c in columns"> {{ c.label }}</th>
+            <th v-for="(c,i) in columns" :style="fixedColumns[i]"> {{ c.label }}</th>
           </tr>
           </thead>
         </table>
@@ -21,7 +21,7 @@
           </colgroup>
           <tbody>
           <tr v-for="row in data">
-            <td v-for="c in columns">
+            <td v-for="(c,i) in columns" :style="fixedColumns[i]">
               {{ row[c.bind] }}
             </td>
           </tr>
@@ -57,13 +57,16 @@ const boxWidth = ref<number>(0);
 const boxHeight = ref<number>(0);
 const colFullWidth = ref<number>(0);
 
+const fixedColumns = ref<Array<any>>([]);
+
 onMounted(() => {
   //容器宽度
   boxWidth.value = box.value ? box.value.offsetWidth : 0;
   boxHeight.value = box.value ? box.value.offsetHeight : 0;
   let tableColSetWidth: number = 0;//option>columns 设置宽度列合计
   let tableAvgColCount: number = 0;//未设置宽度的列平均宽度
-  props.columns && props.columns.map((c) => {
+
+  props.columns && props.columns.map((c, i) => {
     if (c.width) {
       let colSetWidth = 0;
       if (typeof (c.width) === "number") {
@@ -84,6 +87,16 @@ onMounted(() => {
     } else {
       tableAvgColCount += 1;
       columnsWidth.value.push(0);
+    }
+    switch (c.fixed) {
+      case 'left':
+        fixedColumns.value.push({position: 'sticky', left: '0px'});
+        break;
+      case 'right':
+        break;
+      default:
+        fixedColumns.value.push(null);
+        break;
     }
   })
   //未设置宽度的列计算平均宽度  (容器宽度 - 已设置宽度) / 未设置列数
@@ -113,15 +126,6 @@ function body_Scroll(e: any) {
     justify-content: space-between;
     position: relative;
 
-    .x-table-border {
-      position: absolute;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      border-left: 1px solid #00000010;
-      border-top: 1px solid #00000010;
-
-    }
 
     .x-table-header {
       overflow-x: hidden;
@@ -129,9 +133,9 @@ function body_Scroll(e: any) {
       flex-shrink: 0;
 
       .x-table {
-        background-color: #f8f8f9;
 
         th {
+          background-color: #f8f8f9;
         }
       }
     }
@@ -161,6 +165,9 @@ function body_Scroll(e: any) {
         background-repeat: no-repeat;
         background-size: 1px 100%, 100% 1px;
         background-position: 100% 0, 100% 100%;
+      }
+      td{
+        background-color: #fff;
       }
     }
   }
