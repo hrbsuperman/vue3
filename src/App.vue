@@ -9,9 +9,7 @@ function pageView(): any {
       return defineAsyncComponent(() => import('@/views/_layout/index.vue'));
   }
 }
-
 </script>
-
 <template>
   <component ref="detail" :is="pageView()"></component>
 </template>

@@ -26,10 +26,14 @@ const columns = ref<any>([
   {label: '表头3', bind: 'col3', width: '40%'},
   {label: '表头4', bind: 'col4', width: '40%'},
   {label: '操作1', bind: 'col5', width: 120},
-  {label: '操作2', bind: 'col6', width: 120}]);
+  {label: '操作2', bind: 'col6', width: 120 }]);
+
+
+function xxxClick(){
+}
 const data = ref<Array<any>>();
 let dataTemp = [];
-for (let x = 0; x < 30; x++) {
+for (let x = 0; x < 50; x++) {
   dataTemp.push({
     col1: 'col' + x,
     col2: (new Date()).getTime(),
