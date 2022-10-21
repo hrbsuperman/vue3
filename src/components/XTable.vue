@@ -2,7 +2,7 @@
   <div class="x-table-box" ref="box">
     <div class="x-table-wrapper" :style="`width:${boxWidth}px;`">
       <div class="x-table-header" ref="header"
-           :style="{overflowY: scroll?'scroll':'hidden'}">
+           :style="{overflowY: ((body?.scrollHeight||0)>(body?.clientHeight||0))?'scroll':'hidden'}">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
             <col v-for="c in columnsOption" :style="`width:${ c || colAvgWidth}px`"/>
@@ -31,6 +31,11 @@
       </div>
       <div class="x-table-footer">
         footer
+        <span style="margin-left: 2em">x-table.body.scrollHeight: {{ body?.scrollHeight }} </span>
+        <span style="margin-left: 2em">x-table.body.clientHeight: {{ body?.clientHeight }} </span>
+        <span style="margin-left: 2em">
+        {{ ((body?.scrollHeight || 0) > (body?.clientHeight || 0)) ? 'scroll' : 'hidden' }}
+        </span>
       </div>
     </div>
   </div>
@@ -57,7 +62,6 @@ const columnsOption = ref<Array<number>>([]);//所有列计算后宽度，未设
 const colAvgWidth = ref<number>(0);//未设置宽度列计算平均宽度， 0||avg
 const boxWidth = ref<number>(0);//容器宽度
 const colFullWidth = ref<number>(0);//设置宽度+avg*avgCount
-const scroll = ref<boolean>(false);
 
 onMounted(() => {
   //容器宽度
@@ -94,9 +98,6 @@ onMounted(() => {
   colAvgWidth.value = boxWidth.value > tableColSetWidth ? (boxWidth.value - tableColSetWidth) / tableAvgColCount : 0;
   //表格完整宽度
   colFullWidth.value = tableColSetWidth + (colAvgWidth.value * tableAvgColCount);
-
-
-  scroll.value = body.value.scrollHeight  > body.value.clientHeight;
 });
 
 //宽度计算
