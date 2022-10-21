@@ -3,6 +3,7 @@
     <div class="x-table-wrapper" :style="`width:${boxWidth}px;`">
       <div class="x-table-header" ref="header"
            :style="{overflowY: ((body?.scrollHeight||0)>(body?.clientHeight||0))?'scroll':'hidden'}">
+        <!--同步overflow-y 状态-->
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
             <col v-for="c in columnsOption" :style="`width:${ c || colAvgWidth}px`"/>
@@ -49,8 +50,8 @@ import type {XTableColumn} from "@/entity/component/XSupport";
 const props = defineProps({
   columns: {type: Array<XTableColumn>},
   data: {type: Array<any>},
-  fixedLeftCount: {type: Number, default: 0},//左侧固定列数
-  fixedRightCount: {type: Number, default: 0},//右侧固定列数
+  fixedLeftCount: {type: Number, default: 0},//左侧固定列数，固定列需要设置width
+  fixedRightCount: {type: Number, default: 0},//右侧固定列数，固定列需要设置width
   rowNumber: {type: Boolean, default: false},
 })
 /** Ref Element **/

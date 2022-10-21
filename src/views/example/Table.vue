@@ -29,7 +29,7 @@ const columns = ref<any>([
   {label: '操作2', bind: 'col6', width: 120}]);
 const data = ref<Array<any>>();
 let dataTemp = [];
-for (let x = 0; x < 10; x++) {
+for (let x = 0; x < 30; x++) {
   dataTemp.push({
     col1: 'col' + x,
     col2: (new Date()).getTime(),
