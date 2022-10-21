@@ -1,15 +1,16 @@
 <template>
   <div class="x-table-box" ref="box">
     <div class="x-table-wrapper" :style="`width:${boxWidth}px;`">
-      <div class="x-table-header" ref="header">
+      <div class="x-table-header" ref="header"
+           :style="{overflowY: scroll?'scroll':'hidden'}">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
-            <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
+            <col v-for="c in columnsOption" :style="`width:${ c || colAvgWidth}px`"/>
             <col style="width: 12px"/>
           </colgroup>
           <thead>
           <tr>
-            <th v-for="(c,i) in columns" :style="fixedColumns[i]"> {{ c.label }}</th>
+            <th v-for="(c,i) in columns" :class="{sticky:c.fixed}" :style="c.fixed">{{ c.label }}</th>
           </tr>
           </thead>
         </table>
@@ -17,11 +18,11 @@
       <div class="x-table-body" ref="body" @scroll="body_Scroll($event)">
         <table class="x-table" :style="`width:${colFullWidth}px`">
           <colgroup>
-            <col v-for="c in columnsWidth" :style="`width:${ c || colAvgWidth}px`"/>
+            <col v-for="c in columnsOption" :style="`width:${ c || colAvgWidth}px`"/>
           </colgroup>
           <tbody>
           <tr v-for="row in data">
-            <td v-for="(c,i) in columns" :style="fixedColumns[i]">
+            <td v-for="(c,i) in columns" :class="{sticky:c.fixed}" :style="c.fixed">
               {{ row[c.bind] }}
             </td>
           </tr>
@@ -43,66 +44,89 @@ import type {XTableColumn} from "@/entity/component/XSupport";
 const props = defineProps({
   columns: {type: Array<XTableColumn>},
   data: {type: Array<any>},
+  fixedLeftCount: {type: Number, default: 0},//左侧固定列数
+  fixedRightCount: {type: Number, default: 0},//右侧固定列数
   rowNumber: {type: Boolean, default: false},
-
 })
 /** Ref Element **/
 let box = ref<any | null>(null);
 let header = ref<any | null>(null);
 let body = ref<any | null>(null);
 /** const **/
-const columnsWidth = ref<Array<number>>([]);//所有列计算后宽度，未设置宽度为0
+const columnsOption = ref<Array<number>>([]);//所有列计算后宽度，未设置宽度为0
 const colAvgWidth = ref<number>(0);//未设置宽度列计算平均宽度， 0||avg
 const boxWidth = ref<number>(0);//容器宽度
 const colFullWidth = ref<number>(0);//设置宽度+avg*avgCount
-
-const fixedColumns = ref<Array<any>>([]);//固定列配置
+const scroll = ref<boolean>(false);
 
 onMounted(() => {
   //容器宽度
   boxWidth.value = box.value ? box.value.offsetWidth : 0;
+
   let tableColSetWidth: number = 0;//option>columns 设置宽度列合计
   let tableAvgColCount: number = 0;//未设置宽度的列平均宽度
 
   props.columns && props.columns.map((c, i) => {
-    if (c.width) {
-      let colSetWidth = 0;
-      if (typeof (c.width) === "number") {
-        colSetWidth = c.width;
-      } else {
-        let unit = c.width.toString().replace(/[0-9]+/g, '');
-        switch (unit) {
-          case 'px':
-            colSetWidth = parseInt(c.width.replace(/px/g, ''));
-            break;
-          case '%':
-            colSetWidth = boxWidth.value * (parseInt(c.width.replace(/%/g, '')) / 100)
-            break;
+    let colSetWidth = width_Calc(c);//计算列宽度
+    if (colSetWidth) {
+      //设置了宽度才能开启固定列
+      //左侧固定列
+      if (i < props.fixedLeftCount) {
+        //tableColSetWidth 在计算前正好作为 fixed 列的 left
+        c.fixed = `left:${tableColSetWidth}px`;
+      }
+      //右侧固定列
+      if (props.fixedRightCount) {
+
+        let x = (props.columns || []).length - i;
+        if (x <= props.fixedRightCount) {
+          c.fixed = `right:${(x == 1 ? 0 : width_Calc(props.columns.slice(i + 1)))}px`;
         }
       }
-      tableColSetWidth += colSetWidth;//设置总宽度
-      columnsWidth.value.push(colSetWidth);
-    } else {
-      tableAvgColCount += 1;//未设置宽度 Count
-      columnsWidth.value.push(0);
     }
-    switch (c.fixed) {
-      case 'left':
-        fixedColumns.value.push({position: 'sticky', left: '0px'});
-        break;
-      case 'right':
-        break;
-      default:
-        fixedColumns.value.push(null);
-        break;
-    }
+    columnsOption.value.push(colSetWidth);//列宽度
+    tableColSetWidth += colSetWidth;//合计设置宽度
+    tableAvgColCount += colSetWidth ? 0 : 1;//未设置宽度 Count
+
   })
+
   //未设置宽度的列计算平均宽度  (容器宽度 - 已设置宽度) / 未设置列数
   colAvgWidth.value = boxWidth.value > tableColSetWidth ? (boxWidth.value - tableColSetWidth) / tableAvgColCount : 0;
   //表格完整宽度
   colFullWidth.value = tableColSetWidth + (colAvgWidth.value * tableAvgColCount);
+
+
+  scroll.value = body.value.scrollHeight  > body.value.clientHeight;
 });
-let x = 1
+
+//宽度计算
+function width_Calc(columns: any) {
+  let width = 0;
+  if (Array.isArray(columns)) {
+    if (columns.length) {
+      for (let c in columns) {
+        width += width_Calc(columns[c]);
+      }
+    }
+  } else {
+    if (columns.width) {
+      if (typeof (columns.width) === "number") {
+        width = columns.width;
+      } else {
+        let unit = columns.width.toString().replace(/[0-9]+/g, '');
+        switch (unit) {
+          case 'px':
+            width = parseInt(columns.width.replace(/px/g, ''));
+            break;
+          case '%':
+            width = boxWidth.value * (parseInt(columns.width.replace(/%/g, '')) / 100)
+            break;
+        }
+      }
+    }
+  }
+  return width;
+}
 
 //横向滚动同步给 t-table-header
 function body_Scroll(e: any) {
@@ -142,7 +166,8 @@ function body_Scroll(e: any) {
 
     .x-table-body {
       height: 100%;
-      overflow: auto;
+      overflow-x: auto;
+      overflow-y: auto;
 
       tr:hover {
         background-color: #F5F7FA;
@@ -165,10 +190,15 @@ function body_Scroll(e: any) {
         background-repeat: no-repeat;
         background-size: 1px 100%, 100% 1px;
         background-position: 100% 0, 100% 100%;
+        z-index: 10;
       }
 
       td {
         background-color: #fff;
+      }
+
+      .fixedLeftLast {
+        border-right: 1px solid #000;
       }
     }
   }
