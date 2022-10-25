@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import {defineAsyncComponent} from "vue";
+import {defineAsyncComponent, ref} from "vue";
 
-function pageView(): any {
+const pageView = ref<any|null>(null);
   switch (window.location.hash.toLocaleLowerCase()) {
     case "#login":
-      return defineAsyncComponent(() => import('@/views/system/login.vue'));
+      pageView.value = defineAsyncComponent(() => import('@/views/system/login.vue'));
+      break;
     default:
-      return defineAsyncComponent(() => import('@/views/_layout/index.vue'));
+      pageView.value = defineAsyncComponent(() => import('@/views/_layout/index.vue'));
   }
+window.onhashchange = (e)=>{
+    //无Layout路由，pageView.value = ***
+    //怎么告诉 component 中的 _layout/index.vue
 }
+
 </script>
 <template>
-  <component ref="detail" :is="pageView()"></component>
+  <component ref="detail" :is="pageView"></component>
 </template>

@@ -6,7 +6,7 @@
            :placeholder="placeholder"
            :disabled="disabled"/>
     <i class="icon-rili"></i>
-    <div class="x-date-dialog" @click="XDateDialog_Click">
+    <div class="x-date-dialog" @click="XDateDialog_Click" @wheel="XDateDialog_Scroll($event)">
       <div class="control">
         <div class="ym" :class="{expand:yearOptionsExpand}">
           <div tabindex="-1" @focus="yearSelect_Focus" @blur="delayedClose(0)">{{ XDPYear }}
@@ -104,20 +104,28 @@ function yearSelect_Focus() {
   yearOptionsExpand.value = !yearOptionsExpand.value;
   yearOptions.value && (yearOptions.value.scrollTop = (XDPYear.value - 1900 - 3) * 22);
 }
+
 //月，展开
 function monthSelect_Focus() {
   monthOptionsExpand.value = !monthOptionsExpand.value;
   monthOptions.value && (monthOptions.value.scrollTop = (XDPMonth.value - 3) * 22);
 }
+
 //年，选定
 function yearOptions_Click(y: number) {
   XDPYear.value = y;
   Init();
 }
+
 //月，选定
 function monthOptions_Click(m: number) {
   XDPMonth.value = m - 1;
   Init();
+}
+
+//滚轮+-月份
+function XDateDialog_Scroll(e: any) {
+  Month_Change(e.deltaY > 0 ? 1 : -1);
 }
 
 //延时关闭，展开select
@@ -241,10 +249,12 @@ function XDatePicker_Focus() {
   //document click 冒泡
   document.addEventListener('click', DocumentOnceClick);
 }
+
 //BLUR
 function XDatePicker_Blur() {
 
 }
+
 //设置当前渲染月份为NOW
 function XDateReset() {
   let now = new Date();
@@ -252,6 +262,7 @@ function XDateReset() {
   XDPMonth.value = now.getMonth();
   XDPDay.value = now.getDate();
 }
+
 //月份 +-
 function Month_Change(i: number) {
   let targetMonth = XDPMonth.value + i;
