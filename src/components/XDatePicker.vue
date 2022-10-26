@@ -4,8 +4,11 @@
            @click="XDateDialog_Click" @focus="XDatePicker_Focus" @blur="XDatePicker_Blur"
            :value="modelValue"
            :placeholder="placeholder"
-           :disabled="disabled"/>
-    <i class="icon-rili"></i>
+           :disabled="disabled" />
+    <span :class="{icon:true, activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
+      <i class="icon-rili"></i>
+      <i @click="IconClear_Click" style="opacity:0" class="FE icon-close"></i>
+    </span>
     <div class="x-date-dialog" @click="XDateDialog_Click" @wheel="XDateDialog_Scroll($event)">
       <div class="control">
         <div class="ym" :class="{expand:yearOptionsExpand}">
@@ -61,15 +64,15 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref, onMounted} from 'vue'
+import { reactive, ref, onMounted } from "vue";
 
 const props = defineProps({
-  modelValue: {type: String, default: ""},
-  format: {type: String, default: "yyyy/MM/dd"},
-  placeholder: {type: String, default: ""},
-  disabled: {type: Boolean, default: false}
+  modelValue: { type: String, default: "" },
+  format: { type: String, default: "yyyy/MM/dd" },
+  placeholder: { type: String, default: "" },
+  disabled: { type: Boolean, default: false }
 });
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(["update:modelValue"]);
 //ref element
 let yearOptions = ref<Element | null>(null);
 let monthOptions = ref<Element | null>(null);
@@ -81,7 +84,8 @@ let activeControl = false;
 const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
 const XDPDay = ref<number>(0);
-
+//有值并且 hover
+const activeClear = ref<boolean>(false);
 //年份 select 展开状态
 const yearOptionsExpand = ref<boolean>(false);
 //月份 select 展开状态
@@ -102,6 +106,7 @@ onMounted(() => {
 function yearSelect_Focus() {
   //展开操作，将XDPYear年份滚动到合适的位置
   yearOptionsExpand.value = !yearOptionsExpand.value;
+  //22 是 li高度，让selected滚动位置在第四行
   yearOptions.value && (yearOptions.value.scrollTop = (XDPYear.value - 1900 - 3) * 22);
 }
 
@@ -125,6 +130,7 @@ function monthOptions_Click(m: number) {
 
 //滚轮+-月份
 function XDateDialog_Scroll(e: any) {
+  if (monthOptionsExpand.value || yearOptionsExpand.value) return;
   Month_Change(e.deltaY > 0 ? 1 : -1);
 }
 
@@ -142,7 +148,7 @@ function delayedClose(type: number) {
   }, 160);
 }
 
-//dialog显示状态，在document click冒泡前告诉他点击了控价区域
+//dialog显示状态，在document click冒泡前告诉他点击了控件区域
 function XDateDialog_Click() {
   activeControl = true;
 }
@@ -154,17 +160,16 @@ function DocumentOnceClick() {
   if (!activeControl) {
     //先maxHeight > 0 opacity > 0 动画 再延时隐藏，
     window.setTimeout(() => {
-      XDateReset();
       active.value = false;
-      document.removeEventListener('click', DocumentOnceClick)
-    }, 10)
+      document.removeEventListener("click", DocumentOnceClick);
+    }, 10);
   }
   activeControl = false;
 }
 
 //日历根据XDPYear、Month初始化
 function Init() {
-  let first = new Date(XDPYear.value, XDPMonth.value, 1)//第一天
+  let first = new Date(XDPYear.value, XDPMonth.value, 1);//第一天
   let last = new Date(XDPYear.value, XDPMonth.value + 1, 0);//最后一天
   days.splice(0, days.length);//清除数组，有个问题，
   let monthDays = last.getDate();//当月天数
@@ -188,7 +193,7 @@ function Init() {
       selected: dateSelected.value ? dateSelected.value.year === XDPYear.value && dateSelected.value.month === XDPMonth.value && dateSelected.value.day === day : false
     };
     //重新设置selected对象引用关系
-    days[weekIndex][dayIndex].selected && (dateSelected.value = days[weekIndex][dayIndex])
+    days[weekIndex][dayIndex].selected && (dateSelected.value = days[weekIndex][dayIndex]);
     day += 1;
     dayIndex += 1;
   }
@@ -228,9 +233,7 @@ function Init() {
 //FOCUS
 function XDatePicker_Focus() {
   if (props.modelValue) {
-    let dayArr = props.modelValue.split('/');
-
-
+    let dayArr = props.modelValue.split("/");
     if (props.modelValue.toString().indexOf(`${XDPYear.value}/${XDPMonth.value}`) < 0) {
       if (dayArr.length == 3) {
         XDPYear.value = parseInt(dayArr[0]);
@@ -243,11 +246,18 @@ function XDatePicker_Focus() {
         Init();
       }
     }
+  } else {
+    let now = new Date();
+    if (XDPYear.value != now.getFullYear() || XDPMonth.value != now.getMonth()) {
+      XDPYear.value = now.getFullYear();
+      XDPMonth.value = now.getMonth();
+      Init();
+    }
   }
   active.value = true;
   activeControl = true;
   //document click 冒泡
-  document.addEventListener('click', DocumentOnceClick);
+  document.addEventListener("click", DocumentOnceClick);
 }
 
 //BLUR
@@ -278,6 +288,20 @@ function Month_Change(i: number) {
   Init();
 }
 
+//activeClear
+function Icon_MouseMove() {
+  if (!activeClear.value && props.modelValue)
+    activeClear.value = true;
+}
+//clear modelValue
+function IconClear_Click() {
+  if(activeClear.value)
+    emits("update:modelValue", "");
+  else{
+    XDatePicker_Focus();
+  }
+}
+
 //选定日期
 function XDatePickerDay_Click(date: any) {
   if (dateSelected.value) {
@@ -286,7 +310,7 @@ function XDatePickerDay_Click(date: any) {
   XDPDay.value = date.day;
   date.selected = true;
   dateSelected.value = date;
-  let value = `${date.year}/${date.month < 9 ? '0' : ''}${date.month + 1}/${date.day < 10 ? '0' : ''}${date.day}`;
-  emits('update:modelValue', value)
+  let value = `${date.year}/${date.month < 9 ? "0" : ""}${date.month + 1}/${date.day < 10 ? "0" : ""}${date.day}`;
+  emits("update:modelValue", value);
 }
 </script>

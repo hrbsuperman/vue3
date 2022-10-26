@@ -30,6 +30,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 100%;
     font-weight: normal;
 }
+
 /*css reset - end*/
 
 /* 动画 */
@@ -56,6 +57,7 @@ h1, h2, h3, h4, h5, h6 {
         opacity: 1;
     }
 }
+
 /* 动画 - end */
 /* common */
 .w100 {
@@ -69,9 +71,11 @@ h1, h2, h3, h4, h5, h6 {
 .flex {
     display: flex
 }
-.flex-shrink{
+
+.flex-shrink {
     flex-shrink: 1;
 }
+
 .rota90 {
     transform: rotate(90deg);
 }
@@ -79,26 +83,33 @@ h1, h2, h3, h4, h5, h6 {
 .rota180 {
     transform: rotate(180deg);
 }
-.show{
+
+.show {
     display: block !important;
 }
-.hide{
+
+.hide {
     display: none !important;
 }
-.relative{
+
+.relative {
     position: relative;
 }
-.absolute{
+
+.absolute {
     position: absolute;
 }
-.sticky{
+
+.sticky {
     position: sticky;
 }
-.p5{
-    padding:5px;
+
+.p5 {
+    padding: 5px;
 }
-.p10{
-    padding:10px;
+
+.p10 {
+    padding: 10px;
 }
 
 
@@ -110,6 +121,7 @@ h1, h2, h3, h4, h5, h6 {
 .opacityIn {
     animation: opacityIn var(--animationSpeed);
 }
+
 /* common - end */
 
 
@@ -136,22 +148,45 @@ h1, h2, h3, h4, h5, h6 {
     --theme-color: rgb(var(--theme));
     --theme-border: rgb(var(--gray-3));
 
-    --theme-selected:#E3F4FC;/* 组件选中颜色 */
+    --theme-selected: #E3F4FC; /* 组件选中颜色 */
     --theme-text: var(--gray-8); /*文本颜色*/
     --theme-menu: 0, 21, 41; /*菜单背景色*/
     --theme-menu-child: #0C2135; /*菜单背景色*/
     --header-height: 48px;
 
-    --FormElementHeight:34px;
+    --FormElementHeight: 34px;
 
     /*动画速度*/
     --animationSpeed: .3s;
 }
+
+/* input placeholder start */
+::-webkit-input-placeholder {
+    color: rgb(var(--gray-6));
+    font-style: italic;
+    font-size: 0.8em;
+}
+::-ms-input-placeholder {
+    color: rgb(var(--gray-6));
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+::-moz-placeholder {
+    color: rgb(var(--gray-6));
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+/* input placeholder end */
+
+/* scroll start */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
     overflow: auto;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: #d3d3d3;
     min-height: 25px;
@@ -159,11 +194,13 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid #fafafa;
     border-radius: 99px;
 }
+
 ::-webkit-scrollbar-track {
     background-color: #f7f7f7;
     border: 1px solid #efefef;
 }
 
+/* scroll end */
 body {
     min-height: 100vh;
     color: var(--theme-text);
@@ -181,6 +218,7 @@ body {
 
 
 }
+
 /* theme - end */
 
 
