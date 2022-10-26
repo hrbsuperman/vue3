@@ -34,7 +34,7 @@ const selected = ref<XSelectItem | null>(null);
 const expand = ref<boolean>(false);
 //拦截Click
 const blockClick = ref<boolean>(false);
-//有值并且 hover
+//hasValue && hover
 const activeClear = ref<boolean>(false);
 
 // 点击事件 控制显示隐藏

@@ -9,9 +9,10 @@
       <i class="icon-rili"></i>
       <i @click="IconClear_Click" style="opacity:0" class="FE icon-close"></i>
     </span>
-    <div class="x-date-dialog" @click="XDateDialog_Click" @wheel="XDateDialog_Scroll($event)">
+    <div class="x-date-dialog" @click="XDateDialog_Click" @wheel="XDateDialog_Wheel($event)">
       <div class="control">
-        <div class="ym" :class="{expand:yearOptionsExpand}">
+        <div class="ym" :class="{expand:yearOptionsExpand}" @mousemove="yearOptionHover=true"
+             @mouseleave="yearOptionHover=false">
           <div tabindex="-1" @focus="yearSelect_Focus" @blur="delayedClose(0)">{{ XDPYear }}
             年
           </div>
@@ -84,10 +85,12 @@ let activeControl = false;
 const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
 const XDPDay = ref<number>(0);
-//有值并且 hover
+//hasValue && hover
 const activeClear = ref<boolean>(false);
 //年份 select 展开状态
 const yearOptionsExpand = ref<boolean>(false);
+//年份 hover
+const yearOptionHover = ref<boolean>(false);
 //月份 select 展开状态
 const monthOptionsExpand = ref<boolean>(false);
 
@@ -129,9 +132,9 @@ function monthOptions_Click(m: number) {
 }
 
 //滚轮+-月份
-function XDateDialog_Scroll(e: any) {
+function XDateDialog_Wheel(e: any) {
   if (monthOptionsExpand.value || yearOptionsExpand.value) return;
-  Month_Change(e.deltaY > 0 ? 1 : -1);
+  yearOptionHover.value ? Year_Change(e.deltaY > 0 ? 1 : -1) : Month_Change(e.deltaY > 0 ? 1 : -1);
 }
 
 //延时关闭，展开select
@@ -273,13 +276,19 @@ function XDateReset() {
   XDPDay.value = now.getDate();
 }
 
+//年份 +-
+function Year_Change(i: number) {
+  XDPYear.value += i;
+  Init();
+}
+
 //月份 +-
 function Month_Change(i: number) {
   let targetMonth = XDPMonth.value + i;
   if (targetMonth > 11) {
     XDPMonth.value = 0;
     XDPYear.value = XDPYear.value + 1;
-  } else if (targetMonth < 1) {
+  } else if (targetMonth < 0) {
     XDPMonth.value = 11;
     XDPYear.value = XDPYear.value - 1;
   } else {
@@ -293,11 +302,12 @@ function Icon_MouseMove() {
   if (!activeClear.value && props.modelValue)
     activeClear.value = true;
 }
+
 //clear modelValue
 function IconClear_Click() {
-  if(activeClear.value)
+  if (activeClear.value)
     emits("update:modelValue", "");
-  else{
+  else {
     XDatePicker_Focus();
   }
 }
