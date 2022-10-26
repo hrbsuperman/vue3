@@ -85,6 +85,7 @@ let activeControl = false;
 const XDPYear = ref<number>(0);
 const XDPMonth = ref<number>(0);
 const XDPDay = ref<number>(0);
+const XDPNowDay = ref<number>(0);
 //hasValue && hover
 const activeClear = ref<boolean>(false);
 //年份 select 展开状态
@@ -191,7 +192,7 @@ function Init() {
       year: XDPYear.value,
       month: XDPMonth.value,
       day: day,
-      today: day === XDPDay.value,
+      today: day === XDPNowDay.value,
       //重新渲染，恢复选中状态
       selected: dateSelected.value ? dateSelected.value.year === XDPYear.value && dateSelected.value.month === XDPMonth.value && dateSelected.value.day === day : false
     };
@@ -274,6 +275,7 @@ function XDateReset() {
   XDPYear.value = now.getFullYear();
   XDPMonth.value = now.getMonth();
   XDPDay.value = now.getDate();
+  XDPNowDay.value = XDPDay.value;
 }
 
 //年份 +-
@@ -299,15 +301,17 @@ function Month_Change(i: number) {
 
 //activeClear
 function Icon_MouseMove() {
-  if (!activeClear.value && props.modelValue)
+  if (!activeClear.value && props.modelValue) {
     activeClear.value = true;
+  }
 }
 
 //clear modelValue
 function IconClear_Click() {
-  if (activeClear.value)
+  if (activeClear.value) {
+    activeClear.value = false;
     emits("update:modelValue", "");
-  else {
+  } else {
     XDatePicker_Focus();
   }
 }

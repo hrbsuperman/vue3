@@ -144,7 +144,7 @@ h1, h2, h3, h4, h5, h6 {
     /*主题*/
     --theme: 38, 123, 201;
     --theme-hover: rgba(var(--theme, .8));
-    --theme-bgcolor: rgb(var(--white-1));
+    --theme-bgcolor: #fff;
     --theme-color: rgb(var(--theme));
     --theme-border: rgb(var(--gray-3));
 
@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
     --theme-menu: 0, 21, 41; /*菜单背景色*/
     --theme-menu-child: #0C2135; /*菜单背景色*/
     --header-height: 48px;
-
+    --header-tab-height:30px;
     --FormElementHeight: 34px;
 
     /*动画速度*/
@@ -164,18 +164,18 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-input-placeholder {
     color: rgb(var(--gray-6));
     font-style: italic;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 ::-ms-input-placeholder {
     color: rgb(var(--gray-6));
     font-style: italic;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 ::-moz-placeholder {
     color: rgb(var(--gray-6));
     font-style: italic;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 /* input placeholder end */

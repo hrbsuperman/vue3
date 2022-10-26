@@ -74,6 +74,7 @@ function IconClear_Click() {
   if (activeClear.value) {
     blockClick.value = true;
     selected.value = null;
+    activeClear.value = false;
     emits("update:modelValue", "");
   }
 }
