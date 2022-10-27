@@ -2,12 +2,10 @@ export class XRouter {
     name?: string;
     component: any;
 }
-
 export class XTableColumn{
     label:string = "";
     bind:string = "";
     width:any = 0;
-
     fixed:string = "";//使用时不需要设置
 }
 export class XTableOption{

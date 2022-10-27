@@ -2,6 +2,7 @@
   <div class="x-table-box" ref="box">
     <div class="x-table-wrapper" :style="`width:${boxWidth}px;`"
          :class="{scrollLeft:scrollLeft,scrollRight:!scrollRight}">
+      <slot name="header" />
       <div class="x-table-header" ref="header"
            :style="{overflowY: ((body?.scrollHeight||0)>(body?.clientHeight||0))?'scroll':'hidden'}">
         <!--同步overflow-y 状态-->
@@ -40,7 +41,8 @@
           </tbody>
         </table>
       </div>
-      <div class="x-table-footer">
+      <slot name="footer" />
+      <div class="x-table-footer hide">
         footer
         <span style="margin-left: 2em">x-table.body.scrollHeight: {{ body?.scrollHeight }} </span>
         <span style="margin-left: 2em">x-table.body.clientHeight: {{ body?.clientHeight }} </span>
@@ -56,13 +58,17 @@
 import { ref, onMounted, onBeforeMount } from "vue";
 import type { XTableColumn } from "@/entity/component/XSupport";
 
+
 /** 组件属性 **/
 const props = defineProps({
   columns: { type: Array<XTableColumn> },
   data: { type: Array<any> },
   fixedLeftCount: { type: Number, default: 0 },//左侧固定列数，固定列需要设置width
   fixedRightCount: { type: Number, default: 0 },//右侧固定列数，固定列需要设置width
-  rowNumber: { type: Boolean, default: false }
+
+  rowNumber: { type: Boolean, default: false },//行号
+  pagination: { type: Object, default: false }//typeof > boolean && true > 使用默认配置
+
 });
 /** Ref Element **/
 let box = ref<any | null>(null);
@@ -75,8 +81,8 @@ const colAvgWidth = ref<number>(0);//未设置宽度列计算平均宽度， 0||
 const boxWidth = ref<number>(0);//容器宽度
 const colFullWidth = ref<number>(0);//设置宽度+avg*avgCount
 /* scroll status */
-const scrollLeft = ref<boolean>(false);
-const scrollRight = ref<boolean>(false);
+const scrollLeft = ref<boolean>(false);//横向向右滚动，left fixed column，显示阴影
+const scrollRight = ref<boolean>(false);//横向向左滚动，right fixed column，显示阴影
 
 onBeforeMount(() => {
 
@@ -116,8 +122,8 @@ onMounted(() => {
 
   });
 
-  //未设置宽度的列计算平均宽度  (容器宽度 - 已设置宽度) / 未设置列数
-  colAvgWidth.value = boxWidth.value > tableColSetWidth ? (boxWidth.value - tableColSetWidth) / tableAvgColCount : 0;
+  //未设置宽度的列计算平均宽度  (容器宽度 - 已设置宽度 - 滚动条宽度) / 未设置列数
+  colAvgWidth.value = boxWidth.value > tableColSetWidth ? (boxWidth.value - tableColSetWidth - (body.value.scrollHeight > body.value.clientHeight ? 10 : 0)) / tableAvgColCount : 0;
   //表格完整宽度
   colFullWidth.value = tableColSetWidth + (colAvgWidth.value * tableAvgColCount);
 });
@@ -155,7 +161,6 @@ function width_Calc(columns: any) {
 function body_Scroll(e: any) {
   header.value.scrollLeft = body.value.scrollLeft;
   scrollLeft.value = header.value.scrollLeft > 0;
-  console.log(body.value.scrollWidth - body.value.clientWidth - body.value.scrollLeft);
   scrollRight.value = body.value.scrollWidth - body.value.clientWidth - body.value.scrollLeft < 10;
 }
 </script>
@@ -202,6 +207,8 @@ function body_Scroll(e: any) {
 
     .x-table-footer {
       flex-shrink: 0;
+      height: 38px;
+      line-height: 38px;
     }
 
     .x-table {
@@ -210,7 +217,7 @@ function body_Scroll(e: any) {
       border-collapse: collapse;
 
       th, td {
-        padding: 8px 5px;
+        padding: 8px 8px;
         word-break: break-word;
         background-image: linear-gradient(#e8eaec, #e8eaec), linear-gradient(#e8eaec, #e8eaec);
         background-repeat: no-repeat;
@@ -238,15 +245,19 @@ function body_Scroll(e: any) {
       height: 100%;
     }
   }
+
   .fixedLeftLast::after {
     right: -10px;
   }
+
   .fixedRightFirst::after {
     left: -10px;
   }
+
   .scrollLeft .fixedLeftLast::after {
     box-shadow: inset 10px 0 8px -8px #00000026;
   }
+
   .scrollRight .fixedRightFirst::after {
     box-shadow: inset -10px 0 8px -8px #00000026;
   }
