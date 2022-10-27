@@ -7,7 +7,7 @@
         <i @click="IconClear_Click" style="opacity:0" class="FE icon-close"></i>
       </span>
     </div>
-    <ul class="options">
+    <ul class="options" :style="optionsTop">
       <li class="option-item" v-for="(item, index) in options"
           :key="index"
           :value="item.value"
@@ -20,7 +20,7 @@
 
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import type { XSelectItem } from "@/entity/component/XSupport";
 
 const emits = defineEmits(["update:modelValue"]);
@@ -28,7 +28,9 @@ const props = defineProps({
   modelValue: { type: String, default: "" },
   options: { type: Array<XSelectItem> },
   placeholder: { type: String, default: "" },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
+  clear: { type: Boolean, default: true },
+  extendUp: { type: Boolean, default: false }//向上展开
 });
 const selected = ref<XSelectItem | null>(null);
 const expand = ref<boolean>(false);
@@ -36,6 +38,13 @@ const expand = ref<boolean>(false);
 const blockClick = ref<boolean>(false);
 //hasValue && hover
 const activeClear = ref<boolean>(false);
+//
+const optionsTop = ref<Object | null>(null);
+
+onMounted(() => {
+  if (props.extendUp)
+    optionsTop.value = { top: ((-34 * ((props.options || []).length > 5 ? 5 : (props.options || []).length)) - 6) + "px" };
+});
 
 // 点击事件 控制显示隐藏
 function XSelect_Click() {
@@ -65,7 +74,7 @@ function XSelect_Item_Click(item: XSelectItem) {
 
 //activeClear
 function Icon_MouseMove() {
-  if (!activeClear.value && props.modelValue)
+  if (props.clear && !activeClear.value && props.modelValue)
     activeClear.value = true;
 }
 

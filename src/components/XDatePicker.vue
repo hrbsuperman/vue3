@@ -71,6 +71,7 @@ const props = defineProps({
   modelValue: { type: String, default: "" },
   format: { type: String, default: "yyyy/MM/dd" },
   placeholder: { type: String, default: "" },
+  clear: { type:Boolean, default: true },
   disabled: { type: Boolean, default: false }
 });
 const emits = defineEmits(["update:modelValue"]);
@@ -301,7 +302,7 @@ function Month_Change(i: number) {
 
 //activeClear
 function Icon_MouseMove() {
-  if (!activeClear.value && props.modelValue) {
+  if (props.clear && !activeClear.value && props.modelValue) {
     activeClear.value = true;
   }
 }
