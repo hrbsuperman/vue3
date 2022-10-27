@@ -15,7 +15,6 @@ const request = axios.create({
   timeout: 30000 // 请求超时时间
 })
 
-
 app.use(createPinia())
 app.mount('#app');
 //app.use(router)

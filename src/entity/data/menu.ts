@@ -59,7 +59,7 @@ const xMenuData: Array<XMenuItem> =
             },
             {
                 name: 'Table',
-                label: '表格'
+                label: '表格&分页'
             },
             {
                 name: 'Dialog',
