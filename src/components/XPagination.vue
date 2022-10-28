@@ -15,9 +15,11 @@
     <span class="iconBtn">
         <i class="icon-jurassic_end-page"></i>
     </span>
-    <span style="width:50px">
+    <span style="width:60px">
             <x-select
               :clear="false"
+              text-bind=""
+              value-bind=""
               :extendUp=true
               :options="pageSizeList"
               v-model="pageSizeSelected" />
@@ -41,13 +43,11 @@ const props = defineProps({
 /* const */
 const pageSizeSelected = ref("");
 const pageCount = ref(1);
-const pageSizeList = ref<Array<any>>([]);
 onMounted(() => {
 
-  pageSizeList.value = Array.from(props.pageSizeList, (i) => {
-    return { text: i, value: i };
-  });
+
   pageCount.value = Math.trunc(props.total / props.pageSize) + (props.total % props.pageSize > 0 ? 1 : 0);
+
 
 
 });

@@ -36,9 +36,11 @@ const exampleForm = reactive({});
           </td>
         </tr>
         <tr>
-          <th>x-select</th>
+          <th>x-select e-up</th>
           <td>
             <x-select
+                :extend-up = true
+                text-bind="text"
                 :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
                 value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
           </td>
@@ -46,10 +48,9 @@ const exampleForm = reactive({});
           </td>
         </tr>
         <tr>
-          <th>x-select e-up</th>
+          <th>x-select</th>
           <td>
             <x-select
-                :extend-up = true
                 :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
                 value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect"/>
           </td>

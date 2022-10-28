@@ -18,10 +18,6 @@ export class XDatePickerDay {
     today: boolean = false;
     selected: boolean = false;
 }
-export class XSelectItem{
-    text:string = '';
-    value:string = '';
-}
 export class XMenuItem {
     label: string = '';
     name: string = '';
