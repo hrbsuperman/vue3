@@ -127,23 +127,32 @@ h1, h2, h3, h4, h5, h6 {
 
 /* theme */
 @font-face {
-  font-family: 'W_Rg';
+  font-family: 'XFont';
   src: url("../assets/fonts/W_Rg.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'W_Rg';
-  src: url("../assets/fonts/W_Bd.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'W_Rg';
-  src: url("../assets/fonts/W_MD.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
+
+
+/*@font-face {*/
+/*  font-family: 'W_Rg';*/
+/*  src: url("../assets/fonts/W_Rg.woff2") format("woff2");*/
+/*  font-weight: normal;*/
+/*  font-style: normal;*/
+/*}*/
+/*@font-face {*/
+/*  font-family: 'W_Rg';*/
+/*  src: url("../assets/fonts/W_Bd.woff2") format("woff2");*/
+/*  font-weight: 500;*/
+/*  font-style: normal;*/
+/*}*/
+/*@font-face {*/
+/*  font-family: 'W_Rg';*/
+/*  src: url("../assets/fonts/W_MD.woff2") format("woff2");*/
+/*  font-weight: bold;*/
+/*  font-style: normal;*/
+/*}*/
+
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
     --gray-1: 247, 248, 250;
@@ -224,7 +233,7 @@ body {
     background: var(--theme-bgcolor);
     line-height: 1.6;
     transition: color 0.5s, background-color var(--animationSpeed);
-    font-family: "W_Rg",Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: "XFont",Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

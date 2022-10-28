@@ -1,11 +1,21 @@
 <template>
   <div class="x-select-box" :class="{expand:expand}">
+    <!--    @wheel="XSelect_Wheel($event)"-->
     <div class="x-select" tabindex="-1" ref="SelectRef" @click="XSelect_Click" @blur="XSelect_Blur($event)">
-      <span v-if="$slots.text" class="text">
-        <slot name="text" />
-      </span>
-      <span v-else class="text" :class="{ placeholder:!selected }">
-        {{ ((textBind ? (selected ? (selected[textBind] || "&nbsp;") : null) : selected) || placeholder) || "&nbsp" }}
+      <!-- 能自定义显示内容，与li显示内容，有需求再说 -->
+      <!--      <span v-if="$slots.text" class="text">-->
+      <!--        <slot name="text" />-->
+      <!--      </span>-->
+      <!--      <span v-if="$slots.option" class="text">-->
+      <!--        <slot name="option" />-->
+      <!--      </span>-->
+      <span class="text" :class="{ placeholder:selectedIdx < 0 }">
+        {{ (selectedIdx >= 0
+        ? textBind
+          ? (options[selectedIdx][textBind])
+          : (options[selectedIdx])
+        : placeholder) || "&nbsp;"
+        }}
       </span>
       <span :class="{icon:true, activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
         <i class="icon-arrow-down"></i>
@@ -17,15 +27,15 @@
       <li class="option-item" v-for="(item, index) in options"
           :key="index"
           :value="item.value"
-          :class="{'selected': item === selected}"
-          @click="XSelect_Item_Click(item)">{{ textBind ? (item[textBind] || "&nbsp;") : item }}
+          :class="{'selected': index === selectedIdx}"
+          @click="XSelect_Item_Click(index)">{{ textBind ? (item[textBind] || "&nbsp;") : item }}
       </li>
     </ul>
   </div>
 
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 const emits = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -44,7 +54,7 @@ const props = defineProps({
   }
 });
 //选中项
-const selected = ref<any | null>(null);
+const selectedIdx = ref<number>(-1);
 //展开状态
 const expand = ref<boolean>(false);
 //拦截Click
@@ -53,7 +63,15 @@ const blockClick = ref<boolean>(false);
 const activeClear = ref<boolean>(false);
 
 onMounted(() => {
-  console.log(props.options);
+
+});
+
+watch(() => props.options, (val, old) => {
+  console.log("old", old);
+  console.log("val", val);
+  if (old?.length != val?.length) selectedIdx.value = -1;
+
+  //selectedIdx.value = -1;
 });
 
 // 点击事件 控制显示隐藏
@@ -77,10 +95,21 @@ function XSelect_Blur(e: any) {
 }
 
 // 下拉列表点击事件
-function XSelect_Item_Click(item: any) {
-  selected.value = item;
-  emits("update:modelValue", props.valueBind ? item[props.valueBind] : item);
+function XSelect_Item_Click(index: number) {
+  selectedIdx.value = index;
+  emits("update:modelValue", props.valueBind ? ((props.options || [])[index][props.valueBind]) : (props.options || [])[index]);
 }
+
+//XSelect_Wheel 这功能在有滚动条时候，一遍滚动一遍change selected 有点怪
+function XSelect_Wheel(e: any) {
+  if (expand.value) {
+    let index = selectedIdx.value + (e.deltaY > 0 ? 1 : -1);
+    if (index >= 0 && index < (props.options || []).length) {
+      XSelect_Item_Click(selectedIdx.value + (e.deltaY > 0 ? 1 : -1));
+    }
+  }
+}
+
 
 //activeClear
 function Icon_MouseMove() {
@@ -91,9 +120,10 @@ function Icon_MouseMove() {
 //clear modelValue
 function IconClear_Click() {
   if (activeClear.value) {
-    blockClick.value = true;
-    selected.value = null;
-    activeClear.value = false;
+    selectedIdx.value = -1;
+    expand.value = false;//收起
+    blockClick.value = true;//拦截控制dialog的冒泡
+    activeClear.value = false;//clear 状态
     emits("update:modelValue", null);
   }
 }

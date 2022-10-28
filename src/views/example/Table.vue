@@ -25,12 +25,12 @@ import XPagination from "@/components/XPagination.vue";
 import { ref } from "vue";
 
 const columns = ref<any>([
-  { label: "表头1", bind: "col1", width: 120 },
-  { label: "表头2", bind: "col2", width: 120 },
+  { label: "表头1", bind: "col1", width: 150 },
+  { label: "表头2", bind: "col2", width: 150 },
   { label: "表头3", bind: "col3", width: "40%" },
   { label: "表头4", bind: "col4", width: "40%" },
-  { label: "操作1", bind: "col5", width: 120 },
-  { label: "操作2", bind: "col6", width: 120 }]);
+  { label: "操作1", bind: "col5", width: 150 },
+  { label: "操作2", bind: "col6", width: 150 }]);
 
 const data = ref<Array<any>>();
 let dataTemp = [];
