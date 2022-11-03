@@ -24,6 +24,9 @@
     </div>
     <ul class="options"
         :style=" extendUp?`top:${ (-34 * ((props.options || []).length > 5 ? 5 : (props.options || []).length)) - 6 }px`:'' ">
+      <li v-if="(props.options || []).length===0" class="empty">
+        <div style="text-align: center;line-height: 100px">Empty 无数据</div>
+      </li>
       <li class="option-item" v-for="(item, index) in options"
           :key="index"
           :value="item.value"
@@ -62,7 +65,10 @@ const blockClick = ref<boolean>(false);
 //hasValue && hover
 const activeClear = ref<boolean>(false);
 
+const img_empty = ref('')
+
 onMounted(() => {
+  import('@/assets/imgs/empty.png').then(e=> img_empty.value = e.default)
 
 });
 

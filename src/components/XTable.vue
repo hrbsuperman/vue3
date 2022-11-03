@@ -161,7 +161,7 @@ function width_Calc(columns: any) {
 function body_Scroll(e: any) {
   header.value.scrollLeft = body.value.scrollLeft;
   scrollLeft.value = header.value.scrollLeft > 0;
-  scrollRight.value = body.value.scrollWidth - body.value.clientWidth - body.value.scrollLeft < 10;
+  scrollRight.value = body.value.scrollWidth - body.value.clientWidth - body.value.scrollLeft < 5;
 }
 </script>
 

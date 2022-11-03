@@ -5,8 +5,8 @@ import XSelect from "@/components/XSelect.vue";
 import XSwitch from "@/components/XSwitch.vue";
 import XTest from "@/components/XTest.vue";
 import XDatePicker from "@/components/XDatePicker.vue";
-
 import {reactive} from "vue";
+import XCheckBox from "@/components/XCheckBox.vue";
 
 const exampleForm = reactive({});
 
@@ -19,7 +19,6 @@ const exampleForm = reactive({});
           <col style="width: 300px;"/>
           <col style="width:200px;"/>
           <col/>
-
         </colgroup>
         <tr>
           <th>input</th>
@@ -42,7 +41,6 @@ const exampleForm = reactive({});
                 :extend-up = true
                 :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
                 value="测试" placeholder="请输入一些文本" v-model="exampleForm.xselect">
-
             </x-select>
           </td>
           <td> {{ exampleForm.xselect }}
@@ -54,7 +52,7 @@ const exampleForm = reactive({});
             <x-select
                 text-bind=""
                 value-bind=""
-                :options="['item1',2,3,'item4']"
+                :options="['item1',2,3,'item4',5,6,7,8,9,10]"
                 placeholder="请输入一些文本" v-model="exampleForm.xselect1"/>
           </td>
           <td> {{ exampleForm.xselect1 }}
@@ -66,6 +64,17 @@ const exampleForm = reactive({});
             <x-date-picker placeholder="请选择日期" v-model="exampleForm.xdatePicker"/>
           </td>
           <td> {{ exampleForm.xdatePicker }}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            x-che
+          </th>
+          <td>
+            <x-check-box />
+          </td>
+          <td>
+
           </td>
         </tr>
         <tr>
@@ -96,7 +105,6 @@ const exampleForm = reactive({});
           </td>
         </tr>
       </table>
-
     </div>
   </div>
 

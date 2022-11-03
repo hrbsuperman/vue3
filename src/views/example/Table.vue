@@ -1,8 +1,20 @@
 <template>
   <div class="listPage">
     <div class="header">
-      <p>1</p>
-      <p>2</p>
+      <div style="display: flex;justify-content: flex-start">
+        <div style="padding:0 1em;">
+          <label>Name：</label>
+          <div style="display: inline-block;width: 200px">
+            <x-select />
+          </div>
+        </div>
+        <div style="padding:0 1em;">
+          <label>Name：</label>
+          <div style="display: inline-block;width: 200px">
+            <x-select />
+          </div>
+        </div>
+      </div>
     </div>
     <div class="content">
       <x-table
@@ -12,7 +24,7 @@
         :columns="columns"
         :data="data">
         <template v-slot:footer>
-          <x-pagination  />
+          <x-pagination />
         </template>
       </x-table>
     </div>
@@ -23,6 +35,7 @@
 import XTable from "@/components/XTable.vue";
 import XPagination from "@/components/XPagination.vue";
 import { ref } from "vue";
+import XSelect from "@/components/XSelect.vue";
 
 const columns = ref<any>([
   { label: "表头1", bind: "col1", width: 150 },
