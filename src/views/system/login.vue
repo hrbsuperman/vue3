@@ -2,10 +2,7 @@
   <div class="less">this is login page</div>
 </template>
 
-<script>
-export default {
-  name: "login"
-}
+<script lang="ts" setup>
 </script>
 
 <style lang="less" scoped>
@@ -17,7 +14,7 @@ export default {
       content: ' ';
       width: 100px;
       height: 100px;
-      background-color: aqua; 
+      background-color: aqua;
     }
   }
 </style>
