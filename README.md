@@ -1,7 +1,7 @@
 # vue3
 <div>
 <label>在线预览：</label>
-<a>https://white-pond-08298e010.2.azurestaticapps.net/</a>
+<a target="_blank">https://white-pond-08298e010.2.azurestaticapps.net/</a>
 </div>
 
 
