@@ -19,12 +19,13 @@
 </template>
 
 <script setup lang="ts">
+import {ref} from 'vue'
 const props = defineProps({
   title: {type: String, default: ""},
-  lock: {type: Boolean, default: false},
-  show: {type: Boolean, default: false}
+  lock: {type: Boolean, default: false}
 
 })
+const show = ref(false);
 let dragElement: any = null;
 let dragEL = 0;
 let dragET = 0;

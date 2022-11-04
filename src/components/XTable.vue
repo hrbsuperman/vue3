@@ -66,7 +66,7 @@ const props = defineProps({
   fixedLeftCount: { type: Number, default: 0 },//左侧固定列数，固定列需要设置width
   fixedRightCount: { type: Number, default: 0 },//右侧固定列数，固定列需要设置width
 
-  rowNumber: { type: Boolean, default: false },//行号
+  rowNumber: { type: Boolean || undefined, default: false },//行号
   pagination: { type: Object, default: false }//typeof > boolean && true > 使用默认配置
 
 });

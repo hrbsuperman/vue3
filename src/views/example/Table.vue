@@ -18,7 +18,7 @@
     </div>
     <div class="content">
       <x-table
-        rowNumber="true"
+        :rowNumber="true"
         :fixedLeftCount="1"
         :fixedRightCount="1"
         :columns="columns"

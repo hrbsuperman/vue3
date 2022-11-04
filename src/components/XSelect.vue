@@ -12,8 +12,8 @@
       <span class="text" :class="{ placeholder:selectedIdx < 0 }">
         {{ (selectedIdx >= 0
         ? textBind
-          ? (options[selectedIdx][textBind])
-          : (options[selectedIdx])
+          ? ((options||[])[selectedIdx]?.textBind)
+          : ((options||[])[selectedIdx])
         : placeholder) || "&nbsp;"
         }}
       </span>
@@ -42,13 +42,13 @@ import { ref, onMounted, watch } from "vue";
 
 const emits = defineEmits(["update:modelValue"]);
 const props = defineProps({
-  modelValue: { type: Object, default: null },
+  modelValue: { type: String||Object, default: null },
   textBind: { type: String, default: "text" },//显示属性
   valueBind: { type: String, default: "value" },//值属性
   options: { type: Array<any> },//[10,20,"任意"] [{text:'',value:''}]
   clear: { type: Boolean, default: true },
   extendUp: { type: Boolean, default: false },//向上展开
-  placeholder: { type: String, default: "" },
+  placeholder: { type: String||Object, default: "" },
   disabled: { type: Boolean, default: false },
   setSelectOption: {
     type: Function, default: (option: any) => {
