@@ -3,7 +3,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
-        @input="emits('update:modelValue', $event.target.value)"
+        @input="change($event)"
    />
 </template>
 
@@ -15,5 +15,11 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['update:modelValue'])
+
+function change (e:any){
+  console.log(e);
+
+  emits('update:modelValue',e.target.value);
+}
 
 </script>
