@@ -7,6 +7,7 @@ import XTest from "@/components/XTest.vue";
 import XDatePicker from "@/components/XDatePicker.vue";
 import {reactive} from "vue";
 import XCheckBox from "@/components/XCheckBox.vue";
+import XRadio from "@/components/XRadio.vue";
 
 const exampleForm = reactive({value:'',xvalue:'',xselect:'',xselect1:'',xdatePicker:'',xswitch:false});
 
@@ -68,10 +69,23 @@ const exampleForm = reactive({value:'',xvalue:'',xselect:'',xselect1:'',xdatePic
         </tr>
         <tr>
           <th>
-            x-che
+            x-checkbox
           </th>
           <td>
-            <x-check-box />
+            <x-check-box label="checkbox" />
+            <x-check-box label="复选框" />
+          </td>
+          <td>
+
+          </td>
+        </tr>
+        <tr>
+          <th>
+            x-radio
+          </th>
+          <td>
+            <x-radio label="radio" />
+            <x-radio label="单选按钮" />
           </td>
           <td>
 

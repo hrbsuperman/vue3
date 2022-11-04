@@ -72,6 +72,10 @@ h1, h2, h3, h4, h5, h6 {
     display: flex
 }
 
+.flex-center {
+    align-items: center;
+}
+
 .flex-shrink {
     flex-shrink: 1;
 }
@@ -112,6 +116,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: 10px;
 }
 
+/*多功能容器*/
+.MF-box {
+}
+.MF-box .space:not(:first-child) {
+    padding-left:1em;
+}
 
 .opacityOut {
     /*opacity: 40%;*/
@@ -127,10 +137,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* theme */
 @font-face {
-  font-family: 'XFont';
-  src: url("../assets/fonts/W_Rg.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'XFont';
+    src: url("../assets/fonts/W_Rg.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
 }
 
 
@@ -179,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
     --theme-menu: 0, 21, 41; /*菜单背景色*/
     --theme-menu-child: #0C2135; /*菜单背景色*/
     --header-height: 48px;
-    --header-tab-height:30px;
+    --header-tab-height: 30px;
     --FormElementHeight: 34px;
 
     /*动画速度*/
@@ -192,6 +202,7 @@ h1, h2, h3, h4, h5, h6 {
     font-style: italic;
     font-size: 0.9em;
 }
+
 ::-ms-input-placeholder {
     color: rgb(var(--gray-6));
     font-style: italic;
@@ -233,7 +244,7 @@ body {
     background: var(--theme-bgcolor);
     line-height: 1.6;
     transition: color 0.5s, background-color var(--animationSpeed);
-    font-family: "XFont",Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: "XFont", Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

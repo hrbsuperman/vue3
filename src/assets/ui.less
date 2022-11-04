@@ -53,7 +53,7 @@ span.activeClear {
   }
 }
 
-.x-input, .x-button, .x-textarea, .x-select, .x-date-picker {
+.x-input, .x-textarea, .x-select, .x-date-picker {
   height: var(--FormElementHeight);
   line-height: var(--FormElementHeight);
   box-sizing: border-box;
@@ -98,17 +98,17 @@ span.activeClear {
 /*input end*/
 /*button*/
 .x-button {
-  line-height: 1.6em;
-  background-color: rgb(var(--gray-2));
+  padding:0.5em 1.35em;
+  background-color: rgb(var(--gray-3));
   cursor: pointer;
-  padding-left: 1em;
-  padding-right: 1em;
   border: 1px solid transparent;
   font-weight: 500;
-
+  border-radius: 2px;
   &:hover {
-    border-color: rgb(var(--gray-3));
-    box-shadow: 1px 1px #fff;
+    border-color: rgb(var(--gray-2));
+  }
+  &:active {
+    box-shadow: 0 1px 1px rgba(0,0,0,0.20), 0 1px 1px rgba(0,0,0,0.1);
   }
 }
 
@@ -266,6 +266,10 @@ span.activeClear {
       top: 2px;
       left: 2px;
       transition: left .18s;
+    }
+
+    &:active{
+      box-shadow: 0 2px 3px rgba(0,0,0,0.20), 0 2px 3px rgba(0,0,0,0.1);
     }
   }
 }

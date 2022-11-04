@@ -10,12 +10,7 @@
       <!--        <slot name="option" />-->
       <!--      </span>-->
       <span class="text" :class="{ placeholder:selectedIdx < 0 }">
-        {{ (selectedIdx >= 0
-        ? textBind
-          ? ((options||[])[selectedIdx]?.textBind)
-          : ((options||[])[selectedIdx])
-        : placeholder) || "&nbsp;"
-        }}
+        {{ SelectedText() }}
       </span>
       <span :class="{icon:true, activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
         <i class="icon-arrow-down"></i>
@@ -42,13 +37,13 @@ import { ref, onMounted, watch } from "vue";
 
 const emits = defineEmits(["update:modelValue"]);
 const props = defineProps({
-  modelValue: { type: String||Object, default: null },
+  modelValue: { type: String || Object, default: null },
   textBind: { type: String, default: "text" },//显示属性
   valueBind: { type: String, default: "value" },//值属性
   options: { type: Array<any> },//[10,20,"任意"] [{text:'',value:''}]
   clear: { type: Boolean, default: true },
   extendUp: { type: Boolean, default: false },//向上展开
-  placeholder: { type: String||Object, default: "" },
+  placeholder: { type: String || Object, default: "" },
   disabled: { type: Boolean, default: false },
   setSelectOption: {
     type: Function, default: (option: any) => {
@@ -65,10 +60,10 @@ const blockClick = ref<boolean>(false);
 //hasValue && hover
 const activeClear = ref<boolean>(false);
 
-const img_empty = ref('')
+const img_empty = ref("");
 
 onMounted(() => {
-  import('@/assets/imgs/empty.png').then(e=> img_empty.value = e.default)
+  import("@/assets/imgs/empty.png").then(e => img_empty.value = e.default);
 
 });
 
@@ -132,5 +127,15 @@ function IconClear_Click() {
     activeClear.value = false;//clear 状态
     emits("update:modelValue", null);
   }
+}
+
+function SelectedText() {
+  let text = undefined;
+  if (props.options && selectedIdx.value >= 0 && selectedIdx.value < props.options.length) {
+    text = props.textBind
+      ? (props.options[selectedIdx.value][props.textBind])
+      : (props.options[selectedIdx.value]);
+  }
+  return text || props.placeholder || "&nbsp;";
 }
 </script>

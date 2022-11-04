@@ -1,5 +1,5 @@
 <template>
-  <button><i class="icon-close"></i> {{text}}</button>
+  <button class="x-button"> {{text}}</button>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +9,8 @@ const props = defineProps({
 })
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .x-button{
 
+  }
 </style>
