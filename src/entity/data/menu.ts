@@ -62,6 +62,10 @@ const xMenuData: Array<XMenuItem> =
                 label: '表格&分页'
             },
             {
+                name: 'FlexGrid',
+                label: 'FlexGrid'
+            },
+            {
                 name: 'Dialog',
                 label: 'Dialog'
             }

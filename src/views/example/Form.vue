@@ -40,8 +40,12 @@ const exampleForm = reactive({value:'',xvalue:'',xselect:'',xselect1:'',xdatePic
           <td>
             <x-select
                 :extend-up = true
-                :options="[{text:'item1',value:'item1'},{text:'item2',value:'item2'},{text:'item3',value:'item3'}]"
-                placeholder="请输入一些文本" v-model="exampleForm.xselect">
+                :options="[
+                {text:'item1',value:'item1'},
+                {text:'item2',value:'item2'},
+                {text:'item3',value:'item3'}]"
+                placeholder="请输入一些文本" v-model="exampleForm.xselect"
+                :select-provider="(item,value)=>{ return item.value === value  }">
             </x-select>
           </td>
           <td> {{ exampleForm.xselect }}

@@ -24,6 +24,7 @@ const props = defineProps({
     align-items: center;
     gap: 0.35em;
     font-size: var(--fontsize);
+    user-select: none;
   }
 
 
@@ -47,8 +48,8 @@ const props = defineProps({
 
   input[type="radio"]::before {
     content: "";
-    width: 1em;
-    height: 1em;
+    width: 0.8em;
+    height: 0.8em;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;

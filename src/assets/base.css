@@ -191,6 +191,7 @@ h1, h2, h3, h4, h5, h6 {
     --header-height: 48px;
     --header-tab-height: 30px;
     --FormElementHeight: 34px;
+    --FlexGridSpacing:20px;
 
     /*动画速度*/
     --animationSpeed: .3s;

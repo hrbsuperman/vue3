@@ -10,7 +10,7 @@
       <!--        <slot name="option" />-->
       <!--      </span>-->
       <span class="text" :class="{ placeholder:selectedIdx < 0 }">
-        {{ SelectedText() }}
+        {{ SelectedText() || "&nbsp;" }}
       </span>
       <span :class="{icon:true, activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
         <i class="icon-arrow-down"></i>
@@ -44,12 +44,7 @@ const props = defineProps({
   clear: { type: Boolean, default: true },
   extendUp: { type: Boolean, default: false },//向上展开
   placeholder: { type: String || Object, default: "" },
-  disabled: { type: Boolean, default: false },
-  setSelectOption: {
-    type: Function, default: (option: any) => {
-      return option === "";
-    }
-  }
+  disabled: { type: Boolean, default: false }
 });
 //选中项
 const selectedIdx = ref<number>(-1);
@@ -63,8 +58,15 @@ const activeClear = ref<boolean>(false);
 const img_empty = ref("");
 
 onMounted(() => {
-  import("@/assets/imgs/empty.png").then(e => img_empty.value = e.default);
-
+  //import("@/assets/imgs/empty.png").then(e => img_empty.value = e.default);
+  // if (props.options && props.modelValue) {
+  //   props.options.forEach((item,index) => {
+  //     if(props.SelectProvider(item)){
+  //       selectedIdx.value = index;
+  //       return;
+  //     }
+  //   });
+  // }
 });
 
 watch(() => props.options, (val, old) => {
@@ -74,6 +76,12 @@ watch(() => props.options, (val, old) => {
 
   //selectedIdx.value = -1;
 });
+
+function DefaultSelectProvider(item: any) {
+  // return (!props.valueBind && !props.textBind)
+  //   ? item === props.modelValue
+  //   : item[props.valueBind] === props.modelValue;
+}
 
 // 点击事件 控制显示隐藏
 function XSelect_Click() {
@@ -136,6 +144,6 @@ function SelectedText() {
       ? (props.options[selectedIdx.value][props.textBind])
       : (props.options[selectedIdx.value]);
   }
-  return text || props.placeholder || "&nbsp;";
+  return text || props.placeholder;
 }
 </script>

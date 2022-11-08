@@ -11,6 +11,7 @@ const routers: any = {
     //Example
     "Form":defineAsyncComponent(() => import('@/views/example/Form.vue')),
     "Table":defineAsyncComponent(() => import('@/views/example/Table.vue')),
+    "FlexGrid":defineAsyncComponent(() => import('@/views/example/FlexGrid.vue')),
     "Dialog":defineAsyncComponent(() => import('@/views/example/Dialog.vue')),
     "403":defineAsyncComponent(() => import('@/views/example/exception/403.vue')),
     "404":defineAsyncComponent(() => import('@/views/example/exception/404.vue')),
