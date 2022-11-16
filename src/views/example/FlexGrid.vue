@@ -1,6 +1,5 @@
 <template>
   <main class="flex-grid-wrap">
-
     <div class="flex-grid">
       <span>One column default</span>
     </div>

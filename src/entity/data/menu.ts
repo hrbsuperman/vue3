@@ -62,8 +62,16 @@ const xMenuData: Array<XMenuItem> =
                 label: '表格&分页'
             },
             {
+                name: 'StyleComponent',
+                label: 'StyleComponent'
+            },
+            {
                 name: 'FlexGrid',
                 label: 'FlexGrid'
+            },
+            {
+                name: 'FontIcon',
+                label: '字体图标'
             },
             {
                 name: 'Dialog',
@@ -87,7 +95,7 @@ const xMenuData: Array<XMenuItem> =
 
         ]
     }, {
-        name: 'Test',
+        name: 'FontIcon',
         label: 'Test'
     }]
 export default xMenuData
