@@ -1,14 +1,14 @@
 <template>
   <div class="row">
     <div class="col-lg-1 iconBox" v-for="i in icons" @click="copy(i)">
-      <i :class="i"></i>
+      <i :class="i" />
       <p>{{ i }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "Vue";
+import { onMounted, ref } from "vue";
 
 const icons = ref<Array<string>>([]);
 

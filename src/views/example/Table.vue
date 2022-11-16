@@ -36,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import XTable from "@/components/XTable.vue";
 import XPagination from "@/components/XPagination.vue";
-import { ref } from "vue";
 import XSelect from "@/components/XSelect.vue";
 import XButton from "@/components/XButton.vue";
 
