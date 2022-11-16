@@ -120,6 +120,7 @@ const exampleForm = reactive({value:'',xvalue:'',xselect:'',xselect1:'',xdatePic
           <th></th>
           <td colspan="2">
             <x-button text="提交"/>
+            <x-button style="margin-left: 1em" @click="exampleForm.xselect1 = 2" text="测试"/>
           </td>
         </tr>
       </table>

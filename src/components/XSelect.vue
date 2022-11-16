@@ -69,7 +69,7 @@ onMounted(() => {
   // }
 });
 
-watch(() => props.options, (val, old) => {
+watch(() => [props.options, props.modelValue], (val, old) => {
   console.log("old", old);
   console.log("val", val);
   if (old?.length != val?.length) selectedIdx.value = -1;

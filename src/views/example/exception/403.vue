@@ -10,7 +10,7 @@
       {{ message }}
     </div>
     <div class="btn">
-      <button>返回首页</button>
+      <x-button text="返回首页"></x-button>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import '@/assets/common/exemption.less'
+import XButton from "@/components/XButton.vue";
 
 const message = ref('抱歉，您无权访问此页面');
 </script>

@@ -3,6 +3,8 @@
     <div class="x-table-wrapper" :style="`width:${boxWidth}px;`"
          :class="{scrollLeft:scrollLeft,scrollRight:!scrollRight}">
       <slot name="header" />
+
+
       <div class="x-table-header" ref="header"
            :style="{overflowY: ((body?.scrollHeight||0)>(body?.clientHeight||0))?'scroll':'hidden'}">
         <!--同步overflow-y 状态-->
@@ -35,7 +37,10 @@
               fixedLeftLast:columnsFixed[i]?.fixedLeftLast,
               fixedRightFirst:columnsFixed[i]?.fixedRightFirst}"
                 :style="c.fixed">
-              {{ row[c.bind] }}
+              <component v-if="c.slot" :is="$slots[c.slot]" :row="row" />
+              <template v-else>
+                {{ row[c.bind] }}
+              </template>
             </td>
           </tr>
           </tbody>
@@ -100,14 +105,14 @@ onMounted(() => {
       //左侧固定列
       if (i < props.fixedLeftCount) {
         //tableColSetWidth 在计算前正好作为 fixed 列的 left
-        c.fixed = `left:${tableColSetWidth}px`;
+        c.fixed = `left:${tableColSetWidth }px`;
       }
       //右侧固定列
       if (props.fixedRightCount) {
 
         let x = (props.columns || []).length - i;
         if (x <= props.fixedRightCount) {
-          c.fixed = `right:${(x == 1 ? 0 : width_Calc((props.columns || []).slice(i + 1)))}px`;
+          c.fixed = `right:${(x == 1 ? -1 : width_Calc((props.columns || []).slice(i + 1)))}px`;
         }
       }
     }
@@ -191,6 +196,7 @@ function body_Scroll(e: any) {
 
         th {
           background-color: #f8f8f9;
+
         }
       }
     }
