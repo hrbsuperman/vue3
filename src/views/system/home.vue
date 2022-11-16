@@ -5,8 +5,8 @@
         <img alt="头像" src="https://q1.qlogo.cn/g?b=qq&nk=190848757&s=640" style="width: 75px;border-radius: 100%"/>
       </div>
       <div class="textMessage">
-        <p style="font-size: 1.2em;color:rgb(var(--gray-9));">早安, Admin, 开始您一天的工作吧！</p>
-        <p style="color:rgb(var(--gray-8))">今日晴，20℃ - 32℃！</p>
+        <p style="font-size: 1.2em;color:var(--gray-9);">早安, Admin, 开始您一天的工作吧！</p>
+        <p style="color:var(--gray-8)">今日晴，20℃ - 32℃！</p>
       </div>
       <div class="work" :style="{width:works.length* 80+'px'}">
         <div v-for="w in works">
@@ -53,7 +53,7 @@ const works: Array<any> = reactive([{desc: '待办', num: '2/10'}, {desc: '项�
       padding-right: 20px;
 
       .desc {
-        color: rgb(var(--gray-6))
+        color: var(--gray-6)
       }
 
       .number {

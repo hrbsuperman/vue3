@@ -77,7 +77,7 @@ import XButton from "@/components/XButton.vue";
         padding: 10px;
         label{
           font-size: 0.8em;
-          color:rgb(var(--gray-5));
+          color:var(--gray-5);
         }
       }
 

@@ -30,7 +30,7 @@ const props = defineProps({
   }
 
   .x-checkbox-input:disabled {
-    color: rgb(var(--gray-4));
+    color: var(--gray-4);
     cursor: not-allowed;
   }
 
@@ -47,7 +47,7 @@ const props = defineProps({
     font: inherit;
     width: 1.15em;
     height: 1.15em;
-    border: 2px solid rgb(var(--gray-7));
+    border: 2px solid var(--gray-6);
     border-radius: 0.15em;
     display: grid;
     place-content: center;
@@ -62,7 +62,7 @@ const props = defineProps({
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--theme-color);
+    box-shadow: inset 1em 1em rgba(var(--theme),0.9);
   }
 
   input[type="checkbox"]:checked::before {
@@ -70,7 +70,7 @@ const props = defineProps({
   }
 
   input[type="checkbox"]:disabled {
-    color: rgb(var(--gray-4));
+    color: var(--gray-4);
     cursor: not-allowed;
   }
 }

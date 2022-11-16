@@ -79,7 +79,7 @@ function pageBtn_Click(change: number) {
   .x-page-input {
     flex-shrink: 0;
     width: 24px;
-    border: 1px solid rgb(var(--gray-3));
+    border: 1px solid var(--gray-3);
     padding: 0 5px;
     height: 22px;
     text-align: center;
@@ -87,15 +87,15 @@ function pageBtn_Click(change: number) {
 
   .pageBtn {
     padding: 2px 5px;
-    border: 1px solid rgb(var(--gray-3));
+    border: 1px solid var(--gray-3);
     margin: 0 6px;
     cursor: pointer;
     user-select: none;
     border-radius: 2px;
 
     &:hover {
-      border: 1px solid rgb(var(--gray-3));
-      box-shadow: 0 0 3px 0 rgb(var(--gray-5));
+      border: 1px solid var(--gray-3);
+      box-shadow: 0 0 3px 0 var(--gray-5);
     }
   }
 
@@ -107,17 +107,17 @@ function pageBtn_Click(change: number) {
       margin: 0 5px;
 
       i {
-        color: rgb(var(--gray-7));
+        color: var(--gray-7);
         font-size: 12px;
         padding:5px 0;
 
         &::before {
-          border: 1px solid rgb(var(--gray-3));
+          border: 1px solid var(--gray-3);
           border-radius: 2px;
           padding: 5px;
         }
           &:hover{
-            box-shadow: 0 0 3px 0 rgb(var(--gray-5));
+            box-shadow: 0 0 3px 0 var(--gray-5);
           }
       }
     }

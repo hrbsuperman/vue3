@@ -14,8 +14,100 @@ span.icon {
     left: 0;
     top: 0;
     transition: opacity var(--animationSpeed);
+    color:var(--gray-7)
   }
 }
+
+/* dropdownMenu */
+.dropdown {
+  position: relative;
+
+  .dropdownTitle {
+    display: inline-flex;
+    align-items: center;
+
+    &:after {
+      content: "";
+      border: 0.35rem solid transparent;
+      border-top-color: rgba(#fff, 0.45);
+      margin-left: 0.25em;
+      transform: translateY(0.15em);
+    }
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    min-width: 80px;
+    left: 50%;
+    top: calc(100% - 0.25rem);
+    transition: 280ms all 120ms ease-out;
+    transform: rotateX(-90deg) translateX(-50%);
+    transform-origin: top center;
+    visibility: hidden;
+    opacity: 0.3;
+    padding: 0.5em 0;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0.15em 0.25em rgba(black, 0.25);
+
+    a {
+      color: var(--theme-color);
+      display: block;
+      padding: 0.5em 1em;
+      opacity: 0;
+      transition: 280ms all 120ms ease-out;
+      outline: none;
+      text-decoration: none;
+      font-size: 0.9em;
+
+      &:hover {
+        outline: none;
+        background-color: rgba(rebeccapurple, 0.15);
+      }
+
+      &:focus {
+        outline: none;
+        background-color: rgba(rebeccapurple, 0.25);
+      }
+    }
+  }
+
+  &:after {
+    content: "";
+    border: 0.5rem solid transparent;
+    border-bottom-color: #fff;
+    position: absolute;
+    top: calc(100% - 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 280ms all 120ms ease-out;
+    opacity: 0;
+    will-change: opacity;
+  }
+
+  &:hover,
+  &:focus-within {
+    .dropdownTitle {
+      border-top-color: pink;
+    }
+
+    .dropdownMenu {
+      opacity: 1;
+      transform: rotateX(0) translateX(-50%);
+      visibility: visible;
+
+      a {
+        opacity: 1;
+      }
+    }
+
+    &:after {
+      opacity: 1;
+    }
+  }
+}
+
+/* dropdownMenu end*/
 /* 组件清空图标按钮 */
 span.activeClear {
   .icon-close {
@@ -66,17 +158,19 @@ span.activeClear {
   width: 100%;
 
   &:hover {
-    border: 1px solid rgb(var(--gray-3));
-    box-shadow: 0 0 3px 0 rgb(var(--gray-5));
+    border: 1px solid var(--gray-3);
+    box-shadow: 0 0 3px 0 var(--gray-5);
   }
 }
-.x-element:hover{
-    border: 1px solid rgb(var(--gray-3));
-    box-shadow: 0 0 3px 0 rgb(var(--gray-5));
+
+.x-element:hover {
+  border: 1px solid var(--gray-3);
+  box-shadow: 0 0 3px 0 var(--gray-5);
 }
-.x-element:focus{
-    border-color: var(--theme-hover);
-    box-shadow: 0 0 3px 0 var(--theme-hover);
+
+.x-element:focus {
+  border-color: var(--theme-color);
+  box-shadow: 0 0 3px 0 var(--theme-hover);
 }
 
 /*input*/
@@ -90,7 +184,7 @@ span.activeClear {
   }
 
   &:focus {
-    border-color: var(--theme-hover);
+    border-color: var(--theme-color);
     box-shadow: 0 0 3px 0 var(--theme-hover);
   }
 }
@@ -98,17 +192,19 @@ span.activeClear {
 /*input end*/
 /*button*/
 .x-button {
-  padding:0.5em 1.35em;
-  background-color: rgb(var(--gray-3));
+  padding: 0.5em 1.35em;
+  background-color: var(--gray-3);
   cursor: pointer;
   border: 1px solid transparent;
   font-weight: 500;
   border-radius: 2px;
+
   &:hover {
-    border-color: rgb(var(--gray-2));
+    border-color: var(--gray-2);
   }
+
   &:active {
-    box-shadow: 0 1px 1px rgba(0,0,0,0.20), 0 1px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.20), 0 1px 1px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -135,7 +231,7 @@ span.activeClear {
     }
 
     .x-select {
-      border-color: var(--theme-hover);
+      border-color: var(--theme-color);
       box-shadow: 0 0 3px 0 var(--theme-hover);
     }
   }
@@ -153,9 +249,10 @@ span.activeClear {
       width: 100%;
       text-align: left;
       outline: none;
-      white-space:nowrap;
+      white-space: nowrap;
+
       &.placeholder {
-        color: rgb(var(--gray-6));
+        color: var(--gray-6);
         font-style: italic;
         font-size: 0.8em;
       }
@@ -195,16 +292,18 @@ span.activeClear {
       font-size: 0.9em;
 
       &:hover {
-        background-color: #F5F5F5;
+        background-color: var(--gray-1);
       }
     }
 
     .selected {
-      background-color: #E3F4FC !important;
+      background-color: rgba(var(--theme),.8) !important;
       font-weight: 700;
+      color:#fff;
     }
-    .empty{
-      img{
+
+    .empty {
+      img {
         max-height: 150px;
         max-width: 100%;
       }
@@ -224,7 +323,7 @@ span.activeClear {
 
   &.checked {
     .x-switch {
-      background-color: var(--theme-color);
+      background-color: rgba(var(--theme),0.9);
 
       &:after {
         left: 22px !important;
@@ -237,7 +336,7 @@ span.activeClear {
     cursor: pointer;
     top: 50%;
     left: 50%;
-    background-color: rgb(var(--gray-4));
+    background-color: rgba(var(--theme),.25);
     transform: translate(-50%, -50%);
     display: inline-block;
     line-height: var(--FormElementHeight);
@@ -268,8 +367,8 @@ span.activeClear {
       transition: left .18s;
     }
 
-    &:active{
-      box-shadow: 0 2px 3px rgba(0,0,0,0.20), 0 2px 3px rgba(0,0,0,0.1);
+    &:active {
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.20), 0 2px 3px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -285,7 +384,7 @@ span.activeClear {
   position: relative;
 
   &.active {
-    border-color: var(--theme-hover);
+    border-color: var(--theme-color);
     box-shadow: 0 0 3px 0 var(--theme-hover);
 
     .x-date-dialog {
@@ -323,7 +422,7 @@ span.activeClear {
         flex-shrink: 0;
 
         i:hover {
-          color: var(--theme-hover)
+          color: var(--theme-color)
         }
       }
 
@@ -333,11 +432,11 @@ span.activeClear {
         margin: 0 0.4em;
         padding: 0 0.2em;
         cursor: pointer;
-        border-bottom: 2px solid rgb(var(--gray-8));
+        border-bottom: 2px solid var(--gray-8);
         position: relative;
 
         &:hover {
-          color: var(--theme-hover);
+          color: var(--theme-color);
           border-color: var(--theme-hover);
         }
 
@@ -368,17 +467,18 @@ span.activeClear {
             font-size: 14px;
             line-height: 22px;
             height: 22px;
-            color: rgb(var(--gray-8));
+            color: var(--gray-8);
             padding-left: 1em;
             box-sizing: border-box;
 
             &:hover {
-              color: var(--theme-hover);
+              color: var(--theme-color);
               background-color: #F5F5F5;
             }
 
             &.selected {
-              background-color: #E3F4FC !important;
+              background-color: rgba(var(--theme),.8) !important;
+              color:#fff;
               font-weight: 700;
             }
           }
@@ -399,13 +499,13 @@ span.activeClear {
 
         th {
 
-          color: rgb(var(--gray-9));
+          color: var(--gray-9);
           height: 24px;
           line-height: 24px;
         }
 
         .other-month {
-          color: rgb(var(--gray-4));
+          color: var(--gray-4);
         }
 
         td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5) {
@@ -413,7 +513,7 @@ span.activeClear {
         }
 
         td {
-          color: rgb(var(--gray-8));
+          color: var(--gray-8);
           cursor: pointer;
           overflow: hidden;
 
@@ -426,7 +526,7 @@ span.activeClear {
 
             &:hover {
               background-color: #F5F5F5;
-              color: rgb(var(--gray-8));
+              color: var(--gray-8);
               transition: background-color .2s;
             }
           }
@@ -445,8 +545,8 @@ span.activeClear {
 
         .selected {
           span {
-            background-color: #E3F4FC;
-            color: rgb(var(--gray-8));
+            background-color: rgba(var(--theme),.75);
+            color: var(--gray-1);
             font-weight: 700;
             transition: background-color .2s;
           }

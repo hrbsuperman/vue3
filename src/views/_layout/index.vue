@@ -2,11 +2,11 @@
   <div :class="menuSwitchOpen?'menuOpen':'menuStow'">
     <div class="menu">
       <div class="logo"
-           style="font-weight: 700; color:rgb(var(--gray-4));text-align: center;line-height: var(--header-height);">
+           style="font-weight: 700; color:var(--gray-4);text-align: center;line-height: var(--header-height);">
         Admin
       </div>
       <!--左侧菜单-->
-      <x-menu :dataList="xMenuData" :active-item="page.current?.name" @change="menu_Change"/>
+      <x-menu :dataList="xMenuData" :active-item="page.current?.name" @change="menu_Change" />
     </div>
   </div>
   <div class="main">
@@ -24,11 +24,17 @@
           <i title="通知" class="icon-tongzhi"></i>
           <i :title="fullScreenStatus?'退出全屏':'全屏'" :class="fullScreenStatus?'icon-tuichuquanping':'icon-quanping'"
              @click="fullScreen"></i>
-          <div class="user">
+          <div class="user dropdown" aria-expanded="false" aria-controls="sweets-dropdown">
             <div class="photo">
               <span class="iconfont icon-emoji" style="font-size: 1.4em;margin:0 0.8em"></span>
             </div>
             <span>Admin</span>
+
+            <ul class="dropdownMenu" id="sweets-dropdown" style="width: 120px;">
+              <li><a href="javascript:;">个人信息</a></li>
+              <li><a href="javascript:;">修改密码</a></li>
+              <li><a href="javascript:;">注销</a></li>
+            </ul>
           </div>
           <i @click="pageTest" title="设置" class="icon-set"></i>
         </div>
@@ -54,7 +60,7 @@
     <!--页面标签鼠标右键-->
     <div class="pageTabMenu" :style="pageTabMenuOption" ref="pageTabMenu">
       <ul>
-        <li style="border-bottom:1px solid rgb(var(--gray-2))">
+        <li style="border-bottom:1px solid var(--gray-2)">
           <i class="icon-reload"></i><span>重新加载</span>
         </li>
         <li @click="pageClose(pageTabMenuControlIndex)" :class="{disabled:pageTabMenuControlIndex === 0}">
@@ -72,11 +78,11 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted, h, Transition, reactive, defineAsyncComponent, shallowRef} from "vue";
-import type {XMenuItem, XPageTab} from "@/entity/component/XSupport";
+import { ref, onMounted, h, Transition, reactive, defineAsyncComponent, shallowRef } from "vue";
+import type { XMenuItem, XPageTab } from "@/entity/component/XSupport";
 import XMenu from "@/components/XMenu.vue";
-import router from '../../router/index';//页面字典
-import userMenu from '../../entity/data/menu';//菜单测试数据
+import router from "../../router/index";//页面字典
+import userMenu from "../../entity/data/menu";//菜单测试数据
 
 h(Transition, {});
 
@@ -85,13 +91,13 @@ const pagesMap: Map<string, XPageTab> = reactive(new Map<string, XPageTab>);
 //当前打开页面们
 const pages: XPageTab[] = reactive([]);
 //当前打开页
-const page: any = reactive({current: null});
+const page: any = reactive({ current: null });
 //菜单展开/收起
 const menuSwitchOpen = ref(true);
 //是否全屏
 const fullScreenStatus = ref(false);
 //页面Tab右键菜单
-const pageTabMenuOption = reactive({display: 'none', left: '0px', top: '0px'});
+const pageTabMenuOption = reactive({ display: "none", left: "0px", top: "0px" });
 const pageTabMenu = ref<HTMLElement | null>(null);
 //右键页面tab索引
 const pageTabMenuControlIndex = ref(-1);
@@ -102,17 +108,17 @@ const pageTabMenuControlIndex = ref(-1);
 const xMenuData: XMenuItem[] = reactive(userMenu);
 onMounted(() => {
   //默认打开的首页，首页Tab没有关闭通过 main.less > .item { &:first-child{ display:none 控制
-  page.current = {name: 'home', label: userMenu[0].label, component: router.home, active: true};
+  page.current = { name: "home", label: userMenu[0].label, component: router.home, active: true };
   pages.push(page.current);
 
 
   //判断当前路由，刷新进入页面，给当前route 对应 Menu Active
   window.onresize = () => {
     //没通过按钮进入全屏状态，更正 fullScreenStatus
-    let isFullScreen = !(window.screen.height - window.document.body.offsetHeight > 5)
-    fullScreenStatus.value != isFullScreen && (fullScreenStatus.value = isFullScreen)
-  }
-})
+    let isFullScreen = !(window.screen.height - window.document.body.offsetHeight > 5);
+    fullScreenStatus.value != isFullScreen && (fullScreenStatus.value = isFullScreen);
+  };
+});
 
 //页面标签，鼠标按下
 function pageTab_Menu(e: any, index: number) {
@@ -128,21 +134,23 @@ function pageTab_Menu(e: any, index: number) {
   else if (e.button == 2) {
     pageTabMenuControlIndex.value = index;
     window.setTimeout(() => {
-      pageTabMenuOption.display = 'block';
-      pageTabMenuOption.top = e.pageY + 'px';
-      pageTabMenuOption.left = e.pageX + 'px';
-    }, 100)
+      pageTabMenuOption.display = "block";
+      pageTabMenuOption.top = e.pageY + "px";
+      pageTabMenuOption.left = e.pageX + "px";
+    }, 100);
   }
   return false;
 }
+
 //页面标签，Blur
 //元素设置 tabindex="-1" 属性，可以拥有表单元素的 focus、blur
 function pageTab_Menu_Blur() {
   //延迟关闭，让菜单的click顺利触发后再隐藏。
   setTimeout(() => {
-    pageTabMenuOption.display = 'none';
-  }, 180)
+    pageTabMenuOption.display = "none";
+  }, 180);
 }
+
 //关闭其他
 function pageCloseOther(current: number) {
   page.current = pages[current];
@@ -153,12 +161,14 @@ function pageCloseOther(current: number) {
   if (pages.length > 2)
     pages.splice(2, pages.length - 2);
 }
+
 //关闭全部
 function pageCloseAll() {
   page.current = pages[0];
   page.current.active = true;
   pages.splice(1, pages.length - 1);
 }
+
 //Page Close
 function pageClose(index: number) {
   if (index === 0) return;
@@ -170,6 +180,7 @@ function pageClose(index: number) {
   }
   pages.splice(index, 1);
 }
+
 //全屏
 function fullScreen() {
   if (document.documentElement.requestFullscreen) {
@@ -180,9 +191,10 @@ function fullScreen() {
       document.exitFullscreen();
   }
 }
+
 //Menu > Open page
 function menu_Change(item: XMenuItem) {
-  console.log('menu_Change');
+  console.log("menu_Change");
   //设置地址栏锚点地址
   window.location.hash = item.name;
   document.title = item.label;
@@ -211,7 +223,7 @@ function pageOpen(name: string, label: string) {
   if (router[name]) {
     //上一个打开的page，active > false
     if (page.current) page.current.active = false;
-    page.current = {name, label, component: router[name], active: true};
+    page.current = { name, label, component: router[name], active: true };
     pages.push(page.current);
   } else {
     //404
@@ -241,16 +253,16 @@ function pageTest() {
     li {
       padding: 0.3em 0.5em;
       font-size: 0.95em;
-      color: rgb(var(--gray-10));
+      color: var(--gray-10);
       cursor: pointer;
 
       &.disabled {
         background-color: #fff !important;
         cursor: not-allowed;
-        color: rgb(var(--gray-5));
+        color: var(--gray-5);
 
         i {
-          color: rgb(var(--gray-5));
+          color: var(--gray-5);
         }
       }
 
@@ -260,7 +272,7 @@ function pageTest() {
       }
 
       &:hover {
-        background-color: rgb(var(--gray-2));
+        background-color: var(--gray-2);
       }
     }
   }

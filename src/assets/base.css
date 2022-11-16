@@ -119,8 +119,9 @@ h1, h2, h3, h4, h5, h6 {
 /*多功能容器*/
 .MF-box {
 }
+
 .MF-box .space:not(:first-child) {
-    padding-left:1em;
+    padding-left: 1em;
 }
 
 .opacityOut {
@@ -165,24 +166,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-    --gray-1: 247, 248, 250;
-    --gray-2: 242, 243, 245;
-    --gray-3: 229, 230, 235;
-    --gray-4: 201, 205, 212;
-    --gray-5: 169, 174, 184;
-    --gray-6: 134, 144, 156;
-    --gray-7: 107, 119, 133;
-    --gray-8: 78, 89, 105;
-    --gray-9: 39, 46, 59;
-    --gray-10: 29, 33, 41;
+    --gray-1: rgb(247, 248, 250);
+    --gray-2: rgb(242, 243, 245);
+    --gray-3: rgb(229, 230, 235);
+    --gray-4: rgb(201, 205, 212);
+    --gray-5: rgb(169, 174, 184);
+    --gray-6: rgb(134, 144, 156);
+    --gray-7: rgb(107, 119, 133);
+    --gray-8: rgb(78, 89, 105);
+    --gray-9: rgb(39, 46, 59);
+    --gray-10: rgb(29, 33, 41);
     --fontsize: 14px;
 
     /*主题*/
-    --theme: 38, 123, 201;
-    --theme-hover: rgba(var(--theme, .8));
     --theme-bgcolor: #fff;
+    --theme: 102, 51, 153;
     --theme-color: rgb(var(--theme));
-    --theme-border: rgb(var(--gray-3));
+    --theme-hover: rgba(var(--theme), .7);
+    --theme-border: var(--gray-4);
 
     --theme-selected: #E3F4FC; /* 组件选中颜色 */
     --theme-text: var(--gray-8); /*文本颜色*/
@@ -191,7 +192,7 @@ h1, h2, h3, h4, h5, h6 {
     --header-height: 48px;
     --header-tab-height: 30px;
     --FormElementHeight: 34px;
-    --FlexGridSpacing:20px;
+    --FlexGridSpacing: 20px;
 
     /*动画速度*/
     --animationSpeed: .3s;
@@ -199,19 +200,19 @@ h1, h2, h3, h4, h5, h6 {
 
 /* input placeholder start */
 ::-webkit-input-placeholder {
-    color: rgb(var(--gray-6));
+    color: var(--gray-6);
     font-style: italic;
     font-size: 0.9em;
 }
 
 ::-ms-input-placeholder {
-    color: rgb(var(--gray-6));
+    color: var(--gray-6);
     font-style: italic;
     font-size: 0.9em;
 }
 
 ::-moz-placeholder {
-    color: rgb(var(--gray-6));
+    color: var(--gray-6);
     font-style: italic;
     font-size: 0.9em;
 }

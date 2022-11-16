@@ -100,7 +100,7 @@ function XSelect_Click() {
 function XSelect_Blur(e: any) {
   setTimeout(() => {
     expand.value = false;
-  }, 180);
+  }, 240);
 }
 
 // 下拉列表点击事件

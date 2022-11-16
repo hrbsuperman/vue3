@@ -92,7 +92,7 @@ function numFmt(num: number) {
     -webkit-user-select: none;
     -webkit-user-drag: none;
     user-select: none;
-    border-bottom: 1px solid rgb(var(--gray-3));
+    border-bottom: 1px solid var(--gray-3);
     cursor: move;
     display: flex;
     justify-content: space-between;
@@ -117,7 +117,7 @@ function numFmt(num: number) {
     text-align: right;
     padding: 0.5em 1em;
 
-    border-top: 1px solid rgb(var(--gray-3));
+    border-top: 1px solid var(--gray-3);
   }
 }
 </style>
