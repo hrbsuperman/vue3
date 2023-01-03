@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-lg-1 iconBox" v-for="i in icons" @click="copy(i)">
+    <div class="col-lg-1 col-md-2 col-sm-3 iconBox" v-for="i in icons" @click="copy(i)">
       <i :class="i" />
       <p>{{ i }}</p>
     </div>

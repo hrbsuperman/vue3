@@ -40,6 +40,7 @@
     min-height: 100vh;
     background-color: rgb(var(--theme-menu));
     font-size: 16px;
+
     .logo {
       height: var(--header-height);
       overflow: hidden;
@@ -118,7 +119,7 @@
 
     .header {
       .control {
-        i {
+        i.iconBtn {
           font-size: 1.4em;
           height: 100%;
           display: inline-block;
@@ -159,10 +160,41 @@
               background-color: var(--gray-2);
             }
 
-            span {
+            .iconfont {
+              padding: 0 6px 0 10px;
+              font-size: 1.4em;
+            }
+
+            & > span {
               font-size: 0.9em;
               color: var(--theme-text);
               margin-right: 1em;
+            }
+
+            &.dropdown {
+              li {
+                i {
+                  display: inline-block;
+                  color: var(--theme-color);
+                  font-size: 16px;
+                }
+                color: var(--theme-color);
+                display: block;
+                padding: 0.5em 1em;
+                transition: 280ms all 120ms ease-out;
+                outline: none;
+                text-decoration: none;
+                font-size: 1em;
+
+                &:hover {
+                  outline: none;
+                  background-color: rgba(rebeccapurple, 0.15);
+                }
+                &:focus {
+                  outline: none;
+                  background-color: rgba(rebeccapurple, 0.25);
+                }
+              }
             }
           }
         }

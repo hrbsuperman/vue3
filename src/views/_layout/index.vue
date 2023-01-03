@@ -13,7 +13,7 @@
     <div class="header">
       <div class="control">
         <!--菜单展开/收起-->
-        <i :class="{'icon-shouqi':true,'rota180':!menuSwitchOpen}" :title="menuSwitchOpen?'收起':'展开'"
+        <i class="iconBtn" :class="{'icon-shouqi':true,'rota180':!menuSwitchOpen}" :title="menuSwitchOpen?'收起':'展开'"
            @click="menuSwitchOpen = !menuSwitchOpen"></i>
         <!--面包屑-->
         <div class="breadLink">
@@ -21,22 +21,28 @@
         </div>
         <!--用户信息&设置-->
         <div class="action">
-          <i title="通知" class="icon-tongzhi"></i>
-          <i :title="fullScreenStatus?'退出全屏':'全屏'" :class="fullScreenStatus?'icon-tuichuquanping':'icon-quanping'"
-             @click="fullScreen"></i>
-          <div class="user dropdown" aria-expanded="false" aria-controls="sweets-dropdown">
-            <div class="photo">
-              <span class="iconfont icon-emoji" style="font-size: 1.4em;margin:0 0.8em"></span>
-            </div>
-            <span>Admin</span>
-
-            <ul class="dropdownMenu" id="sweets-dropdown" style="width: 120px;">
-              <li><a href="javascript:;">个人信息</a></li>
-              <li><a href="javascript:;">修改密码</a></li>
-              <li><a href="javascript:;">注销</a></li>
+          <div class="dropdown">
+            <i title="通知" class="iconBtn icon-tongzhi"></i>
+            <ul class="dropdownBox" style="width: 120px;">
+                  <li class="flex flex-center"><i class="icon-usercenter"></i><span>个人信息</span></li>
+                  <li class="flex flex-center"><i class="icon-password"></i><span>修改密码</span></li>
+                  <li class="flex flex-center"><i class="icon-switch"></i><span>注销</span></li>
             </ul>
           </div>
-          <i @click="pageTest" title="设置" class="icon-set"></i>
+          <i :title="fullScreenStatus?'退出全屏':'全屏'" class="iconBtn" :class=" fullScreenStatus?'icon-tuichuquanping':'icon-quanping'"
+             @click="fullScreen"></i>
+          <div class="user dropdown">
+            <div class="photo">
+              <span class="iconBtn iconfont icon-emoji"></span>
+            </div>
+            <span>Admin</span>
+            <ul class="dropdownBox" style="width: 120px;">
+                  <li class="flex flex-center"><i class="icon-usercenter"></i><span>个人信息</span></li>
+                  <li class="flex flex-center"><i class="icon-password"></i><span>修改密码</span></li>
+                  <li class="flex flex-center"><i class="icon-switch"></i><span>注销</span></li>
+            </ul>
+          </div>
+          <i @click="pageTest" title="设置" class="iconBtn icon-set"></i>
         </div>
       </div>
       <!--页面们的 tab -->
