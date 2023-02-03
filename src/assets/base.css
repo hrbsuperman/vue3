@@ -247,9 +247,9 @@ body {
     line-height: 1.6;
     transition: color 0.5s, background-color var(--animationSpeed);
     font-family: "XFont", Inter, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, noto sans, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size:var(--fontsize);
 }
 
 /*@media (prefers-color-scheme: dark) {  -- 跟随主题 */
