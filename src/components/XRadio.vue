@@ -25,6 +25,7 @@ const props = defineProps({
     gap: 0.35em;
     font-size: var(--fontsize);
     user-select: none;
+    cursor: pointer;
   }
 
 
@@ -53,7 +54,7 @@ const props = defineProps({
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em rgba(var(--theme),0.9);
+    box-shadow: inset 1em 1em rgba(var(--theme), 0.9);
   }
 
   input[type="radio"]:checked::before {

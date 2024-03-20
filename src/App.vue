@@ -16,5 +16,6 @@ window.onhashchange = (e)=>{
 
 </script>
 <template>
+
   <component ref="detail" :is="pageView"></component>
 </template>

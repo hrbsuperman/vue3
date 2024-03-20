@@ -1,5 +1,5 @@
 <template>
-  <div class="x-select-box" :class="{expand:expand}">
+  <div class="x-select-box" :class="{expand}">
     <!--    @wheel="XSelect_Wheel($event)"-->
     <div class="x-select" tabindex="-1" ref="SelectRef" @click="XSelect_Click" @blur="XSelect_Blur($event)">
       <!-- 能自定义显示内容，与li显示内容，有需求再说 -->
@@ -12,7 +12,7 @@
       <span class="text" :class="{ placeholder:selectedIdx < 0 }">
         {{ SelectedText() || "&nbsp;" }}
       </span>
-      <span :class="{icon:true, activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
+      <span class="icon" :class="{activeClear}" @mousemove="Icon_MouseMove" @mouseleave="activeClear=false">
         <i class="icon-arrow-down"></i>
         <i @click="IconClear_Click" style="opacity:0" class="FE icon-close"></i>
       </span>
@@ -71,7 +71,7 @@ onMounted(() => {
 
 watch(() => [props.options, props.modelValue], (val, old) => {
   if (old?.length != val?.length) selectedIdx.value = -1;
-
+  console.log('watch value change');
   //selectedIdx.value = -1;
 });
 

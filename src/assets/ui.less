@@ -145,19 +145,37 @@ span.activeClear {
 /*input end*/
 /*button*/
 .x-button {
-  padding: 0.5em 1.35em;
-  background-color: var(--gray-3);
+  // Display
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start; // Optional - see "Gotchas"
   cursor: pointer;
-  border: 1px solid transparent;
-  font-weight: 500;
+
+  // Visual
+  background-color: var(--theme-color);
+  color: #fff;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+
+  // Size
+  padding: 0.5em 0.75em;
+  min-width: 10ch;
+  min-height: 24px;
+
+  // Text
+  text-align: center;
+  line-height: 1.1;
+
+  transition: 220ms all ease-in-out;
   border-radius: 2px;
 
-  &:hover {
-    border-color: var(--gray-2);
+  &:hover,&:active {
+    background-color: var(--theme-hover);
   }
-
-  &:active {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.20), 0 1px 1px rgba(0, 0, 0, 0.1);
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px var(--theme-hover);
   }
 }
 
@@ -233,7 +251,7 @@ span.activeClear {
 
     border: 1px solid #ccc;
     border-bottom-color: #bbb;
-    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 51%);
+    box-shadow: 0 5px 15px -5px rgba(0 0 0 / 51%);
     background-color: #fff;
     z-index: 2002;
     overflow-y: auto;

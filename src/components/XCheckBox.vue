@@ -24,6 +24,7 @@ const props = defineProps({
     display: flex;
     align-items: center;
     gap: 0.35em;
+    cursor: pointer;
     user-select: none;
     height: var(--FormElementHeight);
     font-size: var(--fontsize);
