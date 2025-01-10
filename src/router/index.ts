@@ -17,7 +17,12 @@ const routers: any = {
     "Dialog":defineAsyncComponent(() => import('@/views/example/Dialog.vue')),                  /*模态*/
     "403":defineAsyncComponent(() => import('@/views/example/exception/403.vue')),              /*403*/
     "404":defineAsyncComponent(() => import('@/views/example/exception/404.vue')),              /*404*/
-    "500":defineAsyncComponent(() => import('@/views/example/exception/500.vue'))               /*500*/
+    "500":defineAsyncComponent(() => import('@/views/example/exception/500.vue')),              /*500*/
+
+
+    "Loading":defineAsyncComponent(() => import('@/views/example/Loading.vue')),                /*Loading*/
+
+    "a8":defineAsyncComponent(() => import('@/views/demo/a8.vue'))
 };
 
 export default routers

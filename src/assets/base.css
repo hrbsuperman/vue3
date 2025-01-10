@@ -181,6 +181,7 @@ h1, h2, h3, h4, h5, h6 {
     /*主题*/
     --theme-bgcolor: #fff;
     --theme: 102, 51, 153;
+    --theme-view: rgb(102, 51, 153);
     --theme-color: rgb(var(--theme));
     --theme-hover: rgba(var(--theme), .7);
     --theme-border: var(--gray-4);

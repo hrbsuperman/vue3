@@ -21,6 +21,7 @@ span.icon {
 /* dropdownMenu 通用样式 */
 .dropdown {
   position: relative;
+
   .dropdownBox {
     position: absolute;
     min-width: 80px;
@@ -169,9 +170,10 @@ span.activeClear {
   transition: 220ms all ease-in-out;
   border-radius: 2px;
 
-  &:hover,&:active {
+  &:hover, &:active {
     background-color: var(--theme-hover);
   }
+
   &:focus {
     outline-style: solid;
     outline-color: transparent;
@@ -564,3 +566,57 @@ span.activeClear {
 /* 通用表单页面样式 */
 
 /* 通用表单页面样式 end*/
+
+
+/* loading */
+//<div class="loading"></div>
+.loading {
+  --uib-size: 110px;
+  --uib-color: var(--theme-color);
+  --uib-speed: 2.2s;
+  --uib-stroke: 3px;
+  --uib-bg-opacity: .1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--uib-stroke);
+  width: var(--uib-size);
+  border-radius: calc(var(--uib-stroke) / 2);
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--uib-color);
+  opacity: var(--uib-bg-opacity);
+  transition: background-color 0.3s ease;
+}
+
+.loading::after {
+  content: '';
+  height: 100%;
+  width: 100%;
+  border-radius: calc(var(--uib-stroke) / 2);
+  animation: loadingZoom var(--uib-speed) ease-in-out infinite;
+  transform: translateX(-100%);
+  background-color: var(--uib-color);
+  transition: background-color 0.3s ease;
+}
+
+@keyframes loadingZoom {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* loading end */

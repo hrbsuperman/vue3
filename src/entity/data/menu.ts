@@ -76,6 +76,10 @@ const xMenuData: Array<XMenuItem> =
             {
                 name: 'Dialog',
                 label: 'Dialog'
+            },
+            {
+                name: 'Loading',
+                label: 'Loading'
             }
             ,
             {
@@ -94,8 +98,9 @@ const xMenuData: Array<XMenuItem> =
             }
 
         ]
-    }, {
-        name: 'FontIcon',
-        label: 'Test'
+    },{
+
+        name:'a8',
+        label:'A8'
     }]
 export default xMenuData

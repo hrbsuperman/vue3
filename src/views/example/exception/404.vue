@@ -20,6 +20,7 @@ import {ref} from "vue";
 import '@/assets/common/exemption.less'
 import XButton from "@/components/XButton.vue";
 
+
 const message = ref('抱歉，您访问的页面不存在');
 </script>
 

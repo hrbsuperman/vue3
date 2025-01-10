@@ -226,6 +226,7 @@ function menu_Change(item: XMenuItem) {
 function pageOpen(name: string, label: string) {
   //跳转不启用layout的路由，需要处理下。
   //...
+  console.log('router',router)
   if (router[name]) {
     //上一个打开的page，active > false
     if (page.current) page.current.active = false;
