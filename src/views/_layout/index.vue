@@ -202,8 +202,8 @@ function fullScreen() {
 function menu_Change(item: XMenuItem) {
   console.log("menu_Change");
   //设置地址栏锚点地址
-  window.location.hash = item.name;
-  document.title = item.label;
+  //window.location.hash = item.name;
+  //document.title = item.label;
 
   //判断当前路由，是否已经打开
   if (!pages.some(p => {
