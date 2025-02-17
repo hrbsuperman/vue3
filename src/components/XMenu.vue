@@ -40,7 +40,7 @@ const props = defineProps({
 
 // 展开收起方法
 const toggleItem = (item: XMenuItem) => {
-  console.log('toggleItem 展开的时候触发两次？',item)
+  console.log('toggleItem 展开的时候触发两次 ？',item)
   if (item.children && item.children.length) {
     item.displayAnimation = !item.displayAnimation;
     //淡出延迟隐藏
